@@ -22,9 +22,9 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantClasses = {
-    primary: 'btn-primary',
+    primary: 'bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200',
     secondary: 'bg-white/5 hover:bg-white/10 text-white focus:ring-red-900 backdrop-blur-sm',
-    outline: 'btn-outline',
+    outline: 'border border-[var(--brand-green)]/35 text-white hover:border-[var(--brand-green)] hover:bg-[var(--brand-green)]/15 backdrop-blur-sm transition-all duration-200',
     ghost: 'text-white/70 hover:text-white hover:bg-white/5 focus:ring-red-800',
   };
 

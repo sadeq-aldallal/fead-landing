@@ -62,19 +62,19 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
             <div className="hidden md:flex items-center space-x-8">
               <a
                 href="#challenges"
-                className={`nav-item text-white/80 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 {t('nav.challenges')}
               </a>
               <a
                 href="#features"
-                className={`nav-item text-white/80 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 {t('nav.features')}
               </a>
               <a
                 href="#contact"
-                className={`nav-item text-white/80 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 {t('nav.contact')}
               </a>
@@ -86,7 +86,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
               <div className="relative">
                 <button
                   onClick={toggleLanguageDropdown}
-                  className={`nav-item text-white/80 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   <span>{currentLanguage.code === 'en' ? t('language.english') : t('language.arabic')}</span>
                 </button>
