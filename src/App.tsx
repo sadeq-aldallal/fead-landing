@@ -45,7 +45,6 @@ const AppContent: React.FC = () => {
       />
       <PainPointsSection />
       <SolutionSection />
-      <ClientLogosSection />
       <AboutSection />
       <Footer />
       
