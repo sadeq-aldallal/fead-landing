@@ -37,7 +37,7 @@ const translations = {
     'hero.mainTitle': 'Championing AI for Instagram Customer Excellence',
     'hero.mainSubtitle': 'Experience the pinnacle of efficiency in Instagram customer support with AI at the helm, driving excellence in every operation.',
     'hero.newTitle': 'Never Miss a Customer',
-    'hero.newSubtitle': 'From first touch to after-sales, our 24/7 AI ensures no missed inquiries, delays, or unhappy customers.',
+    'hero.newSubtitle': 'From first touch to after-sales, our 24/7 Artifiual In ensures no missed inquiries, delays, or unhappy customers.',
     'hero.badge': 'AI DATA PROCESSING',
     
     // Pain Points
