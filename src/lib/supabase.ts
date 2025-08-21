@@ -1,9 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || ''
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || ''
 
 if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase environment variables:')
+  console.error('VITE_SUPABASE_URL:', supabaseUrl ? 'Set' : 'Missing')
+  console.error('VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Set' : 'Missing')
   throw new Error('Missing Supabase environment variables. Please check your .env.local file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set correctly.')
 }
 
@@ -11,14 +14,18 @@ if (!supabaseUrl || !supabaseAnonKey) {
 try {
   new URL(supabaseUrl)
 } catch (error) {
+  console.error('Invalid Supabase URL:', supabaseUrl)
   throw new Error(`Invalid VITE_SUPABASE_URL format: "${supabaseUrl}". Please ensure it's a valid URL like https://your-project-ref.supabase.co`)
 }
+
+console.log('Supabase client initialized with URL:', supabaseUrl.substring(0, 30) + '...')
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
+    flowType: 'pkce'
   }
 })
 
