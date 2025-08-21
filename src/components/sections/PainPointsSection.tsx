@@ -75,48 +75,6 @@ export const PainPointsSection: React.FC = () => {
           })}
         </div>
 
-      {/* Impact Stats */}
-      <div className="mt-16 glass-card p-8">
-        <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-white mb-2">The Real Cost of Manual Support</h3>
-          <p className="text-white/70">What businesses lose every month with traditional approaches</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">$15,000+</div>
-            <div className="text-white/70">Monthly staffing costs</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">40%</div>
-            <div className="text-white/70">Missed opportunities</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">8+ hours</div>
-            <div className="text-white/70">Daily coverage gaps</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Impact Stats */}
-      <div className="mt-16 glass-card p-8">
-        <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-white mb-2">The Real Cost of Manual Support</h3>
-          <p className="text-white/70">What businesses lose every month with traditional approaches</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">$15,000+</div>
-            <div className="text-white/70">Monthly staffing costs</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">40%</div>
-            <div className="text-white/70">Missed opportunities</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400 mb-2">8+ hours</div>
-            <div className="text-white/70">Daily coverage gaps</div>
-          </div>
-        </div>
       </div>
       </div>
     </section>
