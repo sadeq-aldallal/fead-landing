@@ -27,10 +27,13 @@ export const Footer: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Logo and Description */}
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-purple-500 rounded mr-2"></div>
-                <span className="text-white font-bold text-xl">fead.app</span>
-              </div>
+                        <div className="flex items-center">
+              <img 
+                src="/fead.app_logo.png" 
+                alt="fead.app" 
+                className="h-10 w-auto md:h-12"
+              />
+            </div>
               <p className={`text-white/70 mb-4 max-w-md ${isRTL ? 'font-arabic text-right' : ''}`}>
                 Automate your Instagram customer support with intelligent AI agents that work 24/7.
               </p>
