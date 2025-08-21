@@ -1,100 +1,192 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AuthState, User } from '../types';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
+import { supabase, authHelpers } from '../lib/supabase'
+import { AuthContextType, AuthState, AuthUser } from '../types/auth'
 
-interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider')
   }
-  return context;
-};
+  return context
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
-    isAuthenticated: false,
     user: null,
+    session: null,
     loading: true,
-  });
+    initialized: false
+  })
 
   useEffect(() => {
-    // Check for existing session
-    const token = localStorage.getItem('fead_token');
-    const userData = localStorage.getItem('fead_user');
-    
-    if (token && userData) {
-      setAuthState({
-        isAuthenticated: true,
-        user: JSON.parse(userData),
-        loading: false,
-      });
-    } else {
-      setAuthState(prev => ({ ...prev, loading: false }));
+    // Get initial session
+    const getInitialSession = async () => {
+      try {
+        const { session, error } = await authHelpers.getSession()
+        if (error) {
+          console.error('Error getting session:', error)
+        }
+        
+        setAuthState({
+          user: session?.user as AuthUser || null,
+          session,
+          loading: false,
+          initialized: true
+        })
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+        setAuthState(prev => ({
+          ...prev,
+          loading: false,
+          initialized: true
+        }))
+      }
     }
-  }, []);
 
-  const login = async (email: string, password: string) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    getInitialSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event: AuthChangeEvent, session: Session | null) => {
+        console.log('Auth state changed:', event, session?.user?.email)
+        
+        setAuthState({
+          user: session?.user as AuthUser || null,
+          session,
+          loading: false,
+          initialized: true
+        })
+
+        // Handle specific events
+        if (event === 'SIGNED_IN') {
+          console.log('User signed in successfully')
+        } else if (event === 'SIGNED_OUT') {
+          console.log('User signed out')
+        } else if (event === 'TOKEN_REFRESHED') {
+          console.log('Token refreshed')
+        }
+      }
+    )
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [])
+
+  const signUp = async (email: string, password: string, fullName?: string) => {
+    setAuthState(prev => ({ ...prev, loading: true }))
     
-    const mockUser: User = {
-      id: '1',
-      email,
-      name: email.split('@')[0],
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const userData = fullName ? { full_name: fullName } : undefined
+      const { data, error } = await authHelpers.signUp(email, password, userData)
+      
+      if (error) {
+        setAuthState(prev => ({ ...prev, loading: false }))
+        return { error }
+      }
 
-    localStorage.setItem('fead_token', 'mock_token');
-    localStorage.setItem('fead_user', JSON.stringify(mockUser));
+      // For email confirmation disabled, user should be signed in immediately
+      if (data.user && data.session) {
+        setAuthState({
+          user: data.user as AuthUser,
+          session: data.session,
+          loading: false,
+          initialized: true
+        })
+      } else {
+        setAuthState(prev => ({ ...prev, loading: false }))
+      }
+
+      return { error: null }
+    } catch (error) {
+      setAuthState(prev => ({ ...prev, loading: false }))
+      return { error }
+    }
+  }
+
+  const signIn = async (email: string, password: string) => {
+    setAuthState(prev => ({ ...prev, loading: true }))
     
-    setAuthState({
-      isAuthenticated: true,
-      user: mockUser,
-      loading: false,
-    });
-  };
+    try {
+      const { data, error } = await authHelpers.signIn(email, password)
+      
+      if (error) {
+        setAuthState(prev => ({ ...prev, loading: false }))
+        return { error }
+      }
 
-  const signup = async (email: string, password: string, name: string) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+      setAuthState({
+        user: data.user as AuthUser,
+        session: data.session,
+        loading: false,
+        initialized: true
+      })
+
+      return { error: null }
+    } catch (error) {
+      setAuthState(prev => ({ ...prev, loading: false }))
+      return { error }
+    }
+  }
+
+  const signOut = async () => {
+    setAuthState(prev => ({ ...prev, loading: true }))
     
-    const mockUser: User = {
-      id: '1',
-      email,
-      name,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const { error } = await authHelpers.signOut()
+      if (error) {
+        console.error('Error signing out:', error)
+      }
+      
+      setAuthState({
+        user: null,
+        session: null,
+        loading: false,
+        initialized: true
+      })
+    } catch (error) {
+      console.error('Error during sign out:', error)
+      setAuthState(prev => ({ ...prev, loading: false }))
+    }
+  }
 
-    localStorage.setItem('fead_token', 'mock_token');
-    localStorage.setItem('fead_user', JSON.stringify(mockUser));
-    
-    setAuthState({
-      isAuthenticated: true,
-      user: mockUser,
-      loading: false,
-    });
-  };
+  const resetPassword = async (email: string) => {
+    try {
+      const { data, error } = await authHelpers.resetPassword(email)
+      return { error }
+    } catch (error) {
+      return { error }
+    }
+  }
 
-  const logout = () => {
-    localStorage.removeItem('fead_token');
-    localStorage.removeItem('fead_user');
-    setAuthState({
-      isAuthenticated: false,
-      user: null,
-      loading: false,
-    });
-  };
+  const updatePassword = async (password: string) => {
+    try {
+      const { data, error } = await authHelpers.updatePassword(password)
+      return { error }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  const value: AuthContextType = {
+    ...authState,
+    signUp,
+    signIn,
+    signOut,
+    resetPassword,
+    updatePassword
+  }
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, signup, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}

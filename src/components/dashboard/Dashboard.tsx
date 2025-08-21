@@ -22,7 +22,7 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const { t, isRTL } = useLanguage();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
 
   const mockAgents = [
@@ -281,6 +281,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           </div>
           <Button onClick={onBack} variant="outline">
             Back to Landing
+          </Button>
+          <Button onClick={signOut} variant="outline" className="ml-2">
+            Sign Out
           </Button>
         </div>
 

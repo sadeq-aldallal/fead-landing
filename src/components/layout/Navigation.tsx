@@ -7,12 +7,14 @@ import { Button } from '../ui/Button';
 interface NavigationProps {
   onAuthClick: () => void;
   onDashboardClick: () => void;
+  onProfileClick: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboardClick }) => {
+export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboardClick, onProfileClick }) => {
   const { t, currentLanguage, setLanguage, isRTL } = useLanguage();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const languages = [
@@ -41,7 +43,8 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
   };
 
   const handleLogout = () => {
-    logout();
+    signOut();
+    setShowUserDropdown(false);
   };
 
   return (
@@ -110,24 +113,62 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
               </div>
               
               {/* Login Button */}
-              <Button
-                variant="outline"
-                size="md"
-                onClick={onAuthClick}
-                className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
-              >
-                {t('nav.login')}
-              </Button>
-              
-              {/* Sign Up / Dashboard Button */}
-              {isAuthenticated ? (
-                <Button 
-                  onClick={onDashboardClick}
+              {!user && (
+                <Button
+                  variant="outline"
                   size="md"
-                  className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
+                  onClick={onAuthClick}
+                  className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
                 >
-                  {t('nav.dashboard')}
+                  {t('nav.login')}
                 </Button>
+              )}
+              
+              {/* User Menu or Sign Up Button */}
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    className="flex items-center space-x-2 glass-card px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                  >
+                    <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
+                      <span className="text-[var(--brand-green)] text-sm font-medium">
+                        {user.email?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <span className="text-sm">{user.user_metadata?.full_name || user.email?.split('@')[0]}</span>
+                  </button>
+                  
+                  {showUserDropdown && (
+                    <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
+                      <button
+                        onClick={() => {
+                          onProfileClick();
+                          setShowUserDropdown(false);
+                        }}
+                        className="dropdown-menu-item text-left w-full"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        onClick={() => {
+                          onDashboardClick();
+                          setShowUserDropdown(false);
+                        }}
+                        className="dropdown-menu-item text-left w-full"
+                      >
+                        {t('nav.dashboard')}
+                      </button>
+                      <hr className="border-white/10 my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="dropdown-menu-item text-left w-full text-red-400"
+                      >
+                        {t('nav.logout')}
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <Button 
                   onClick={onAuthClick}
@@ -227,11 +268,43 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
 
               {/* Login Message */}
               <div className="border-t border-white/10 pt-4">
-                <div className="mobile-login-message glass-card p-4 rounded-lg border border-yellow-500/30">
-                  <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
-                    {t('mobile.loginMessage')}
-                  </p>
-                </div>
+                {!user ? (
+                  <div className="mobile-login-message glass-card p-4 rounded-lg border border-yellow-500/30">
+                    <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
+                      {t('mobile.loginMessage')}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        onProfileClick();
+                        closeMobileMenu();
+                      }}
+                      className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                    >
+                      Profile
+                    </button>
+                    <button
+                      onClick={() => {
+                        onDashboardClick();
+                        closeMobileMenu();
+                      }}
+                      className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                    >
+                      {t('nav.dashboard')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        closeMobileMenu();
+                      }}
+                      className="block w-full text-left px-3 py-2 rounded-md text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors duration-200"
+                    >
+                      {t('nav.logout')}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
