@@ -754,3 +754,139 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== ANIMATED DOTTED BACKGROUND ===== */
+
+/* Full-viewport hero section with animated dots */
+.hero-with-dots {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
+
+/* Animated dots background container */
+.animated-dots-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dots container for positioning */
+.dots-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base dot styling - small, subtle, performance-optimized */
+.dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(0, 212, 170, 0.4);
+  border-radius: 50%;
+  opacity: 0.6;
+  /* Use transform3d for hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  /* Smooth animation with CSS transforms for 60fps performance */
+  animation: dotFloat 15s linear infinite;
+  box-shadow: 0 0 6px rgba(0, 212, 170, 0.3);
+}
+
+/* Individual dot positioning and animation delays */
+.dot-1 { top: 10%; left: 5%; animation-delay: 0s; animation-duration: 20s; }
+.dot-2 { top: 20%; left: 15%; animation-delay: -2s; animation-duration: 18s; }
+.dot-3 { top: 30%; left: 8%; animation-delay: -4s; animation-duration: 22s; }
+.dot-4 { top: 40%; left: 25%; animation-delay: -6s; animation-duration: 16s; }
+.dot-5 { top: 50%; left: 12%; animation-delay: -8s; animation-duration: 24s; }
+.dot-6 { top: 60%; left: 30%; animation-delay: -10s; animation-duration: 19s; }
+.dot-7 { top: 70%; left: 18%; animation-delay: -12s; animation-duration: 21s; }
+.dot-8 { top: 80%; left: 35%; animation-delay: -14s; animation-duration: 17s; }
+.dot-9 { top: 15%; right: 10%; animation-delay: -1s; animation-duration: 23s; }
+.dot-10 { top: 25%; right: 20%; animation-delay: -3s; animation-duration: 20s; }
+.dot-11 { top: 35%; right: 5%; animation-delay: -5s; animation-duration: 18s; }
+.dot-12 { top: 45%; right: 28%; animation-delay: -7s; animation-duration: 22s; }
+.dot-13 { top: 55%; right: 15%; animation-delay: -9s; animation-duration: 16s; }
+.dot-14 { top: 65%; right: 32%; animation-delay: -11s; animation-duration: 25s; }
+.dot-15 { top: 75%; right: 22%; animation-delay: -13s; animation-duration: 19s; }
+.dot-16 { top: 85%; right: 8%; animation-delay: -15s; animation-duration: 21s; }
+.dot-17 { top: 5%; left: 50%; animation-delay: -2.5s; animation-duration: 17s; }
+.dot-18 { top: 45%; left: 60%; animation-delay: -7.5s; animation-duration: 24s; }
+.dot-19 { top: 75%; left: 70%; animation-delay: -12.5s; animation-duration: 18s; }
+.dot-20 { top: 25%; right: 45%; animation-delay: -4.5s; animation-duration: 20s; }
+
+/* Smooth floating animation - optimized for performance */
+@keyframes dotFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate3d(20px, -30px, 0) scale(1.2);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-15px, -60px, 0) scale(0.8);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate3d(25px, -90px, 0) scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(0, -120px, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (max-width: 768px) {
+  .hero-with-dots {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+  
+  .dot {
+    width: 2px;
+    height: 2px;
+    animation-duration: 12s;
+  }
+  
+  /* Reduce number of visible dots on mobile for performance */
+  .dot:nth-child(n+11) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .dot {
+    width: 1.5px;
+    height: 1.5px;
+  }
+  
+  /* Further reduce dots on very small screens */
+  .dot:nth-child(n+8) {
+    display: none;
+  }
+}
+
+/* High refresh rate displays optimization */
+@media (min-resolution: 120dpi) {
+  .dot {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animated-dots-background {
+    display: none;
+  }
+}

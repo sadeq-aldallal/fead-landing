@@ -16,7 +16,34 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden hero-with-dots">
+      {/* Animated Dotted Background */}
+      <div className="animated-dots-background">
+        <div className="dots-container">
+          {/* Generate dots programmatically via CSS */}
+          <div className="dot dot-1"></div>
+          <div className="dot dot-2"></div>
+          <div className="dot dot-3"></div>
+          <div className="dot dot-4"></div>
+          <div className="dot dot-5"></div>
+          <div className="dot dot-6"></div>
+          <div className="dot dot-7"></div>
+          <div className="dot dot-8"></div>
+          <div className="dot dot-9"></div>
+          <div className="dot dot-10"></div>
+          <div className="dot dot-11"></div>
+          <div className="dot dot-12"></div>
+          <div className="dot dot-13"></div>
+          <div className="dot dot-14"></div>
+          <div className="dot dot-15"></div>
+          <div className="dot dot-16"></div>
+          <div className="dot dot-17"></div>
+          <div className="dot dot-18"></div>
+          <div className="dot dot-19"></div>
+          <div className="dot dot-20"></div>
+        </div>
+      </div>
+
       {/* AI Neural Network Animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Animated Neural Network Nodes */}
