@@ -53,6 +53,8 @@ const translations = {
     'pain.context.desc': 'Agents struggle to maintain conversation context across shifts',
     'pain.coverage.title': 'Coverage Gaps',
     'pain.coverage.desc': 'Vacations and sick days leave customers unattended',
+    'pain.manual.title': 'Manual Work Inefficiency',
+    'pain.manual.desc': 'Agents always do manual work which costs your business time and inaccuracy',
     
     // Solutions
     'solution.title': 'Your AI-Powered Instagram Support Solution',
@@ -158,6 +160,8 @@ const translations = {
     'pain.context.desc': 'الوكلاء يكافحون للحفاظ على سياق المحادثة عبر النوبات',
     'pain.coverage.title': 'فجوات في التغطية',
     'pain.coverage.desc': 'الإجازات والمرض يتركان العملاء دون اهتمام',
+    'pain.manual.title': 'عدم كفاءة العمل اليدوي',
+    'pain.manual.desc': 'الوكلاء يقومون دائماً بالعمل اليدوي مما يكلف عملك وقتاً وعدم دقة',
     
     // Solutions
     'solution.title': 'حلول دعم إنستغرام المدعومة بالذكاء الاصطناعي',

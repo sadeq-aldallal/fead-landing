@@ -43,9 +43,9 @@ const AppContent: React.FC = () => {
         onGetStarted={() => setShowAuthModal(true)}
         onContactUs={() => setShowContactModal(true)}
       />
-      <ClientLogosSection />
       <PainPointsSection />
       <SolutionSection />
+      <ClientLogosSection />
       <AboutSection />
       <Footer />
       
