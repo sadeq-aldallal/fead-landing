@@ -16,7 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
   }, []);
 
   return (
-    <section id="home" className="dark-gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* AI Neural Network Animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Animated Neural Network Nodes */}
