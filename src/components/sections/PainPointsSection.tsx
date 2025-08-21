@@ -64,7 +64,7 @@ export const PainPointsSection: React.FC = () => {
                   </div>
                   <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
                     {point.title}
-                  <Icon className="h-6 w-6 text-green-400" />
+                  </h3>
                 </div>
                 <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic text-right' : ''}`}>
                   {point.description}
