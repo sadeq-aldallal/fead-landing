@@ -74,6 +74,8 @@ const AppContent: React.FC = () => {
       <Navigation 
         onLoginClick={handleLoginClick}
         onSignupClick={handleSignupClick}
+        onDashboardClick={() => setShowDashboard(true)}
+        onProfileClick={() => setShowProfile(true)}
       />
       
       <HeroSection 

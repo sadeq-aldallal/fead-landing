@@ -7,9 +7,8 @@ import { Button } from '../ui/Button';
 interface NavigationProps {
   onLoginClick: () => void;
   onSignupClick: () => void;
-  onSignupClick: () => void;
-  onDashboardClick: () => void;
-  onProfileClick: () => void;
+  onDashboardClick?: () => void;
+  onProfileClick?: () => void;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupClick, onDashboardClick, onProfileClick }) => {
@@ -145,7 +144,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                     <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
                       <button
                         onClick={() => {
-                          onProfileClick();
+                          onProfileClick?.();
                           setShowUserDropdown(false);
                         }}
                         className="dropdown-menu-item text-left w-full"
@@ -154,7 +153,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                       </button>
                       <button
                         onClick={() => {
-                          onDashboardClick();
+                          onDashboardClick?.();
                           setShowUserDropdown(false);
                         }}
                         className="dropdown-menu-item text-left w-full"
@@ -280,7 +279,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                   <div className="space-y-2">
                     <button
                       onClick={() => {
-                        onProfileClick();
+                        onProfileClick?.();
                         closeMobileMenu();
                       }}
                       className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
@@ -289,7 +288,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                     </button>
                     <button
                       onClick={() => {
-                        onDashboardClick();
+                        onDashboardClick?.();
                         closeMobileMenu();
                       }}
                       className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
