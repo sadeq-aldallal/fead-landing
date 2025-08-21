@@ -73,6 +73,7 @@ export const PainPointsSection: React.FC = () => {
             );
           })}
         </div>
+            )
 
         {/* Impact Stats */}
         <div className="mt-16 glass-card p-8">
@@ -96,6 +97,9 @@ export const PainPointsSection: React.FC = () => {
           </div>
         </div>
       </div>
+    }
+    )
+    }
     </section>
   );
 };
