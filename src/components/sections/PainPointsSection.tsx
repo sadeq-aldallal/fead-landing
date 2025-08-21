@@ -39,7 +39,27 @@ export const PainPointsSection: React.FC = () => {
   ];
 
   return (
-    <section id="challenges" className="py-20 relative">
+    <section id="challenges" className="py-20 relative overflow-hidden">
+      {/* Subtle geometric pattern overlay */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="challenges-grid-pattern"></div>
+      </div>
+      
+      {/* Floating data particles for visual interest */}
+      <div className="challenges-particles">
+        <div className="challenge-particle particle-1"></div>
+        <div className="challenge-particle particle-2"></div>
+        <div className="challenge-particle particle-3"></div>
+        <div className="challenge-particle particle-4"></div>
+        <div className="challenge-particle particle-5"></div>
+      </div>
+      
+      {/* Subtle gradient overlays for depth */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="challenges-gradient-overlay-1"></div>
+        <div className="challenges-gradient-overlay-2"></div>
+      </div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
