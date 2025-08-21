@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, MessageCircle, Target, BarChart3, Cog, Users } from 'lucide-react';
+import { FileText, MessageCircle, Target, BarChart3, Settings, Users } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const SolutionSection: React.FC = () => {
@@ -9,37 +9,37 @@ export const SolutionSection: React.FC = () => {
     {
       icon: FileText,
       title: 'Intelligent Document Processing',
-      description: 'Automatically categorize, extract, and organize information from any document type with 99.9% accuracy.',
+      description: 'AI-powered system that automatically processes and organizes documents with 99.9% accuracy.',
     },
     {
       icon: MessageCircle,
       title: 'Smart Customer Communication Hub',
-      description: 'Centralize all customer interactions across multiple channels in one intelligent platform with AI-powered responses.',
+      description: 'Centralize all customer interactions across channels with intelligent AI responses.',
     },
     {
       icon: Target,
       title: 'Automated Lead Management System',
-      description: 'Intelligent lead scoring and nurturing system that identifies prospects and delivers personalized follow-ups automatically.',
+      description: 'Smart lead scoring system that identifies prospects and delivers personalized follow-ups.',
     },
     {
       icon: BarChart3,
       title: 'Real-Time Business Intelligence Dashboard',
-      description: 'Transform raw data into actionable insights with real-time visibility into business performance and trends.',
+      description: 'Transform data into actionable insights with real-time business performance visibility.',
     },
     {
-      icon: Cog,
+      icon: Settings,
       title: 'Intelligent Process Automation',
-      description: 'Automate repetitive tasks across your organization with smart workflow engines that handle routine work efficiently.',
+      description: 'Automate repetitive tasks with smart workflows that handle routine work efficiently.',
     },
     {
       icon: Users,
       title: 'AI-Powered Workforce Optimization',
-      description: 'Replace manual processes with intelligent automation that works 24/7, freeing your team for high-value activities.',
+      description: 'Replace manual processes with 24/7 intelligent automation for high-value focus.',
     },
   ];
 
   return (
-    <section id="features" className="py-20 relative">
+    <section id="features" className="dark-gradient-bg py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
   
@@ -61,7 +61,7 @@ export const SolutionSection: React.FC = () => {
               >
                 <div className="flex flex-col items-center mb-6">
                   <div className="p-4 rounded-lg glass-card mb-4">
-                    <Icon className="h-8 w-8 text-green-300/70" />
+                    <Icon className="h-8 w-8 text-green-300/90" />
                   </div>
                   <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic' : ''}`}>
                     {solution.title}
