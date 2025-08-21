@@ -50,10 +50,10 @@ export const SolutionSection: React.FC = () => {
         <div className="text-center mb-16">
   
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
-            Solutions
+            {t('solution.title')}
           </h2>
           <p className={`subtitle max-w-3xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>
-            Transform your business operations with our comprehensive AI-powered solutions designed to address every challenge in your workflow.
+            {t('solution.subtitle')}
           </p>
         </div>
 
@@ -69,14 +69,9 @@ export const SolutionSection: React.FC = () => {
                   <div className={`p-3 rounded-lg glass-card ${isRTL ? 'ml-4' : 'mr-4'}`}>
                     <Icon className="h-6 w-6 text-green-400" />
                   </div>
-                  <div>
-                    <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
-                      {solution.title}
-                    </h3>
-                    <p className={`text-green-400 font-semibold text-sm ${isRTL ? 'font-arabic text-right' : ''}`}>
-                      {solution.subtitle}
-                    </p>
-                  </div>
+                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
+                    {solution.title}
+                  </h3>
                 </div>
                 <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic text-right' : ''}`}>
                   {solution.description}
