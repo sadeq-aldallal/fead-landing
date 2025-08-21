@@ -38,11 +38,52 @@ export const SolutionSection: React.FC = () => {
     },
   ];
 
+  const solutions = [
+    {
+      icon: FileText,
+      title: 'Intelligent Document Processing',
+      description: 'AI-powered system that automatically processes and organizes documents with 99.9% accuracy.',
+    },
+    {
+      icon: MessageCircle,
+      title: 'Smart Customer Communication Hub',
+      description: 'Centralize all customer interactions across channels with intelligent AI responses.',
+    },
+    {
+      icon: Target,
+      title: 'Automated Lead Management System',
+      description: 'Smart lead scoring system that identifies prospects and delivers personalized follow-ups.',
+    },
+    {
+      icon: BarChart3,
+      title: 'Real-Time Business Intelligence Dashboard',
+      description: 'Transform data into actionable insights with real-time business performance visibility.',
+    },
+    {
+      icon: Settings,
+      title: 'Intelligent Process Automation',
+      description: 'Automate repetitive tasks with smart workflows that handle routine work efficiently.',
+    },
+    {
+      icon: Users,
+      title: 'AI-Powered Workforce Optimization',
+      description: 'Replace manual processes with 24/7 intelligent automation for high-value focus.',
+    },
+  ];
+
   return (
     <section id="features" className="dark-gradient-bg py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-  
+          {/* Logo Section */}
+          <div className="flex items-center justify-center mb-8">
+            <img 
+              src="/fead.app_logo.png" 
+              alt="fead.app" 
+              className="h-8 w-auto"
+            />
+          </div>
+          
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
             {t('solution.title')}
           </h2>
