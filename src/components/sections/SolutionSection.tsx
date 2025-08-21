@@ -8,28 +8,39 @@ export const SolutionSection: React.FC = () => {
   const solutions = [
     {
       icon: TrendingDown,
-      title: t('solution.cost.title'),
-      description: t('solution.cost.desc'),
+      title: 'Intelligent Document Processing',
+      subtitle: 'Eliminate Document Management Chaos',
+      description: 'Our AI-powered document processing system automatically categorizes, extracts, and organizes information from any document type. Say goodbye to lost files and manual sorting - our solution ensures 99.9% accuracy in document handling while reducing processing time by 80%.',
     },
     {
       icon: Clock,
-      title: t('solution.availability.title'),
-      description: t('solution.availability.desc'),
+      title: 'Smart Customer Communication Hub',
+      subtitle: 'End Communication Breakdowns Forever',
+      description: 'Centralize all customer interactions across email, chat, phone, and social media in one intelligent platform. Our AI ensures no message goes unanswered and maintains consistent, professional communication that builds stronger customer relationships.',
     },
     {
       icon: Zap,
-      title: t('solution.speed.title'),
-      description: t('solution.speed.desc'),
+      title: 'Automated Lead Management System',
+      subtitle: 'Never Miss Another Opportunity',
+      description: 'Our intelligent lead scoring and nurturing system automatically identifies high-value prospects, tracks their journey, and delivers personalized follow-ups at the perfect moment. Increase your conversion rates by 300% while reducing manual lead management by 90%.',
     },
     {
       icon: Brain,
-      title: t('solution.context.title'),
-      description: t('solution.context.desc'),
+      title: 'Real-Time Business Intelligence Dashboard',
+      subtitle: 'Make Data-Driven Decisions Instantly',
+      description: 'Transform raw data into actionable insights with our AI-powered analytics platform. Get real-time visibility into your business performance, identify trends before your competitors, and make informed decisions that drive growth.',
     },
     {
       icon: Users,
-      title: t('solution.focus.title'),
-      description: t('solution.focus.desc'),
+      title: 'Intelligent Process Automation',
+      subtitle: 'Streamline Every Business Operation',
+      description: 'Automate repetitive tasks across your entire organization with our smart workflow engine. From invoice processing to customer onboarding, our AI handles routine work so your team can focus on strategic initiatives that grow your business.',
+    },
+    {
+      icon: Users,
+      title: 'AI-Powered Workforce Optimization',
+      subtitle: 'Eliminate Manual Work Inefficiency',
+      description: 'Replace time-consuming manual processes with intelligent automation that works 24/7 with perfect accuracy. Our AI agents handle routine tasks, data entry, and administrative work, freeing your team to focus on high-value activities that drive revenue and innovation.',
     },
   ];
 
@@ -39,10 +50,10 @@ export const SolutionSection: React.FC = () => {
         <div className="text-center mb-16">
   
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
-            {t('solution.title')}
+            Solutions
           </h2>
           <p className={`subtitle max-w-3xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>
-            {t('solution.subtitle')}
+            Transform your business operations with our comprehensive AI-powered solutions designed to address every challenge in your workflow.
           </p>
         </div>
 
@@ -58,9 +69,14 @@ export const SolutionSection: React.FC = () => {
                   <div className={`p-3 rounded-lg glass-card ${isRTL ? 'ml-4' : 'mr-4'}`}>
                     <Icon className="h-6 w-6 text-green-400" />
                   </div>
-                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
-                    {solution.title}
-                  </h3>
+                  <div>
+                    <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
+                      {solution.title}
+                    </h3>
+                    <p className={`text-green-400 font-semibold text-sm ${isRTL ? 'font-arabic text-right' : ''}`}>
+                      {solution.subtitle}
+                    </p>
+                  </div>
                 </div>
                 <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic text-right' : ''}`}>
                   {solution.description}
