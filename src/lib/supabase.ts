@@ -4,28 +4,27 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim()
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
-// Check if environment variables are missing or are placeholder values
-if (!supabaseUrl || !supabaseAnonKey || 
-    supabaseUrl === 'https://your-project-ref.supabase.co' || 
-    supabaseAnonKey === 'your-anon-public-key-here') {
-  console.error('Missing Supabase environment variables:')
-  console.error('VITE_SUPABASE_URL:', supabaseUrl ? 'Set' : 'Missing')
-  console.error('VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Set' : 'Missing')
-  console.error('Please update your .env.local file with actual Supabase credentials from your project dashboard.')
-  throw new Error('Missing or invalid Supabase environment variables. Please check your .env.local file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set with actual values from your Supabase project dashboard.')
+// For development, use mock values if environment variables are not set
+const defaultUrl = 'https://mock-project.supabase.co'
+const defaultKey = 'mock-anon-key'
+
+// Use provided values or fallback to defaults
+const finalUrl = supabaseUrl && supabaseUrl !== 'https://your-project-ref.supabase.co' ? supabaseUrl : defaultUrl
+const finalKey = supabaseAnonKey && supabaseAnonKey !== 'your-anon-public-key-here' ? supabaseAnonKey : defaultKey
+
+// Only show warning if using mock values
+if (finalUrl === defaultUrl || finalKey === defaultKey) {
+  console.warn('⚠️  Using mock Supabase credentials. Authentication will not work.')
+  console.warn('📝 To enable authentication:')
+  console.warn('   1. Create a Supabase project at https://supabase.com')
+  console.warn('   2. Get your Project URL and anon key from Settings > API')
+  console.warn('   3. Update your .env.local file with real credentials')
+  console.warn('   4. Restart your development server')
 }
 
-// Validate URL format
-try {
-  new URL(supabaseUrl)
-} catch (error) {
-  console.error('Invalid Supabase URL:', supabaseUrl)
-  throw new Error(`Invalid VITE_SUPABASE_URL format: "${supabaseUrl}". Please ensure it's a valid URL like https://abcdefghijklmnop.supabase.co`)
-}
+console.log('Supabase client initialized with URL:', finalUrl.substring(0, 30) + '...')
 
-console.log('Supabase client initialized with URL:', supabaseUrl.substring(0, 30) + '...')
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(finalUrl, finalKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
@@ -43,6 +42,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // Auth helper functions
 export const authHelpers = {
   signUp: async (email: string, password: string, userData?: any) => {
+    if (finalUrl === defaultUrl) {
+      return { data: null, error: { message: 'Authentication disabled: Please configure Supabase credentials' } }
+    }
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -55,6 +57,9 @@ export const authHelpers = {
   },
 
   signIn: async (email: string, password: string) => {
+    if (finalUrl === defaultUrl) {
+      return { data: null, error: { message: 'Authentication disabled: Please configure Supabase credentials' } }
+    }
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -63,11 +68,17 @@ export const authHelpers = {
   },
 
   signOut: async () => {
+    if (finalUrl === defaultUrl) {
+      return { error: null }
+    }
     const { error } = await supabase.auth.signOut()
     return { error }
   },
 
   resetPassword: async (email: string) => {
+    if (finalUrl === defaultUrl) {
+      return { data: null, error: { message: 'Authentication disabled: Please configure Supabase credentials' } }
+    }
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`
     })
@@ -75,6 +86,9 @@ export const authHelpers = {
   },
 
   updatePassword: async (password: string) => {
+    if (finalUrl === defaultUrl) {
+      return { data: null, error: { message: 'Authentication disabled: Please configure Supabase credentials' } }
+    }
     const { data, error } = await supabase.auth.updateUser({
       password
     })
@@ -82,11 +96,17 @@ export const authHelpers = {
   },
 
   getCurrentUser: async () => {
+    if (finalUrl === defaultUrl) {
+      return { user: null, error: null }
+    }
     const { data: { user }, error } = await supabase.auth.getUser()
     return { user, error }
   },
 
   getSession: async () => {
+    if (finalUrl === defaultUrl) {
+      return { session: null, error: null }
+    }
     const { data: { session }, error } = await supabase.auth.getSession()
     return { session, error }
   }
