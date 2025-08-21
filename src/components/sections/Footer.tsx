@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
 
           <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className={`text-white/60 text-sm ${isRTL ? 'font-arabic' : ''}`}>
-              © 2024 fead.app. {t('footer.rights')}.
+              © 2025 fead.app. {t('footer.rights')}.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <a href="#" className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}>
