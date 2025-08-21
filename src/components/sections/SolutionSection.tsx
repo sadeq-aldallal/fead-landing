@@ -37,9 +37,7 @@ export const SolutionSection: React.FC = () => {
     <section id="features" className="dark-gradient-bg py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className={`animated-gradient-text text-sm font-medium tracking-wider uppercase mb-6 ${isRTL ? 'font-arabic' : ''}`}>
-            {t('solution.badge')}
-          </p>
+  
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
             {t('solution.title')}
           </h2>
