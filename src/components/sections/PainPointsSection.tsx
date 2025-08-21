@@ -60,7 +60,7 @@ export const PainPointsSection: React.FC = () => {
               >
                 <div className="flex items-center mb-6">
                   <div className={`p-3 rounded-lg glass-card ${isRTL ? 'ml-4' : 'mr-4'}`}>
-                    <Icon className="h-6 w-6 text-purple-400" />
+                    <Icon className="h-6 w-6 text-green-400" />
                   </div>
                   <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
                     {point.title}
