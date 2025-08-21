@@ -91,22 +91,23 @@ export const Footer: React.FC = () => {
             {/* Contact Info */}
             <div>
               <h3 className={`text-white font-semibold mb-4 ${isRTL ? 'font-arabic text-right' : ''}`}>
-                Contact Info
+                Get In Touch
               </h3>
-              <ul className="space-y-2">
-                <li className="flex items-center text-white/70">
+              <div className="space-y-3">
+                <p className={`text-white/70 ${isRTL ? 'font-arabic text-right' : ''}`}>
+                  Have questions or need support?
+                </p>
+                <button 
+                  onClick={() => setShowContactModal(true)}
+                  className={`flex items-center text-green-400 hover:text-green-300 transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                >
                   <Mail size={16} className={`${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  <span>support@fead.app</span>
-                </li>
-                <li className="flex items-center text-white/70">
-                  <Phone size={16} className={`${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  <span>+1 (555) 123-4567</span>
-                </li>
-                <li className="flex items-center text-white/70">
-                  <MapPin size={16} className={`${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  <span>San Francisco, CA</span>
-                </li>
-              </ul>
+                  <span>Use our contact form</span>
+                </button>
+                <p className={`text-white/60 text-sm ${isRTL ? 'font-arabic text-right' : ''}`}>
+                  We'll respond within 24 hours
+                </p>
+              </div>
             </div>
           </div>
 
