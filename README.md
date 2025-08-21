@@ -47,8 +47,9 @@ npm install
 
 #### Configure Authentication
 1. Go to **Authentication > Settings**
-2. **Disable email confirmation** (for development):
-   - Set "Enable email confirmations" to **OFF**
+2. **Configure email confirmation**:
+   - For development: Set "Enable email confirmations" to **OFF** for immediate login
+   - For production: Keep "Enable email confirmations" to **ON** for security
 3. Configure **Site URL**:
    - Add `http://localhost:5173` for development
    - Add your production URL when deploying

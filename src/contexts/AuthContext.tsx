@@ -88,6 +88,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { data, error } = await authHelpers.signUp(email, password, userData)
       
       if (error) {
+        // Handle email confirmation error specifically
+        if (error.message?.includes('Email not confirmed') || error.message?.includes('email_not_confirmed')) {
+          setAuthState(prev => ({ ...prev, loading: false }))
+          return { 
+            error: {
+              ...error,
+              message: 'Please check your email and click the confirmation link to activate your account. If you don\'t see the email, check your spam folder.'
+            }
+          }
+        }
         setAuthState(prev => ({ ...prev, loading: false }))
         return { error }
       }
@@ -118,6 +128,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { data, error } = await authHelpers.signIn(email, password)
       
       if (error) {
+        // Handle email confirmation error specifically
+        if (error.message?.includes('Email not confirmed') || error.message?.includes('email_not_confirmed')) {
+          setAuthState(prev => ({ ...prev, loading: false }))
+          return { 
+            error: {
+              ...error,
+              message: 'Please check your email and click the confirmation link to activate your account before signing in. If you don\'t see the email, check your spam folder.'
+            }
+          }
+        }
         setAuthState(prev => ({ ...prev, loading: false }))
         return { error }
       }
