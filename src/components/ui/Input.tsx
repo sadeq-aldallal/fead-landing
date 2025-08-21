@@ -32,8 +32,8 @@ export const Input: React.FC<InputProps> = ({
         <input
           type={inputType}
           className={`
-            w-full px-3 py-2 bg-white/8 backdrop-blur-sm border border-white/15 rounded-lg text-white placeholder-white/40
-            focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
+            w-full px-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30
+            focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent
             transition-colors duration-200
             ${error ? 'border-red-500/50 focus:ring-red-500' : ''}
             ${showPasswordToggle ? (isRTL ? 'pl-10' : 'pr-10') : ''}

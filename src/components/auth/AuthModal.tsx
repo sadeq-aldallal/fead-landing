@@ -81,8 +81,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="glass-card max-w-md w-full p-6 relative">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-lg max-w-md w-full p-6 relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors duration-200"
@@ -107,61 +107,45 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
-            <div className="relative">
-              <User className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'} text-white/60`} size={20} />
-              <Input
-                label={t('auth.name')}
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                error={errors.name}
-                className={isRTL ? 'pr-10' : 'pl-10'}
-                placeholder="John Doe"
-              />
-            </div>
+            <Input
+              label={t('auth.name')}
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              error={errors.name}
+              placeholder="John Doe"
+            />
           )}
 
-          <div className="relative">
-            <Mail className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'} text-white/60`} size={20} />
-            <Input
-              label={t('auth.email')}
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              error={errors.email}
-              className={isRTL ? 'pr-10' : 'pl-10'}
-              placeholder="john@example.com"
-            />
-          </div>
+          <Input
+            label={t('auth.email')}
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            error={errors.email}
+            placeholder="john@example.com"
+          />
 
-          <div className="relative">
-            <Lock className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'} text-white/60`} size={20} />
-            <Input
-              label={t('auth.password')}
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              error={errors.password}
-              showPasswordToggle
-              className={isRTL ? 'pr-10' : 'pl-10'}
-              placeholder="••••••••"
-            />
-          </div>
+          <Input
+            label={t('auth.password')}
+            type="password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            error={errors.password}
+            showPasswordToggle
+            placeholder="••••••••"
+          />
 
           {!isLogin && (
-            <div className="relative">
-              <Lock className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'} text-white/60`} size={20} />
-              <Input
-                label={t('auth.confirmPassword')}
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                error={errors.confirmPassword}
-                showPasswordToggle
-                className={isRTL ? 'pr-10' : 'pl-10'}
-                placeholder="••••••••"
-              />
-            </div>
+            <Input
+              label={t('auth.confirmPassword')}
+              type="password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              error={errors.confirmPassword}
+              showPasswordToggle
+              placeholder="••••••••"
+            />
           )}
 
           <Button
@@ -175,7 +159,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         {isLogin && (
           <div className="mt-4 text-center">
-            <a href="#" className="text-purple-400 hover:text-purple-300 text-sm transition-colors duration-200">
+            <a href="#" className="text-[var(--brand-green)] hover:text-[var(--brand-green)]/80 text-sm transition-colors duration-200">
               {t('auth.forgotPassword')}
             </a>
           </div>
@@ -186,7 +170,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}
             <button
               onClick={toggleMode}
-              className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-200"
+              className="text-[var(--brand-green)] hover:text-[var(--brand-green)]/80 ml-1 transition-colors duration-200"
             >
               {isLogin ? t('auth.signupLink') : t('auth.loginLink')}
             </button>
