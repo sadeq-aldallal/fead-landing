@@ -9,9 +9,18 @@ interface NavigationProps {
   onSignupClick: () => void;
   onDashboardClick?: () => void;
   onProfileClick?: () => void;
+  onHomeClick?: () => void;
+  currentPage: 'home' | 'dashboard' | 'profile';
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupClick, onDashboardClick, onProfileClick }) => {
+export const Navigation: React.FC<NavigationProps> = ({ 
+  onLoginClick, 
+  onSignupClick, 
+  onDashboardClick, 
+  onProfileClick, 
+  onHomeClick,
+  currentPage 
+}) => {
   const { t, currentLanguage, setLanguage, isRTL } = useLanguage();
   const { user, signOut } = useAuth();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -46,43 +55,50 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
   const handleLogout = () => {
     signOut();
     setShowUserDropdown(false);
+    onHomeClick?.();
   };
+
+  const isDashboard = currentPage === 'dashboard';
 
   return (
     <>
-      <nav className="glass-nav fixed top-0 left-0 right-0 z-50">
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'dashboard-nav' : 'glass-nav'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo - Always visible */}
             <div className="flex items-center">
-              <img 
-                src="/fead.app_logo.png" 
-                alt="fead.app" 
-                className="h-10 w-auto md:h-12"
-              />
+              <button onClick={onHomeClick} className="flex items-center">
+                <img 
+                  src="/fead.app_logo.png" 
+                  alt="fead.app" 
+                  className="h-10 w-auto md:h-12"
+                />
+              </button>
             </div>
 
-            {/* Desktop Navigation - Hidden on mobile */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#challenges"
-                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-              >
-                {t('nav.challenges')}
-              </a>
-              <a
-                href="#features"
-                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-              >
-                {t('nav.features')}
-              </a>
-              <a
-                href="#contact"
-                className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-              >
-                {t('nav.contact')}
-              </a>
-            </div>
+            {/* Desktop Navigation - Only show on home page */}
+            {!isDashboard && (
+              <div className="hidden md:flex items-center space-x-8">
+                <a
+                  href="#challenges"
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                >
+                  {t('nav.challenges')}
+                </a>
+                <a
+                  href="#features"
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                >
+                  {t('nav.features')}
+                </a>
+                <a
+                  href="#contact"
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                >
+                  {t('nav.contact')}
+                </a>
+              </div>
+            )}
 
             {/* Desktop Right Section - Hidden on mobile */}
             <div className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
@@ -114,7 +130,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
               </div>
               
               {/* Login Button */}
-              {!user && (
+              {!user && !isDashboard && (
                 <Button
                   variant="outline"
                   size="md"
@@ -130,7 +146,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                 <div className="relative">
                   <button
                     onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    className="flex items-center space-x-2 glass-card px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                    className={`flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg ${isDashboard ? 'bg-white/10 border border-[var(--brand-green)]/30' : 'glass-card'}`}
                   >
                     <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
                       <span className="text-[var(--brand-green)] text-sm font-medium">
@@ -142,24 +158,28 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                   
                   {showUserDropdown && (
                     <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
-                      <button
-                        onClick={() => {
-                          onProfileClick?.();
-                          setShowUserDropdown(false);
-                        }}
-                        className="dropdown-menu-item text-left w-full"
-                      >
-                        Profile
-                      </button>
-                      <button
-                        onClick={() => {
-                          onDashboardClick?.();
-                          setShowUserDropdown(false);
-                        }}
-                        className="dropdown-menu-item text-left w-full"
-                      >
-                        {t('nav.dashboard')}
-                      </button>
+                      {!isDashboard && (
+                        <button
+                          onClick={() => {
+                            onDashboardClick?.();
+                            setShowUserDropdown(false);
+                          }}
+                          className="dropdown-menu-item text-left w-full"
+                        >
+                          {t('nav.dashboard')}
+                        </button>
+                      )}
+                      {isDashboard && (
+                        <button
+                          onClick={() => {
+                            onProfileClick?.();
+                            setShowUserDropdown(false);
+                          }}
+                          className="dropdown-menu-item text-left w-full"
+                        >
+                          Profile
+                        </button>
+                      )}
                       <hr className="border-white/10 my-1" />
                       <button
                         onClick={handleLogout}
@@ -170,7 +190,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                     </div>
                   )}
                 </div>
-              ) : (
+              ) : (!isDashboard && (
                 <Button 
                   onClick={onSignupClick}
                   size="md"
@@ -178,7 +198,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
                 >
                   {t('nav.signup')}
                 </Button>
-              )}
+              ))}
             </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
@@ -213,27 +233,31 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
             <div className="p-6 space-y-6">
               {/* Navigation Links */}
               <div className="space-y-4">
-                <a
-                  href="#challenges"
-                  onClick={closeMobileMenu}
-                  className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  {t('nav.challenges')}
-                </a>
-                <a
-                  href="#features"
-                  onClick={closeMobileMenu}
-                  className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  {t('nav.features')}
-                </a>
-                <a
-                  href="#contact"
-                  onClick={closeMobileMenu}
-                  className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  {t('nav.contact')}
-                </a>
+                {!isDashboard && (
+                  <>
+                    <a
+                      href="#challenges"
+                      onClick={closeMobileMenu}
+                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                    >
+                      {t('nav.challenges')}
+                    </a>
+                    <a
+                      href="#features"
+                      onClick={closeMobileMenu}
+                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                    >
+                      {t('nav.features')}
+                    </a>
+                    <a
+                      href="#contact"
+                      onClick={closeMobileMenu}
+                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                    >
+                      {t('nav.contact')}
+                    </a>
+                  </>
+                )}
               </div>
 
               {/* Language Selection */}
@@ -270,31 +294,37 @@ export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupCl
               {/* Login Message */}
               <div className="border-t border-white/10 pt-4">
                 {!user ? (
-                  <div className="mobile-login-message glass-card p-4 rounded-lg border border-yellow-500/30">
-                    <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
-                      {t('mobile.loginMessage')}
-                    </p>
-                  </div>
+                  !isDashboard && (
+                    <div className="mobile-login-message glass-card p-4 rounded-lg border border-yellow-500/30">
+                      <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
+                        {t('mobile.loginMessage')}
+                      </p>
+                    </div>
+                  )
                 ) : (
                   <div className="space-y-2">
-                    <button
-                      onClick={() => {
-                        onProfileClick?.();
-                        closeMobileMenu();
-                      }}
-                      className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
-                    >
-                      Profile
-                    </button>
-                    <button
-                      onClick={() => {
-                        onDashboardClick?.();
-                        closeMobileMenu();
-                      }}
-                      className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
-                    >
-                      {t('nav.dashboard')}
-                    </button>
+                    {!isDashboard && (
+                      <button
+                        onClick={() => {
+                          onDashboardClick?.();
+                          closeMobileMenu();
+                        }}
+                        className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                      >
+                        {t('nav.dashboard')}
+                      </button>
+                    )}
+                    {isDashboard && (
+                      <button
+                        onClick={() => {
+                          onProfileClick?.();
+                          closeMobileMenu();
+                        }}
+                        className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                      >
+                        Profile
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         handleLogout();

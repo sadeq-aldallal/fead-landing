@@ -267,10 +267,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="dark-gradient-bg min-h-screen">
+    <div className="min-h-screen pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 pt-20">
+        <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className={`text-3xl font-bold text-white ${isRTL ? 'font-arabic' : ''}`}>
               {t('dashboard.title')}
@@ -279,12 +279,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
               Welcome back, {user?.name}
             </p>
           </div>
-          <Button onClick={onBack} variant="outline">
-            Back to Landing
-          </Button>
-          <Button onClick={signOut} variant="outline" className="ml-2">
-            Sign Out
-          </Button>
         </div>
 
         {/* Navigation Tabs */}
