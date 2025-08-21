@@ -7,6 +7,7 @@ import { Button } from '../ui/Button';
 interface NavigationProps {
   onLoginClick: () => void;
   onSignupClick: () => void;
+  onSignupClick: () => void;
   onDashboardClick: () => void;
   onProfileClick: () => void;
 }
