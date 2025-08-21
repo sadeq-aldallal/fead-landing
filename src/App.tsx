@@ -17,10 +17,21 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 const AppContent: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
   const [showContactModal, setShowContactModal] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const { user, loading, initialized } = useAuth();
+
+  const handleLoginClick = () => {
+    setAuthModalMode('signin');
+    setShowAuthModal(true);
+  };
+
+  const handleSignupClick = () => {
+    setAuthModalMode('signup');
+    setShowAuthModal(true);
+  };
 
   // Show loading while auth is initializing
   if (!initialized || loading) {
@@ -61,13 +72,14 @@ const AppContent: React.FC = () => {
   return (
     <div className="dark-gradient-bg min-h-screen">
       <Navigation 
-        onAuthClick={() => setShowAuthModal(true)}
+        onLoginClick={handleLoginClick}
+        onSignupClick={handleSignupClick}
         onDashboardClick={() => setShowDashboard(true)}
         onProfileClick={() => setShowProfile(true)}
       />
       
       <HeroSection 
-        onGetStarted={() => setShowAuthModal(true)}
+        onGetStarted={handleSignupClick}
         onContactUs={() => setShowContactModal(true)}
       />
       <PainPointsSection />
@@ -78,6 +90,7 @@ const AppContent: React.FC = () => {
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)} 
+        defaultMode={authModalMode}
       />
       
       <ContactModal 

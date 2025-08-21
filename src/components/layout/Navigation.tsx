@@ -5,12 +5,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 
 interface NavigationProps {
-  onAuthClick: () => void;
+  onLoginClick: () => void;
+  onSignupClick: () => void;
   onDashboardClick: () => void;
   onProfileClick: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboardClick, onProfileClick }) => {
+export const Navigation: React.FC<NavigationProps> = ({ onLoginClick, onSignupClick, onDashboardClick, onProfileClick }) => {
   const { t, currentLanguage, setLanguage, isRTL } = useLanguage();
   const { user, signOut } = useAuth();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -117,7 +118,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
                 <Button
                   variant="outline"
                   size="md"
-                  onClick={onAuthClick}
+                  onClick={onLoginClick}
                   className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
                 >
                   {t('nav.login')}
@@ -171,7 +172,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
                 </div>
               ) : (
                 <Button 
-                  onClick={onAuthClick}
+                  onClick={onSignupClick}
                   size="md"
                   className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
                 >
