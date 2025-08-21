@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingDown, Clock, Zap, Brain, Users } from 'lucide-react';
+import { FileText, MessageCircle, Target, BarChart3, Cog, Users } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const SolutionSection: React.FC = () => {
@@ -7,45 +7,39 @@ export const SolutionSection: React.FC = () => {
 
   const solutions = [
     {
-      icon: TrendingDown,
+      icon: FileText,
       title: 'Intelligent Document Processing',
-      subtitle: 'Eliminate Document Management Chaos',
-      description: 'Our AI-powered document processing system automatically categorizes, extracts, and organizes information from any document type. Say goodbye to lost files and manual sorting - our solution ensures 99.9% accuracy in document handling while reducing processing time by 80%.',
+      description: 'Automatically categorize, extract, and organize information from any document type with 99.9% accuracy.',
     },
     {
-      icon: Clock,
+      icon: MessageCircle,
       title: 'Smart Customer Communication Hub',
-      subtitle: 'End Communication Breakdowns Forever',
-      description: 'Centralize all customer interactions across email, chat, phone, and social media in one intelligent platform. Our AI ensures no message goes unanswered and maintains consistent, professional communication that builds stronger customer relationships.',
+      description: 'Centralize all customer interactions across multiple channels in one intelligent platform with AI-powered responses.',
     },
     {
-      icon: Zap,
+      icon: Target,
       title: 'Automated Lead Management System',
-      subtitle: 'Never Miss Another Opportunity',
-      description: 'Our intelligent lead scoring and nurturing system automatically identifies high-value prospects, tracks their journey, and delivers personalized follow-ups at the perfect moment. Increase your conversion rates by 300% while reducing manual lead management by 90%.',
+      description: 'Intelligent lead scoring and nurturing system that identifies prospects and delivers personalized follow-ups automatically.',
     },
     {
-      icon: Brain,
+      icon: BarChart3,
       title: 'Real-Time Business Intelligence Dashboard',
-      subtitle: 'Make Data-Driven Decisions Instantly',
-      description: 'Transform raw data into actionable insights with our AI-powered analytics platform. Get real-time visibility into your business performance, identify trends before your competitors, and make informed decisions that drive growth.',
+      description: 'Transform raw data into actionable insights with real-time visibility into business performance and trends.',
     },
     {
-      icon: Users,
+      icon: Cog,
       title: 'Intelligent Process Automation',
-      subtitle: 'Streamline Every Business Operation',
-      description: 'Automate repetitive tasks across your entire organization with our smart workflow engine. From invoice processing to customer onboarding, our AI handles routine work so your team can focus on strategic initiatives that grow your business.',
+      description: 'Automate repetitive tasks across your organization with smart workflow engines that handle routine work efficiently.',
     },
     {
       icon: Users,
       title: 'AI-Powered Workforce Optimization',
-      subtitle: 'Eliminate Manual Work Inefficiency',
-      description: 'Replace time-consuming manual processes with intelligent automation that works 24/7 with perfect accuracy. Our AI agents handle routine tasks, data entry, and administrative work, freeing your team to focus on high-value activities that drive revenue and innovation.',
+      description: 'Replace manual processes with intelligent automation that works 24/7, freeing your team for high-value activities.',
     },
   ];
 
   return (
-    <section id="features" className="dark-gradient-bg py-20 relative">
+    <section id="features" className="py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
   
@@ -63,17 +57,17 @@ export const SolutionSection: React.FC = () => {
             return (
               <div
                 key={index}
-                className="feature-card group hover:scale-105 transition-all duration-300"
+                className="feature-card group hover:scale-105 transition-all duration-300 text-center"
               >
-                <div className="flex items-center mb-6">
-                  <div className={`p-3 rounded-lg glass-card ${isRTL ? 'ml-4' : 'mr-4'}`}>
-                    <Icon className="h-6 w-6 text-green-400" />
+                <div className="flex flex-col items-center mb-6">
+                  <div className="p-4 rounded-lg glass-card mb-4">
+                    <Icon className="h-8 w-8 text-green-300/70" />
                   </div>
-                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
+                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic' : ''}`}>
                     {solution.title}
                   </h3>
                 </div>
-                <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic text-right' : ''}`}>
+                <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
                   {solution.description}
                 </p>
               </div>
