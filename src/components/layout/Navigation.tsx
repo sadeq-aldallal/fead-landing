@@ -112,7 +112,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
               {/* Login Button */}
               <Button
                 variant="outline"
-                size="sm"
+                size="md"
                 onClick={onAuthClick}
                 className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
               >
@@ -123,16 +123,16 @@ export const Navigation: React.FC<NavigationProps> = ({ onAuthClick, onDashboard
               {isAuthenticated ? (
                 <Button 
                   onClick={onDashboardClick}
-                  size="sm"
-                  className={`btn-primary px-3 py-1.5 text-sm ${isRTL ? 'font-arabic' : ''}`}
+                  size="md"
+                  className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.dashboard')}
                 </Button>
               ) : (
                 <Button 
                   onClick={onAuthClick}
-                  size="sm"
-                  className={`btn-primary px-3 py-1.5 text-sm ${isRTL ? 'font-arabic' : ''}`}
+                  size="md"
+                  className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.signup')}
                 </Button>
