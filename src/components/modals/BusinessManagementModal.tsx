@@ -158,7 +158,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content max-w-6xl">
+      <div className="modal-content max-w-7xl w-full">
         <button
           onClick={onClose}
           className="modal-close"
