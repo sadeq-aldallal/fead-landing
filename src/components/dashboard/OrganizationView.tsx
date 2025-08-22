@@ -110,11 +110,11 @@ export const OrganizationView: React.FC = () => {
           /* Has businesses - Show grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((business) => (
-              <div key={business.id} className="business-card">
+              <div key={business.id} className="business-card flex flex-col">
                 <div className="business-card-header">
                   <h3 className="business-card-title">{business.name}</h3>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 flex-1">
                   <p className="text-white/70 text-sm">
                     Created: {new Date(business.created_at).toLocaleDateString()}
                   </p>
@@ -146,7 +146,7 @@ export const OrganizationView: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 pt-4">
                   {business.instagram_status === 'connected' ? (
                     <Button
                       onClick={() => handleManageBusiness(business)}
