@@ -75,9 +75,35 @@ body {
 
 /* Dark gradient background */
 .dark-gradient-bg {
-  background: linear-gradient(135deg, #0F1419 0%, #1A2332 30%, #243447 60%, #0F1419 100%);
+  background: linear-gradient(180deg, #0F1419 0%, #1A2332 25%, #243447 50%, #1A2332 75%, #0F1419 100%);
   min-height: 100vh;
   position: relative;
+}
+
+/* Seamless section backgrounds - each section continues the gradient */
+.section-gradient-1 {
+  background: linear-gradient(180deg, #0F1419 0%, #1A2332 50%, #243447 100%);
+}
+
+.section-gradient-2 {
+  background: linear-gradient(180deg, #243447 0%, #1A2332 50%, #0F1419 100%);
+}
+
+.section-gradient-3 {
+  background: linear-gradient(180deg, #0F1419 0%, #1A2332 50%, #243447 100%);
+}
+
+.section-gradient-4 {
+  background: linear-gradient(180deg, #243447 0%, #1A2332 50%, #0F1419 100%);
+}
+
+/* Reduced section padding for tighter content wrapping */
+.section-tight {
+  padding: 3rem 0;
+}
+
+.section-tight-sm {
+  padding: 2rem 0;
 }
 
 .dark-gradient-bg::before {

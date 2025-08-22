@@ -5,7 +5,7 @@ export const ClientLogosSection: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   return (
-    <section className="dark-gradient-bg py-16 border-t border-white/5">
+    <section className="section-gradient-4 section-tight-sm border-t border-white/5">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <p className={`animated-gradient-text text-sm font-medium tracking-wider uppercase ${isRTL ? 'font-arabic' : ''}`}>

@@ -40,7 +40,7 @@ export const SolutionSection: React.FC = () => {
 
 
   return (
-    <section id="features" className="dark-gradient-bg py-20 relative">
+    <section id="features" className="section-gradient-2 section-tight relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           {/* Logo Section */}
