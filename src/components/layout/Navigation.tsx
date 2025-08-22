@@ -65,8 +65,12 @@ export const Navigation: React.FC<NavigationProps> = ({
       <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'dashboard-nav' : 'glass-nav'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo - Always visible */}
-            <div className="flex items-center">
+            {/* Left spacer for centering */}
+            <div className="flex items-center flex-1">
+            </div>
+
+            {/* Centered Logo */}
+            <div className="flex items-center justify-center">
               <button onClick={onHomeClick} className="flex items-center">
                 <img 
                   src="/fead.app_logo.png" 
@@ -76,9 +80,13 @@ export const Navigation: React.FC<NavigationProps> = ({
               </button>
             </div>
 
+            {/* Right spacer for centering */}
+            <div className="flex items-center flex-1 justify-end">
+            </div>
+
             {/* Desktop Navigation - Only show on home page */}
             {!isDashboard && (
-              <div className="hidden md:flex items-center space-x-8">
+              <div className="hidden md:flex items-center space-x-8 absolute right-4">
                 <a
                   href="#challenges"
                   className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
@@ -99,11 +107,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                 </a>
               </div>
             )}
-
-            {/* Desktop Right Section - Hidden on mobile */}
-            <div className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
-              
-            </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
             <div className="md:hidden">
