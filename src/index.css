@@ -942,12 +942,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.5);
+  background: rgba(0, 212, 170, 0.5);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.7);
+  background: rgba(0, 212, 170, 0.7);
 }
 
 /* Focus states */

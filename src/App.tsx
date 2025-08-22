@@ -18,6 +18,9 @@ import { BusinessView } from './components/dashboard/BusinessView';
 import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { PrivacyPolicy } from './components/pages/PrivacyPolicy';
+import { TermsAndConditions } from './components/pages/TermsAndConditions';
+import { AccountDeletionPolicy } from './components/pages/AccountDeletionPolicy';
 import { useDashboard } from './contexts/DashboardContext';
 
 const AppContent: React.FC = () => {
