@@ -126,7 +126,8 @@ export const OrganizationView: React.FC = () => {
                       Instagram: @{business.instagram_username}
                     </p>
                   )}
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
                     <div className={`w-2 h-2 rounded-full ${
                       business.instagram_status === 'connected' ? 'bg-green-400' :
                       business.instagram_status === 'connecting' ? 'bg-yellow-400' :
@@ -144,26 +145,38 @@ export const OrganizationView: React.FC = () => {
                        business.instagram_status === 'error' ? 'Connection Error' :
                        'Not Connected'}
                     </span>
+                    </div>
+                    
+                    {/* Action buttons next to status */}
+                    <div className="flex items-center space-x-2">
+                      {business.instagram_status === 'connected' ? (
+                        <Button
+                          onClick={() => handleManageBusiness(business)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 text-xs"
+                          size="sm"
+                        >
+                          Manage
+                        </Button>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={() => handleConnectInstagram(business)}
+                            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 text-xs"
+                            size="sm"
+                          >
+                            Connect
+                          </Button>
+                          <Button
+                            onClick={() => handleManageBusiness(business)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs"
+                            size="sm"
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="mt-4 pt-4">
-                  {business.instagram_status === 'connected' ? (
-                    <Button
-                      onClick={() => handleManageBusiness(business)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                      size="sm"
-                    >
-                      Manage
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => handleConnectInstagram(business)}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
-                      size="sm"
-                    >
-                      Connect
-                    </Button>
-                  )}
                 </div>
               </div>
             ))}
