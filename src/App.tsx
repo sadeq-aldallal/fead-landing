@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DashboardProvider } from './contexts/DashboardContext';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -28,35 +28,105 @@ const AppContent: React.FC = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showOrganizationModal, setShowOrganizationModal] = useState(false);
   const { user, loading, initialized } = useAuth();
-  const { organization, loading: dashboardLoading } = useDashboard();
+  const { 
+    organization, 
+    businesses, 
+    currentBusiness, 
+    loading: dashboardLoading, 
+    processInstagramCode,
+    setCurrentBusiness 
+  } = useDashboard();
   
-  // Handle Instagram OAuth callback on any page
+  // Ref to track if OAuth code has been processed to prevent duplicate processing
+  const processedOAuthCodeRef = useRef(false);
+  
+  // Centralized Instagram OAuth callback handling
   useEffect(() => {
-    const handleInstagramCallback = () => {
+    const handleInstagramCallback = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get('code');
       const error = urlParams.get('error');
+      const errorDescription = urlParams.get('error_description');
       
-      if (code || error) {
-        console.log('Instagram OAuth callback detected:', { code: !!code, error });
+      // Handle OAuth errors first
+      if (error) {
+        console.error('Instagram OAuth Error:', { error, errorDescription });
+        // Clean URL and show error (you might want to show a toast/modal here)
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      }
+      
+      // Process OAuth code if present and conditions are met
+      if (code && 
+          user && 
+          organization && 
+          businesses.length > 0 && 
+          !dashboardLoading && 
+          !processedOAuthCodeRef.current) {
         
-        // If user is authenticated and has organization, redirect to business view
-        if (user && organization) {
+        console.log('Processing Instagram OAuth code:', {
+          code: code.substring(0, 10) + '...',
+          businessCount: businesses.length,
+          currentBusiness: currentBusiness?.name
+        });
+        
+        // Mark as processed to prevent duplicate processing
+        processedOAuthCodeRef.current = true;
+        
+        try {
+          // Determine target business (prefer currentBusiness, fallback to first business)
+          const targetBusiness = currentBusiness || businesses[0];
+          
+          if (!targetBusiness) {
+            throw new Error('No business available for Instagram connection');
+          }
+          
+          // Set current business if not already set
+          if (!currentBusiness) {
+            setCurrentBusiness(targetBusiness);
+          }
+          
+          // Process the Instagram OAuth code
+          const { error: processError } = await processInstagramCode(code, targetBusiness.id);
+          
+          if (processError) {
+            console.error('Error processing Instagram code:', processError);
+            // Reset the flag so user can retry
+            processedOAuthCodeRef.current = false;
+          } else {
+            console.log('Instagram OAuth code processed successfully');
+          }
+          
+        } catch (error) {
+          console.error('Error in OAuth processing:', error);
+          // Reset the flag so user can retry
+          processedOAuthCodeRef.current = false;
+        } finally {
+          // Clean URL after processing (success or failure)
+          window.history.replaceState({}, document.title, window.location.pathname);
+          
+          // Ensure we're on the dashboard business view
           setCurrentPage('dashboard');
           setDashboardView('business');
-          // Don't clean URL here - let BusinessView handle it
-        } else if (user) {
-          // User exists but no organization, redirect to dashboard
-          setCurrentPage('dashboard');
-        } else {
-          // No user, clean URL and stay on home
-          window.history.replaceState({}, document.title, window.location.pathname);
         }
+      } else if (code && user && organization) {
+        // Code present but conditions not met yet (still loading)
+        console.log('OAuth code detected but waiting for data to load:', {
+          hasUser: !!user,
+          hasOrganization: !!organization,
+          businessCount: businesses.length,
+          dashboardLoading,
+          alreadyProcessed: processedOAuthCodeRef.current
+        });
+        
+        // Redirect to dashboard to show loading state
+        setCurrentPage('dashboard');
+        setDashboardView('business');
       }
     };
     
     handleInstagramCallback();
-  }, [user, organization]);
+  }, [user, organization, businesses, currentBusiness, dashboardLoading, processInstagramCode, setCurrentBusiness]);
 
   // Handle URL-based routing for legal pages
   useEffect(() => {
@@ -80,7 +150,12 @@ const AppContent: React.FC = () => {
 
   // Auto-redirect to dashboard when user logs in
   useEffect(() => {
-    if (user && currentPage === 'home') {
+    // Check if there's an OAuth code being processed
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasOAuthCode = urlParams.get('code');
+    
+    // Only auto-redirect if no OAuth code is present (to avoid interfering with OAuth processing)
+    if (user && currentPage === 'home' && !hasOAuthCode) {
       setCurrentPage('dashboard');
     } else if (!user && currentPage !== 'home') {
       setCurrentPage('home');

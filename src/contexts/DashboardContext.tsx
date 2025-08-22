@@ -209,16 +209,16 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
 
   const processInstagramCode = async (code: string, businessId: string) => {
     try {
-      console.log('Processing Instagram OAuth callback:', {
+      console.log('DashboardContext: Processing Instagram OAuth callback:', {
         code: code.substring(0, 10) + '...',
-        businessId: dashboardState.currentBusiness?.id,
-        businessName: dashboardState.currentBusiness?.name
+        businessId,
+        businessName: dashboardState.businesses.find(b => b.id === businessId)?.name
       });
 
       // Update business status to connecting
-      await updateBusiness(dashboardState.currentBusiness?.id || '', { instagram_status: 'connecting' });
+      await updateBusiness(businessId, { instagram_status: 'connecting' });
       
-      console.log('Sending code to n8n webhook...');
+      console.log('DashboardContext: Sending code to n8n webhook...');
       
       // Send code directly to N8N webhook
       const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
@@ -228,23 +228,23 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         },
         body: JSON.stringify({ 
           code,
-          business_id: dashboardState.currentBusiness?.id,
-          business_name: dashboardState.currentBusiness?.name
+          business_id: businessId,
+          business_name: dashboardState.businesses.find(b => b.id === businessId)?.name
         })
       });
 
-      console.log('Webhook response status:', webhookResponse.status);
+      console.log('DashboardContext: Webhook response status:', webhookResponse.status);
       
       if (!webhookResponse.ok) {
         const errorText = await webhookResponse.text();
-        console.error('Webhook error response:', errorText);
+        console.error('DashboardContext: Webhook error response:', errorText);
         throw new Error(`Webhook request failed: ${webhookResponse.status} - ${errorText}`);
       }
 
       const webhookResult = await webhookResponse.json();
-      console.log('Webhook result:', webhookResult);
+      console.log('DashboardContext: Webhook result:', webhookResult);
 
-      if (webhookResult.status !== 'success') {
+      if (webhookResult.status !== 'created') {
         throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}`);
       }
 
@@ -254,27 +254,34 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       
       while (attempts < maxAttempts) {
         attempts++;
-        console.log(`Polling attempt ${attempts}/${maxAttempts}`);
+        console.log(`DashboardContext: Polling attempt ${attempts}/${maxAttempts}`);
         
-        // Get updated business data
-        const updatedBusiness = await getCurrentBusiness();
+        // Refresh business data
+        await refreshBusinessData(businessId);
+        
+        // Get the updated business from state
+        const updatedBusiness = dashboardState.businesses.find(b => b.id === businessId);
         
         if (updatedBusiness?.instagram_status === 'connected' && updatedBusiness?.instagram_username) {
-          console.log('Instagram connection successful!');
+          console.log('DashboardContext: Instagram connection successful!');
           break;
         }
         
         if (attempts < maxAttempts) {
-          console.log('Connection not ready, continuing to poll...');
+          console.log('DashboardContext: Connection not ready, continuing to poll...');
           await new Promise(resolve => setTimeout(resolve, 2000));
         } else {
-          console.log('Polling timeout reached');
+          console.log('DashboardContext: Polling timeout reached');
+          // Update business status to error on timeout
+          await updateBusiness(businessId, { instagram_status: 'error' });
         }
       }
 
       return { error: null };
     } catch (error: any) {
-      console.error('Error processing Instagram code:', error);
+      console.error('DashboardContext: Error processing Instagram code:', error);
+      // Update business status to error on failure
+      await updateBusiness(businessId, { instagram_status: 'error' });
       return { error };
     }
   };
