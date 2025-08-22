@@ -3,13 +3,16 @@ import { Plus, Building2 } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { BusinessModal } from '../modals/BusinessModal';
+import { BusinessManagementModal } from '../modals/BusinessManagementModal';
 import { Button } from '../ui/Button';
+import { Business } from '../../types/dashboard';
 
 export const OrganizationView: React.FC = () => {
   const { organization, businesses, setCurrentBusiness } = useDashboard();
   const [showBusinessModal, setShowBusinessModal] = useState(false);
   const [showInstagramModal, setShowInstagramModal] = useState(false);
-  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [showManagementModal, setShowManagementModal] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
 
   const handleConnectInstagram = (business) => {
     setSelectedBusiness(business);
@@ -17,6 +20,11 @@ export const OrganizationView: React.FC = () => {
     setShowInstagramModal(true);
   };
 
+  const handleManageBusiness = (business: Business) => {
+    setSelectedBusiness(business);
+    setCurrentBusiness(business);
+    setShowManagementModal(true);
+  };
   const handleInstagramConnect = () => {
     const clientId = '1292743865568326';
     const redirectUri = 'https://fead.app/';
@@ -139,13 +147,23 @@ export const OrganizationView: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <Button
-                    onClick={() => handleConnectInstagram(business)}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
-                    size="sm"
-                  >
-                    Connect
-                  </Button>
+                  {business.instagram_status === 'connected' ? (
+                    <Button
+                      onClick={() => handleManageBusiness(business)}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      size="sm"
+                    >
+                      Manage
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handleConnectInstagram(business)}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      size="sm"
+                    >
+                      Connect
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}
@@ -163,6 +181,14 @@ export const OrganizationView: React.FC = () => {
         onClose={() => setShowInstagramModal(false)}
         onConnect={handleInstagramConnect}
       />
+
+      {selectedBusiness && (
+        <BusinessManagementModal
+          isOpen={showManagementModal}
+          onClose={() => setShowManagementModal(false)}
+          business={selectedBusiness}
+        />
+      )}
     </div>
   );
 };

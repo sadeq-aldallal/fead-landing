@@ -63,6 +63,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
           .from('businesses')
           .select('*')
           .eq('org_id', organization.id)
+          .eq('is_deleted', false)
           .order('created_at', { ascending: false });
 
         if (businessError) {
@@ -149,6 +150,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         .from('businesses')
         .update(data)
         .eq('id', id)
+        .eq('is_deleted', false)
         .select()
         .single();
 
@@ -191,6 +193,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         .from('businesses')
         .select('*')
         .eq('id', businessId)
+        .eq('is_deleted', false)
         .single();
 
       if (error) throw error;
