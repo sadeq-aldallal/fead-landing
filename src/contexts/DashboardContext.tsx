@@ -221,7 +221,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       console.log('DashboardContext: Sending code to n8n webhook...');
       
       // Send code directly to N8N webhook
-      const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
+      const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook-test/fb9e4641-dc87-4d30-af15-e7b775482125', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
