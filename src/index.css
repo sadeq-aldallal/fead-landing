@@ -383,7 +383,7 @@ body {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   padding: var(--spacing-2xl);
-  max-width: 500px;
+  max-width: 1200px;
   width: 100%;
   position: relative;
   box-shadow: var(--shadow-xl);
