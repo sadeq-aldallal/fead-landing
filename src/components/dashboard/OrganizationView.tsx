@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
 import { Plus, Building2 } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
+import { InstagramModal } from '../modals/InstagramModal';
 import { BusinessModal } from '../modals/BusinessModal';
 import { Button } from '../ui/Button';
 
 export const OrganizationView: React.FC = () => {
-  const { organization, businesses } = useDashboard();
+  const { organization, businesses, setCurrentBusiness } = useDashboard();
   const [showBusinessModal, setShowBusinessModal] = useState(false);
+  const [showInstagramModal, setShowInstagramModal] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+
+  const handleConnectInstagram = (business) => {
+    setSelectedBusiness(business);
+    setCurrentBusiness(business);
+    setShowInstagramModal(true);
+  };
+
+  const handleInstagramConnect = () => {
+    const clientId = '1292743865568326';
+    const redirectUri = 'https://www.fead.app/';
+    const scope = 'instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights';
+    
+    const authUrl = `https://www.instagram.com/oauth/authorize?force_reauth=true&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
+    
+    window.location.href = authUrl;
+  };
 
   if (!organization) {
     return (
@@ -118,11 +137,11 @@ export const OrganizationView: React.FC = () => {
                 </div>
                 <div className="mt-4">
                   <Button
-                    variant="outline"
+                    onClick={() => handleConnectInstagram(business)}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
                     size="sm"
-                    className="w-full"
                   >
-                    Manage Business
+                    Connect
                   </Button>
                 </div>
               </div>
@@ -134,6 +153,12 @@ export const OrganizationView: React.FC = () => {
       <BusinessModal
         isOpen={showBusinessModal}
         onClose={() => setShowBusinessModal(false)}
+      />
+
+      <InstagramModal
+        isOpen={showInstagramModal}
+        onClose={() => setShowInstagramModal(false)}
+        onConnect={handleInstagramConnect}
       />
     </div>
   );
