@@ -153,7 +153,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                         {user.email?.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <span className="text-sm">{user.user_metadata?.full_name || user.email?.split('@')[0]}</span>
                   </button>
                   
                   {showUserDropdown && (

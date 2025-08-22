@@ -72,25 +72,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           />
         </div>
 
-        {/* User Info */}
-        <div className="mb-8 p-4 bg-white/5 rounded-lg border border-white/10">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-              <span className="text-green-400 text-sm font-medium">
-                {user?.email?.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <div>
-              <p className="text-white text-sm font-medium">
-                {user?.user_metadata?.full_name || user?.email?.split('@')[0]}
-              </p>
-              <p className="text-white/60 text-xs">{user?.email}</p>
-            </div>
-          </div>
-        </div>
-
         {/* Navigation */}
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav flex-1">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -107,9 +90,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           })}
         </nav>
 
+        {/* Bottom Section */}
+        <div className="mt-auto space-y-4">
         {/* Organization Info */}
         {organization && (
-          <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
+          <div className="p-4 bg-white/5 rounded-lg border border-white/10">
             <h3 className="text-white text-sm font-medium mb-2">Current Organization</h3>
             <p className="text-white/80 text-sm">{organization.name}</p>
             {currentBusiness && (
@@ -121,13 +106,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="mt-auto sidebar-nav-item text-red-400 hover:bg-red-400/10"
+          className="sidebar-nav-item text-red-400 hover:bg-red-400/10 w-full"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           <span>Logout</span>
         </button>
+        </div>
       </aside>
 
       {/* Main Content */}
