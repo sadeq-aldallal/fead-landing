@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Building2 } from 'lucide-react';
+import { Plus, Building2, Settings } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { BusinessModal } from '../modals/BusinessModal';
@@ -113,6 +113,15 @@ export const OrganizationView: React.FC = () => {
               <div key={business.id} className="business-card flex flex-col">
                 <div className="business-card-header">
                   <h3 className="business-card-title">{business.name}</h3>
+                  {business.instagram_status === 'connected' && (
+                    <button
+                      onClick={() => handleManageBusiness(business)}
+                      className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                      title="Manage Business"
+                    >
+                      <Settings size={18} />
+                    </button>
+                  )}
                 </div>
                 <div className="space-y-2 flex-1">
                   <p className="text-white/70 text-sm">
@@ -147,16 +156,7 @@ export const OrganizationView: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-4 pt-4">
-                  {business.instagram_status === 'connected' ? (
-                    <Button
-                      onClick={() => handleManageBusiness(business)}
-                     variant="outline"
-                     className="w-full"
-                      size="sm"
-                    >
-                      Manage
-                    </Button>
-                  ) : (
+                  {business.instagram_status !== 'connected' && (
                     <Button
                       onClick={() => handleConnectInstagram(business)}
                       className="w-full bg-green-600 hover:bg-green-700 text-white"
