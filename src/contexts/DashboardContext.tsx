@@ -48,19 +48,21 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         .from('organizations')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .limit(1);
 
-      if (orgError && orgError.code !== 'PGRST116') {
+      if (orgError) {
         throw orgError;
       }
 
+      const organization = orgData && orgData.length > 0 ? orgData[0] : null;
+
       let businesses: Business[] = [];
-      if (orgData) {
+      if (organization) {
         // Fetch businesses
         const { data: businessData, error: businessError } = await supabase
           .from('businesses')
           .select('*')
-          .eq('org_id', orgData.id)
+          .eq('org_id', organization.id)
           .order('created_at', { ascending: false });
 
         if (businessError) {
@@ -72,7 +74,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
 
       setDashboardState(prev => ({
         ...prev,
-        organization: orgData,
+        organization,
         businesses,
         loading: false
       }));
