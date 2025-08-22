@@ -18,9 +18,6 @@ import { BusinessView } from './components/dashboard/BusinessView';
 import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { PrivacyPolicy } from './components/pages/PrivacyPolicy';
-import { TermsAndConditions } from './components/pages/TermsAndConditions';
-import { AccountDeletionPolicy } from './components/pages/AccountDeletionPolicy';
 import { useDashboard } from './contexts/DashboardContext';
 
 const AppContent: React.FC = () => {
@@ -32,6 +29,26 @@ const AppContent: React.FC = () => {
   const [showOrganizationModal, setShowOrganizationModal] = useState(false);
   const { user, loading, initialized } = useAuth();
   const { organization, loading: dashboardLoading } = useDashboard();
+
+  // Handle URL-based routing for legal pages
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/privacy-policy') {
+      setCurrentPage('privacy-policy');
+    } else if (path === '/terms-and-conditions') {
+      setCurrentPage('terms-and-conditions');
+    } else if (path === '/account-deletion-policy') {
+      setCurrentPage('account-deletion-policy');
+    }
+  }, []);
+
+  // Update URL when page changes
+  useEffect(() => {
+    const path = currentPage === 'home' ? '/' : `/${currentPage}`;
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
+  }, [currentPage]);
 
   // Auto-redirect to dashboard when user logs in
   useEffect(() => {
@@ -58,6 +75,9 @@ const AppContent: React.FC = () => {
     setShowAuthModal(true);
   };
 
+  const handleNavigateToLegalPage = (page: 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy') => {
+    setCurrentPage(page);
+  };
   // Show loading while auth is initializing
   if (!initialized || loading) {
     return (

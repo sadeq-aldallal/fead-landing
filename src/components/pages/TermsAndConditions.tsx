@@ -32,7 +32,7 @@ export const TermsAndConditions: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibent text-white mb-4">3. User Responsibilities</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">3. User Responsibilities</h2>
               <p className="mb-4">You agree to:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Provide accurate and complete information</li>

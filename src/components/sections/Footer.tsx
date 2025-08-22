@@ -124,29 +124,23 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <button 
-                onClick={onPrivacyClick}
+                onClick={() => onPrivacyClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Privacy Policy
               </button>
               <button 
-                onClick={onTermsClick}
+                onClick={() => onTermsClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Terms of Service
               </button>
               <button 
-                onClick={onAccountDeletionClick}
+                onClick={() => onAccountDeletionClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Account Deletion
               </button>
-              <a href="#" className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}>
-                {t('footer.privacy')}
-              </a>
-              <a href="#" className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}>
-                Terms of Service
-              </a>
             </div>
           </div>
         </div>
