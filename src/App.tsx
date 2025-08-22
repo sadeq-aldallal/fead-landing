@@ -69,15 +69,51 @@ const AppContent: React.FC = () => {
 
   // Show legal pages (not protected)
   if (currentPage === 'privacy-policy') {
-    return <PrivacyPolicy />;
+    return (
+      <div className="dark-gradient-bg">
+        <Navigation 
+          onLoginClick={handleLoginClick}
+          onSignupClick={handleSignupClick}
+          onDashboardClick={() => setCurrentPage('dashboard')}
+          onProfileClick={() => setCurrentPage('profile')}
+          onHomeClick={() => setCurrentPage('home')}
+          currentPage={currentPage}
+        />
+        <PrivacyPolicy />
+      </div>
+    );
   }
 
   if (currentPage === 'terms-and-conditions') {
-    return <TermsAndConditions />;
+    return (
+      <div className="dark-gradient-bg">
+        <Navigation 
+          onLoginClick={handleLoginClick}
+          onSignupClick={handleSignupClick}
+          onDashboardClick={() => setCurrentPage('dashboard')}
+          onProfileClick={() => setCurrentPage('profile')}
+          onHomeClick={() => setCurrentPage('home')}
+          currentPage={currentPage}
+        />
+        <TermsAndConditions />
+      </div>
+    );
   }
 
   if (currentPage === 'account-deletion-policy') {
-    return <AccountDeletionPolicy />;
+    return (
+      <div className="dark-gradient-bg">
+        <Navigation 
+          onLoginClick={handleLoginClick}
+          onSignupClick={handleSignupClick}
+          onDashboardClick={() => setCurrentPage('dashboard')}
+          onProfileClick={() => setCurrentPage('profile')}
+          onHomeClick={() => setCurrentPage('home')}
+          currentPage={currentPage}
+        />
+        <AccountDeletionPolicy />
+      </div>
+    );
   }
   // Show user profile
   if (currentPage === 'profile') {
