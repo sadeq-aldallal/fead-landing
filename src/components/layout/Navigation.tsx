@@ -102,32 +102,6 @@ export const Navigation: React.FC<NavigationProps> = ({
 
             {/* Desktop Right Section - Hidden on mobile */}
             <div className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
-              {/* Language Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={toggleLanguageDropdown}
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  <span>{currentLanguage.code === 'en' ? t('language.english') : t('language.arabic')}</span>
-                </button>
-                
-                {showLanguageDropdown && (
-                  <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'}`}>
-                    <button
-                      onClick={() => handleLanguageChange('en')}
-                      className={`dropdown-menu-item text-sm ${currentLanguage.code === 'en' ? 'active' : ''}`}
-                    >
-                      {t('language.english')}
-                    </button>
-                    <button
-                      onClick={() => handleLanguageChange('ar')}
-                      className={`dropdown-menu-item text-sm ${currentLanguage.code === 'ar' ? 'active' : ''}`}
-                    >
-                      {t('language.arabic')}
-                    </button>
-                  </div>
-                )}
-              </div>
               
               {/* Login Button */}
               {!user && !isDashboard && (
@@ -259,36 +233,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                 )}
               </div>
 
-              {/* Language Selection */}
-              <div className="border-t border-white/10 pt-4">
-                <h3 className={`text-sm font-medium text-white/60 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
-                  Language
-                </h3>
-                <div className="space-y-2">
-                  <button
-                    onClick={() => {
-                      handleLanguageChange('en');
-                      closeMobileMenu();
-                    }}
-                    className={`mobile-language-item block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200 ${
-                      currentLanguage.code === 'en' ? 'bg-green-500/20 text-green-400' : ''
-                    } ${isRTL ? 'text-right font-arabic' : ''}`}
-                  >
-                    {t('language.english')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleLanguageChange('ar');
-                      closeMobileMenu();
-                    }}
-                    className={`mobile-language-item block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200 ${
-                      currentLanguage.code === 'ar' ? 'bg-green-500/20 text-green-400' : ''
-                    } ${isRTL ? 'text-right font-arabic' : ''}`}
-                  >
-                    {t('language.arabic')}
-                  </button>
-                </div>
-              </div>
 
               {/* Login Message */}
               <div className="border-t border-white/10 pt-4">
