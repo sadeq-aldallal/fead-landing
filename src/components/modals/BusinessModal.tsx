@@ -25,7 +25,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
     { 
       value: 'service' as const, 
       label: 'Service', 
-      description:  'Such as barber, personal trainer, fixing, renting a padel field' 
+      description:  'Barber, Trainer, Renting a place' 
     }
   ];
 
