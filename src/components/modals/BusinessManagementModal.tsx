@@ -332,25 +332,6 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
             </div>
             
             <div className="space-y-4">
-              {/* Disconnect Instagram */}
-              {business.instagram_status === 'connected' && business.instagram_username && (
-                <div>
-                  <h4 className="text-white font-medium mb-2">Disconnect Instagram Account</h4>
-                  <p className="text-white/70 text-sm mb-4">
-                    Disconnect @{business.instagram_username} from this business. This will stop all automated responses 
-                    and remove access to Instagram messages. You can reconnect later if needed.
-                  </p>
-                  <Button
-                    onClick={handleDisconnectInstagram}
-                    loading={disconnectLoading}
-                    disabled={disconnectLoading}
-                    className="bg-orange-600 hover:bg-orange-700 text-white border-orange-600"
-                  >
-                    {disconnectLoading ? 'Disconnecting...' : 'Disconnect Instagram'}
-                  </Button>
-                </div>
-              )}
-
               <div>
                 <h4 className="text-white font-medium mb-2">Delete Business</h4>
                 <p className="text-white/70 text-sm mb-4">
