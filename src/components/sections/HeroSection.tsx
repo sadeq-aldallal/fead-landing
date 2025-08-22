@@ -90,11 +90,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse"> {/* Swapped to lg:flex-row-reverse */}
           {/* Left Side - Content */}
           <div className="text-center lg:text-left">
-            {/* Badge */}
-            <div className={`inline-flex items-center px-6 py-3 glass-card text-green-300 text-sm font-medium mb-8 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${isRTL ? 'font-arabic' : ''}`}>
-              {t('hero.badge')}
-            </div>
-
             {/* Main Content */}
             <div className={`transform transition-all duration-1000 delay-200 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               {/* Main Headline */}
