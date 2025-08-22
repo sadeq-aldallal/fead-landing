@@ -10,6 +10,7 @@ interface DashboardContextType extends DashboardState {
   refreshBusinessData: (businessId: string) => Promise<{ error: any }>;
   setCurrentBusiness: (business: Business | null) => void;
   fetchOrganizationData: () => Promise<void>;
+  processInstagramCode: (code: string, businessId: string) => Promise<{ error: any }>;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -59,7 +60,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         const { data: businessData, error: businessError } = await supabase
           .from('businesses')
           .select('*')
-          .eq('organization_id', orgData.id)
+          .eq('org_id', orgData.id)
           .order('created_at', { ascending: false });
 
         if (businessError) {
@@ -110,10 +111,18 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
   };
 
   const createBusiness = async (name: string, organizationId: string) => {
+    if (!user) return { error: { message: 'User not authenticated' } };
+
     try {
       const { data: businessData, error } = await supabase
         .from('businesses')
-        .insert([{ name, organization_id: organizationId }])
+        .insert([{ 
+          name, 
+          org_id: organizationId, 
+          user_id: user.id,
+          permissions: {},
+          instagram_status: 'disconnected'
+        }])
         .select()
         .single();
 
@@ -178,6 +187,50 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     }
   };
 
+  const processInstagramCode = async (code: string, businessId: string) => {
+    try {
+      // Update business status to connecting
+      await updateBusiness(businessId, { instagram_status: 'connecting' });
+
+      // Clean the code (remove last 2 characters if they are #_)
+      const cleanCode = code.endsWith('#_') ? code.slice(0, -2) : code;
+
+      // Send to N8N webhook
+      const response = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: cleanCode, business_id: businessId })
+      });
+
+      if (!response.ok) {
+        throw new Error(`N8N webhook failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Update business with Instagram data
+        await updateBusiness(businessId, {
+          instagram_username: result.username,
+          instagram_account_id: result.account_id,
+          instagram_status: 'connected'
+        });
+        return { error: null };
+      } else {
+        // Update status to error
+        await updateBusiness(businessId, { instagram_status: 'error' });
+        return { error: { message: result.error || 'Instagram connection failed' } };
+      }
+    } catch (error: any) {
+      console.error('Error processing Instagram code:', error);
+      // Update status to error
+      await updateBusiness(businessId, { instagram_status: 'error' });
+      return { error };
+    }
+  };
+
   const setCurrentBusiness = (business: Business | null) => {
     setDashboardState(prev => ({
       ...prev,
@@ -206,7 +259,8 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     updateBusiness,
     refreshBusinessData,
     setCurrentBusiness,
-    fetchOrganizationData
+    fetchOrganizationData,
+    processInstagramCode
   };
 
   return (

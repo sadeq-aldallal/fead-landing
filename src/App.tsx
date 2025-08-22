@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { DashboardProvider } from './contexts/DashboardContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { Navigation } from './components/layout/Navigation';
 import { HeroSection } from './components/sections/HeroSection';
@@ -11,16 +12,26 @@ import { SolutionSection } from './components/sections/SolutionSection';
 import { Footer } from './components/sections/Footer';
 import { AuthModal } from './components/auth/AuthModal';
 import { ContactModal } from './components/modals/ContactModal';
-import { Dashboard } from './components/dashboard/Dashboard';
+import { DashboardLayout } from './components/dashboard/DashboardLayout';
+import { OrganizationView } from './components/dashboard/OrganizationView';
+import { BusinessView } from './components/dashboard/BusinessView';
+import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { PrivacyPolicy } from './components/pages/PrivacyPolicy';
+import { TermsAndConditions } from './components/pages/TermsAndConditions';
+import { AccountDeletionPolicy } from './components/pages/AccountDeletionPolicy';
+import { useDashboard } from './contexts/DashboardContext';
 
 const AppContent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>('home');
+  const [dashboardView, setDashboardView] = useState<'organization' | 'business'>('organization');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showOrganizationModal, setShowOrganizationModal] = useState(false);
   const { user, loading, initialized } = useAuth();
+  const { organization, loading: dashboardLoading } = useDashboard();
 
   // Auto-redirect to dashboard when user logs in
   useEffect(() => {
@@ -31,6 +42,12 @@ const AppContent: React.FC = () => {
     }
   }, [user, currentPage]);
 
+  // Check for organization and show modal if needed
+  useEffect(() => {
+    if (user && currentPage === 'dashboard' && !dashboardLoading && !organization) {
+      setShowOrganizationModal(true);
+    }
+  }, [user, currentPage, dashboardLoading, organization]);
   const handleLoginClick = () => {
     setAuthModalMode('signin');
     setShowAuthModal(true);
@@ -50,6 +67,18 @@ const AppContent: React.FC = () => {
     );
   }
 
+  // Show legal pages (not protected)
+  if (currentPage === 'privacy-policy') {
+    return <PrivacyPolicy />;
+  }
+
+  if (currentPage === 'terms-and-conditions') {
+    return <TermsAndConditions />;
+  }
+
+  if (currentPage === 'account-deletion-policy') {
+    return <AccountDeletionPolicy />;
+  }
   // Show user profile
   if (currentPage === 'profile') {
     return (
@@ -71,17 +100,27 @@ const AppContent: React.FC = () => {
   if (currentPage === 'dashboard' && user) {
     return (
       <ProtectedRoute>
-        <div className="dark-gradient-bg min-h-screen">
-          <Navigation 
-            onLoginClick={handleLoginClick}
-            onSignupClick={handleSignupClick}
-            onDashboardClick={() => setCurrentPage('dashboard')}
-            onProfileClick={() => setCurrentPage('profile')}
-            onHomeClick={() => setCurrentPage('home')}
-            currentPage={currentPage}
-          />
-          <Dashboard onBack={() => setCurrentPage('home')} />
-        </div>
+        <DashboardLayout
+          currentView={dashboardView}
+          onViewChange={setDashboardView}
+          breadcrumbs={[
+            { label: 'Dashboard', href: '#' },
+            { label: dashboardView === 'organization' ? 'Organization' : 'Business', current: true }
+          ]}
+        >
+          {dashboardView === 'organization' ? <OrganizationView /> : <BusinessView />}
+        </DashboardLayout>
+        
+        <OrganizationModal
+          isOpen={showOrganizationModal}
+          onClose={() => {
+            setShowOrganizationModal(false);
+            // If user closes modal without creating org, redirect to home
+            if (!organization) {
+              setCurrentPage('home');
+            }
+          }}
+        />
       </ProtectedRoute>
     );
   }
@@ -105,7 +144,11 @@ const AppContent: React.FC = () => {
       <PainPointsSection />
       <SolutionSection />
       <AboutSection />
-      <Footer />
+      <Footer 
+        onPrivacyClick={() => setCurrentPage('privacy-policy')}
+        onTermsClick={() => setCurrentPage('terms-and-conditions')}
+        onAccountDeletionClick={() => setCurrentPage('account-deletion-policy')}
+      />
       
       <AuthModal 
         isOpen={showAuthModal} 
@@ -124,9 +167,11 @@ const AppContent: React.FC = () => {
 function App() {
   return (
     <AuthProvider>
-      <LanguageProvider>
-        <AppContent />
-      </LanguageProvider>
+      <DashboardProvider>
+        <LanguageProvider>
+          <AppContent />
+        </LanguageProvider>
+      </DashboardProvider>
     </AuthProvider>
   );
 }

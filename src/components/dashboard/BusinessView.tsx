@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { Button } from '../ui/Button';
 
 export const BusinessView: React.FC = () => {
-  const { currentBusiness, updateBusiness, refreshBusinessData } = useDashboard();
+  const { currentBusiness, refreshBusinessData, processInstagramCode } = useDashboard();
   const [showInstagramModal, setShowInstagramModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -31,23 +31,21 @@ export const BusinessView: React.FC = () => {
     setSuccess('');
 
     try {
-      const { error: updateError } = await updateBusiness(currentBusiness.id, {
-        instagram_code: code
-      });
+      const { error: processError } = await processInstagramCode(code, currentBusiness.id);
 
-      if (updateError) {
-        throw new Error(updateError.message);
+      if (processError) {
+        throw new Error(processError.message);
       }
 
-      setSuccess('Instagram code received! Processing your account...');
+      setSuccess('Instagram account connected successfully!');
       
-      // Wait a moment then try to refresh data
+      // Refresh data after a short delay
       setTimeout(() => {
         handleRefreshInstagramData();
       }, 2000);
 
     } catch (err: any) {
-      setError(err.message || 'Failed to store Instagram code. Please try again.');
+      setError(err.message || 'Failed to connect Instagram account. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -100,8 +98,9 @@ export const BusinessView: React.FC = () => {
     );
   }
 
-  const hasInstagramAccount = currentBusiness.instagram_username && currentBusiness.instagram_account_id;
-  const hasInstagramCode = currentBusiness.instagram_code;
+  const isConnected = currentBusiness.instagram_status === 'connected';
+  const isConnecting = currentBusiness.instagram_status === 'connecting';
+  const hasError = currentBusiness.instagram_status === 'error';
 
   return (
     <div className="space-y-8">
@@ -137,14 +136,12 @@ export const BusinessView: React.FC = () => {
           <h2 className="business-card-title">Instagram Integration</h2>
         </div>
 
-        {hasInstagramAccount ? (
+        {isConnected ? (
           /* Connected State */
           <div className="instagram-account-card">
-            <img
-              src={currentBusiness.instagram_profile_photo || 'https://via.placeholder.com/80'}
-              alt={`@${currentBusiness.instagram_username}`}
-              className="instagram-profile-photo"
-            />
+            <div className="w-20 h-20 bg-pink-500/20 rounded-full flex items-center justify-center">
+              <Instagram size={40} className="text-pink-400" />
+            </div>
             <div className="instagram-account-info flex-1">
               <h3>@{currentBusiness.instagram_username}</h3>
               <p>Account ID: {currentBusiness.instagram_account_id}</p>
@@ -170,12 +167,12 @@ export const BusinessView: React.FC = () => {
               </Button>
             </div>
           </div>
-        ) : hasInstagramCode ? (
-          /* Processing State */
+        ) : isConnecting ? (
+          /* Connecting State */
           <div className="instagram-connection">
             <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
-                <RefreshCw size={32} className="text-green-400 animate-spin" />
+              <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center">
+                <RefreshCw size={32} className="text-yellow-400 animate-spin" />
               </div>
             </div>
             <h3 className="text-xl font-semibold text-white mb-4">Processing Instagram Connection</h3>
@@ -192,6 +189,35 @@ export const BusinessView: React.FC = () => {
               <span>Check Status</span>
             </Button>
           </div>
+        ) : hasError ? (
+          /* Error State */
+          <div className="instagram-connection">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
+                <AlertCircle size={32} className="text-red-400" />
+              </div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-4">Connection Failed</h3>
+            <p className="text-white/70 mb-6">
+              We apologize, but we couldn't connect your Instagram account. Please try again or contact support if the problem persists.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => setShowInstagramModal(true)}
+                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+              >
+                <Instagram size={20} />
+                <span>Try Again</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="flex items-center space-x-2"
+              >
+                <HelpCircle size={20} />
+                <span>Get Help</span>
+              </Button>
+            </div>
+          </div>
         ) : (
           /* Not Connected State */
           <div className="instagram-connection">
@@ -207,7 +233,7 @@ export const BusinessView: React.FC = () => {
             <div className="space-y-4">
               <Button
                 onClick={() => setShowInstagramModal(true)}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
               >
                 <Instagram size={20} />
                 <span>Connect Instagram</span>
@@ -229,6 +255,28 @@ export const BusinessView: React.FC = () => {
           <div>
             <label className="form-label">Business Name</label>
             <p className="text-white">{currentBusiness.name}</p>
+          </div>
+          <div>
+            <label className="form-label">Status</label>
+            <div className="flex items-center space-x-2">
+              <div className={`w-2 h-2 rounded-full ${
+                currentBusiness.instagram_status === 'connected' ? 'bg-green-400' :
+                currentBusiness.instagram_status === 'connecting' ? 'bg-yellow-400' :
+                currentBusiness.instagram_status === 'error' ? 'bg-red-400' :
+                'bg-gray-400'
+              }`}></div>
+              <span className={`text-sm ${
+                currentBusiness.instagram_status === 'connected' ? 'status-connected' :
+                currentBusiness.instagram_status === 'connecting' ? 'status-connecting' :
+                currentBusiness.instagram_status === 'error' ? 'status-error' :
+                'status-disconnected'
+              }`}>
+                {currentBusiness.instagram_status === 'connected' ? 'Instagram Connected' :
+                 currentBusiness.instagram_status === 'connecting' ? 'Connecting to Instagram...' :
+                 currentBusiness.instagram_status === 'error' ? 'Instagram Connection Error' :
+                 'Instagram Not Connected'}
+              </span>
+            </div>
           </div>
           <div>
             <label className="form-label">Created</label>

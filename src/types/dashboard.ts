@@ -12,12 +12,13 @@ export interface Organization {
 export interface Business {
   id: string;
   name: string;
-  photo_url?: string;
-  organization_id: string;
-  instagram_code?: string;
+  org_id: string;
+  user_id: string;
+  permissions: Record<string, any>;
+  token_expire?: string;
   instagram_username?: string;
   instagram_account_id?: string;
-  instagram_profile_photo?: string;
+  instagram_status: 'disconnected' | 'connecting' | 'connected' | 'error';
   created_at: string;
   updated_at: string;
 }
@@ -40,4 +41,11 @@ export interface BreadcrumbItem {
   label: string;
   href?: string;
   current?: boolean;
+}
+
+export interface InstagramOAuthResponse {
+  success: boolean;
+  username?: string;
+  account_id?: string;
+  error?: string;
 }

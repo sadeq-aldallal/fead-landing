@@ -30,7 +30,7 @@ export const OrganizationView: React.FC = () => {
         {businesses.length > 0 && (
           <Button
             onClick={() => setShowBusinessModal(true)}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
           >
             <Plus size={20} />
             <span>Add Business</span>
@@ -86,13 +86,6 @@ export const OrganizationView: React.FC = () => {
               <div key={business.id} className="business-card">
                 <div className="business-card-header">
                   <h3 className="business-card-title">{business.name}</h3>
-                  {business.photo_url && (
-                    <img
-                      src={business.photo_url}
-                      alt={business.name}
-                      className="business-card-photo"
-                    />
-                  )}
                 </div>
                 <div className="space-y-2">
                   <p className="text-white/70 text-sm">
@@ -103,6 +96,25 @@ export const OrganizationView: React.FC = () => {
                       Instagram: @{business.instagram_username}
                     </p>
                   )}
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      business.instagram_status === 'connected' ? 'bg-green-400' :
+                      business.instagram_status === 'connecting' ? 'bg-yellow-400' :
+                      business.instagram_status === 'error' ? 'bg-red-400' :
+                      'bg-gray-400'
+                    }`}></div>
+                    <span className={`text-xs ${
+                      business.instagram_status === 'connected' ? 'status-connected' :
+                      business.instagram_status === 'connecting' ? 'status-connecting' :
+                      business.instagram_status === 'error' ? 'status-error' :
+                      'status-disconnected'
+                    }`}>
+                      {business.instagram_status === 'connected' ? 'Connected' :
+                       business.instagram_status === 'connecting' ? 'Connecting...' :
+                       business.instagram_status === 'error' ? 'Connection Error' :
+                       'Not Connected'}
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-4">
                   <Button

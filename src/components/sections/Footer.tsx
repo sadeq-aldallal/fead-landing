@@ -4,7 +4,17 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onPrivacyClick?: () => void;
+  onTermsClick?: () => void;
+  onAccountDeletionClick?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ 
+  onPrivacyClick, 
+  onTermsClick, 
+  onAccountDeletionClick 
+}) => {
   const { t, isRTL } = useLanguage();
   const [showContactModal, setShowContactModal] = useState(false);
   const [contactForm, setContactForm] = useState({
@@ -113,6 +123,24 @@ export const Footer: React.FC = () => {
               © 2025 fead.app. {t('footer.rights')}.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
+              <button 
+                onClick={onPrivacyClick}
+                className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+              >
+                Privacy Policy
+              </button>
+              <button 
+                onClick={onTermsClick}
+                className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+              >
+                Terms of Service
+              </button>
+              <button 
+                onClick={onAccountDeletionClick}
+                className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+              >
+                Account Deletion
+              </button>
               <a href="#" className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}>
                 {t('footer.privacy')}
               </a>
