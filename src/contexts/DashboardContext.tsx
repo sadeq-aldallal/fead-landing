@@ -307,58 +307,6 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     }));
   };
 
-  // Centralized Instagram OAuth callback handling
-  useEffect(() => {
-    const handleInstagramCallback = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
-      const error = urlParams.get('error');
-      const errorReason = urlParams.get('error_reason');
-      const errorDescription = urlParams.get('error_description');
-      
-      // Handle OAuth errors - check for disconnection intent
-      if (error === 'access_denied' && errorReason === 'user_denied') {
-        // This is likely a disconnection attempt
-        const disconnectingBusinessId = localStorage.getItem('disconnecting_business_id');
-        if (disconnectingBusinessId) {
-          console.log('Processing Instagram disconnection for business:', disconnectingBusinessId);
-          
-          try {
-            // Update business to disconnected status
-            const { error: updateError } = await updateBusiness(disconnectingBusinessId, {
-              instagram_status: 'disconnected',
-              instagram_username: null,
-              instagram_account_id: null,
-              access_token: null,
-              token_expire: null,
-              is_webhook_subscribed: false
-            });
-            
-            if (updateError) {
-              console.error('Error disconnecting Instagram:', updateError);
-            } else {
-              console.log('Instagram account disconnected successfully');
-            }
-          } catch (error) {
-            console.error('Error processing disconnection:', error);
-          } finally {
-            // Clean up
-            localStorage.removeItem('disconnecting_business_id');
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // Ensure we're on the dashboard business view
-            setCurrentPage('dashboard');
-            setDashboardView('business');
-          }
-        }
-        return;
-      } else if (error) {
-        console.error('Instagram OAuth Error:', { error, errorDescription });
-        // Clean URL and show error (you might want to show a toast/modal here)
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return;
-      }
-
   useEffect(() => {
     if (user) {
       fetchOrganizationData();
