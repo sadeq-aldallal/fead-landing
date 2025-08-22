@@ -238,14 +238,15 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       if (!webhookResponse.ok) {
         const errorText = await webhookResponse.text();
         console.error('DashboardContext: Webhook error response:', errorText);
-        throw new Error(`Webhook request failed: ${webhookResponse.status} - ${errorText}`);
+        throw new Error(`Webhook request failed: ${webhookResponse.status} - ${errorText}. Make sure your n8n workflow is ACTIVE (not in test mode).`);
       }
 
       const webhookResult = await webhookResponse.json();
       console.log('DashboardContext: Webhook result:', webhookResult);
 
-      if (webhookResult.status !== 'created') {
-        throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}`);
+      // Check for success in the response
+      if (!webhookResult.success && webhookResult.status !== 'created') {
+        throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}. Check if n8n workflow is active.`);
       }
 
       // Poll for connection status
