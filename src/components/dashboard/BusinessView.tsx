@@ -11,10 +11,30 @@ export const BusinessView: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isProcessingConnection, setIsProcessingConnection] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [showCountdown, setShowCountdown] = useState(false);
   
   // Check if we're currently processing OAuth (business status is 'connecting')
   const isProcessingOAuth = currentBusiness?.instagram_status === 'connecting';
 
+  // Countdown effect
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (showCountdown && countdown > 0) {
+      interval = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+    } else if (showCountdown && countdown === 0) {
+      setShowCountdown(false);
+    }
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [showCountdown, countdown]);
   const handleInstagramConnect = () => {
     const clientId = '1292743865568326';
     const redirectUri = 'https://fead.app/';
@@ -37,6 +57,8 @@ export const BusinessView: React.FC = () => {
       setSuccess('Hooray! Your Instagram account has successfully connected');
       setIsProcessingConnection(false);
       setError('');
+      setShowCountdown(false);
+      setCountdown(0);
     }
   }, [currentBusiness, isProcessingConnection]);
 
@@ -66,6 +88,25 @@ export const BusinessView: React.FC = () => {
     }
   };
 
+  const startCountdownAndRefresh = async () => {
+    setShowCountdown(true);
+    setCountdown(10);
+    
+    // Wait for countdown to complete
+    await new Promise(resolve => {
+      const checkCountdown = () => {
+        if (countdown === 0 && !showCountdown) {
+          resolve(void 0);
+        } else {
+          setTimeout(checkCountdown, 100);
+        }
+      };
+      checkCountdown();
+    });
+    
+    // Refresh data after countdown
+    await handleRefreshInstagramData();
+  };
   if (!currentBusiness) {
     return (
       <div className="text-center py-12">
@@ -172,14 +213,35 @@ export const BusinessView: React.FC = () => {
             <p className="text-white/70 mb-6">
               We're setting up your Instagram account. This usually takes a few moments.
             </p>
+            
+            {/* Countdown Display */}
+            {showCountdown && (
+              <div className="mb-6">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center border-4 border-blue-400/30">
+                    <span className="text-3xl font-bold text-blue-400">{countdown}</span>
+                  </div>
+                </div>
+                <p className="text-blue-400 text-center font-medium">
+                  Checking connection status in {countdown} second{countdown !== 1 ? 's' : ''}...
+                </p>
+                <div className="mt-4 bg-blue-500/10 rounded-full h-2 overflow-hidden">
+                  <div 
+                    className="bg-blue-400 h-full transition-all duration-1000 ease-linear"
+                    style={{ width: `${((10 - countdown) / 10) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
+            
             <Button
-              onClick={handleRefreshInstagramData}
-              disabled={loading}
+              onClick={showCountdown ? undefined : startCountdownAndRefresh}
+              disabled={loading || showCountdown}
               variant="outline"
               className="flex items-center space-x-2"
             >
-              <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-              <span>Check Status</span>
+              <RefreshCw size={16} className={loading || showCountdown ? 'animate-spin' : ''} />
+              <span>{showCountdown ? 'Checking...' : 'Check Status'}</span>
             </Button>
           </div>
         ) : isPending || isProcessingConnection ? (
@@ -199,6 +261,27 @@ export const BusinessView: React.FC = () => {
                 ? 'We\'re finalizing your Instagram connection and setting up webhooks. This may take a few moments...'
                 : 'We\'re processing your Instagram authorization. Please wait while we establish the connection.'}
             </p>
+            
+            {/* Countdown Display for Processing */}
+            {showCountdown && isProcessingConnection && (
+              <div className="mb-6">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center border-4 border-orange-400/30">
+                    <span className="text-3xl font-bold text-orange-400">{countdown}</span>
+                  </div>
+                </div>
+                <p className="text-orange-400 text-center font-medium">
+                  Finalizing connection in {countdown} second{countdown !== 1 ? 's' : ''}...
+                </p>
+                <div className="mt-4 bg-orange-500/10 rounded-full h-2 overflow-hidden">
+                  <div 
+                    className="bg-orange-400 h-full transition-all duration-1000 ease-linear"
+                    style={{ width: `${((10 - countdown) / 10) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
+            
             <div className="flex items-center justify-center space-x-2 text-orange-400">
               <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
               <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
