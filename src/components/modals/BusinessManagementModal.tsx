@@ -134,17 +134,43 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
     setError('');
 
     try {
-      // Store business ID for handling the redirect
-      localStorage.setItem('disconnecting_business_id', business.id);
-      
-      // Redirect to Instagram authorization with empty scope to trigger cancellation
-      const clientId = '1292743865568326';
-      const redirectUri = 'https://fead.app/';
-      const cancelUrl = `https://www.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=`;
-      
-      window.location.href = cancelUrl;
+      // Call your n8n webhook to handle Instagram disconnection
+      const disconnectResponse = await fetch('https://fead.app.n8n.cloud/webhook/instagram-disconnect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          business_id: business.id,
+          instagram_account_id: business.instagram_account_id,
+          action: 'disconnect'
+        })
+      });
+
+      if (!disconnectResponse.ok) {
+        throw new Error('Failed to disconnect Instagram account');
+      }
+
+      // Update the business status locally
+      const { error: updateError } = await updateBusiness(business.id, {
+        instagram_status: 'disconnected',
+        instagram_username: null,
+        instagram_account_id: null,
+        access_token: null,
+        is_webhook_subscribed: false
+      });
+
+      if (updateError) {
+        throw new Error('Failed to update business status');
+      }
+
+      setSuccess('Instagram account disconnected successfully');
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     } catch (error) {
       setError('Failed to initiate Instagram disconnection');
+    } finally {
       setDisconnectLoading(false);
     }
   };
