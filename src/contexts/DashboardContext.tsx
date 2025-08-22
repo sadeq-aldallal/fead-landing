@@ -210,7 +210,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
   const processInstagramCode = async (code: string, businessId: string) => {
     try {
       console.log('DashboardContext: Processing Instagram OAuth callback:', {
-        code: code.substring(0, 10) + '...',
+        code: code,
         businessId,
         businessName: dashboardState.businesses.find(b => b.id === businessId)?.name
       });
