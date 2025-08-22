@@ -150,7 +150,8 @@ export const OrganizationView: React.FC = () => {
                   {business.instagram_status === 'connected' ? (
                     <Button
                       onClick={() => handleManageBusiness(business)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                     variant="outline"
+                     className="w-full"
                       size="sm"
                     >
                       Manage
