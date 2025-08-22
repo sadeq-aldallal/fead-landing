@@ -50,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="flex space-x-3">
                 {/* Facebook */}
                 <a 
-                  href="https://www.facebook.com/profile.php?id=61570444176973"
+                  href="https://www.facebook.com/profile.php?id=61570444176973" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-white/60 hover:text-[var(--brand-green)] transition-colors duration-200"

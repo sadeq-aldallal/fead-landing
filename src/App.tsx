@@ -184,7 +184,6 @@ const AppContent: React.FC = () => {
   const handleNavigateToLegalPage = (page: 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy') => {
     setCurrentPage(page);
   };
-
   // Show loading while auth is initializing
   if (!initialized || loading) {
     return (
@@ -242,7 +241,6 @@ const AppContent: React.FC = () => {
       </div>
     );
   }
-
   // Show user profile
   if (currentPage === 'profile') {
     return (
