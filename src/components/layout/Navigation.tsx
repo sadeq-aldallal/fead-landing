@@ -103,14 +103,6 @@ export const Navigation: React.FC<NavigationProps> = ({
             {/* Desktop Right Section - Hidden on mobile */}
             <div className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
               
-              {/* Centered Logo */}
-              <div className="flex items-center">
-                <img 
-                  src="/fead.app_logo.png" 
-                  alt="fead.app" 
-                  className="h-8 w-auto"
-                />
-              </div>
             </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
