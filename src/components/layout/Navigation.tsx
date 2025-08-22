@@ -103,75 +103,14 @@ export const Navigation: React.FC<NavigationProps> = ({
             {/* Desktop Right Section - Hidden on mobile */}
             <div className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
               
-              {/* Login Button */}
-              {!user && !isDashboard && (
-                <Button
-                  variant="outline"
-                  size="md"
-                  onClick={onLoginClick}
-                  className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
-                >
-                  {t('nav.login')}
-                </Button>
-              )}
-              
-              {/* User Menu or Sign Up Button */}
-              {user ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    className={`flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg ${isDashboard ? 'bg-white/10 border border-[var(--brand-green)]/30' : 'glass-card'}`}
-                  >
-                    <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
-                      <span className="text-[var(--brand-green)] text-sm font-medium">
-                        {user.email?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  </button>
-                  
-                  {showUserDropdown && (
-                    <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
-                      {!isDashboard && (
-                        <button
-                          onClick={() => {
-                            onDashboardClick?.();
-                            setShowUserDropdown(false);
-                          }}
-                          className="dropdown-menu-item text-left w-full"
-                        >
-                          {t('nav.dashboard')}
-                        </button>
-                      )}
-                      {isDashboard && (
-                        <button
-                          onClick={() => {
-                            onProfileClick?.();
-                            setShowUserDropdown(false);
-                          }}
-                          className="dropdown-menu-item text-left w-full"
-                        >
-                          Profile
-                        </button>
-                      )}
-                      <hr className="border-white/10 my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="dropdown-menu-item text-left w-full text-red-400"
-                      >
-                        {t('nav.logout')}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (!isDashboard && (
-                <Button 
-                  onClick={onSignupClick}
-                  size="md"
-                  className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  {t('nav.signup')}
-                </Button>
-              ))}
+              {/* Centered Logo */}
+              <div className="flex items-center">
+                <img 
+                  src="/fead.app_logo.png" 
+                  alt="fead.app" 
+                  className="h-8 w-auto"
+                />
+              </div>
             </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
