@@ -14,14 +14,36 @@ export const BusinessView: React.FC = () => {
 
   // Check for Instagram OAuth code in URL
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
+    const checkForOAuthCode = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const error = urlParams.get('error');
+      const errorDescription = urlParams.get('error_description');
+      
+      // Handle OAuth errors
+      if (error) {
+        setError(`Instagram OAuth Error: ${error}${errorDescription ? ` - ${errorDescription}` : ''}`);
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      }
+      
+      if (code && currentBusiness) {
+        console.log('Instagram OAuth code detected:', code);
+        console.log('Current business:', currentBusiness.id);
+        handleInstagramOAuthCallback(code);
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
     
-    if (code && currentBusiness) {
-      handleInstagramOAuthCallback(code);
-      // Clean up URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
+    // Check immediately
+    checkForOAuthCode();
+    
+    // Also check when the component mounts or currentBusiness changes
+    const timeoutId = setTimeout(checkForOAuthCode, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [currentBusiness]);
 
   const handleInstagramOAuthCallback = async (code: string) => {

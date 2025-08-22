@@ -29,6 +29,34 @@ const AppContent: React.FC = () => {
   const [showOrganizationModal, setShowOrganizationModal] = useState(false);
   const { user, loading, initialized } = useAuth();
   const { organization, loading: dashboardLoading } = useDashboard();
+  
+  // Handle Instagram OAuth callback on any page
+  useEffect(() => {
+    const handleInstagramCallback = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const error = urlParams.get('error');
+      
+      if (code || error) {
+        console.log('Instagram OAuth callback detected:', { code: !!code, error });
+        
+        // If user is authenticated and has organization, redirect to business view
+        if (user && organization) {
+          setCurrentPage('dashboard');
+          setDashboardView('business');
+          // Don't clean URL here - let BusinessView handle it
+        } else if (user) {
+          // User exists but no organization, redirect to dashboard
+          setCurrentPage('dashboard');
+        } else {
+          // No user, clean URL and stay on home
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    };
+    
+    handleInstagramCallback();
+  }, [user, organization]);
 
   // Handle URL-based routing for legal pages
   useEffect(() => {

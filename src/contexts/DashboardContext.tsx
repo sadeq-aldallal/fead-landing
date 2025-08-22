@@ -165,6 +165,23 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       return { error };
     }
   };
+  const getCurrentBusiness = async () => {
+    if (!currentBusiness) return null;
+    
+    try {
+      const { data: businessData, error } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('id', currentBusiness.id)
+        .single();
+
+      if (error) throw error;
+      return businessData;
+    } catch (error) {
+      console.error('Error getting current business:', error);
+      return null;
+    }
+  };
 
   const refreshBusinessData = async (businessId: string) => {
     try {
@@ -177,29 +194,56 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       if (error) throw error;
 
       setDashboardState(prev => ({
-        ...prev,
+        const errorText = await webhookResponse.text();
+        console.error('Webhook error response:', errorText);
+        throw new Error(`Webhook request failed: ${webhookResponse.status} - ${errorText}`);
         businesses: prev.businesses.map(b => b.id === businessId ? businessData : b),
         currentBusiness: prev.currentBusiness?.id === businessId ? businessData : prev.currentBusiness
       }));
+      console.log('Webhook result:', webhookResult);
 
       return { error: null };
-    } catch (error: any) {
+        throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}`);
       console.error('Error refreshing business data:', error);
+    console.log('Processing Instagram OAuth callback:', {
+      code: code.substring(0, 10) + '...',
+      businessId: currentBusiness.id,
+      // Update business status to connecting
+      await updateBusiness(currentBusiness.id, { instagram_status: 'connecting' });
+      
+      businessName: currentBusiness.name
+    });
+
       return { error };
     }
   };
 
+        console.log(`Polling attempt ${attempts}/${maxAttempts}`);
   const processInstagramCode = async (code: string, businessId: string) => {
     try {
+      console.log('Sending code to n8n webhook...');
+      
       // Send code directly to N8N webhook
       const response = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
         method: 'POST',
+        // Get updated business data
+        const updatedBusiness = await getCurrentBusiness();
+        
         headers: {
-          'Content-Type': 'application/json',
+        if (updatedBusiness?.instagram_status === 'connected' && updatedBusiness?.instagram_username) {
+          console.log('Instagram connection successful!');
         },
-        body: JSON.stringify({ code, business_id: businessId })
+        body: JSON.stringify({ 
+          code,
+          business_id: currentBusiness.id,
+          business_name: currentBusiness.name
+        })
       });
+          console.log('Connection not ready, continuing to poll...');
 
+      console.log('Webhook response status:', webhookResponse.status);
+          console.log('Polling timeout reached');
+      
       if (!response.ok) {
         throw new Error(`Webhook request failed: ${response.status}`);
       }

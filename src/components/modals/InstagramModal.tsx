@@ -14,6 +14,7 @@ export const InstagramModal: React.FC<InstagramModalProps> = ({ isOpen, onClose,
 
   const handleConnect = () => {
     if (acceptedTerms && confirmedProfessional) {
+      console.log('Instagram connection initiated');
       onConnect();
     }
   };
