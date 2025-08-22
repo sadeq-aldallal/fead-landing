@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle } from 'lucide-react';
+import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle, Clock } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { Button } from '../ui/Button';
@@ -10,6 +10,7 @@ export const BusinessView: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isProcessingOAuth, setIsProcessingOAuth] = useState(false);
 
   // Check for Instagram OAuth code in URL
   useEffect(() => {
@@ -17,37 +18,82 @@ export const BusinessView: React.FC = () => {
     const code = urlParams.get('code');
     
     if (code && currentBusiness) {
-      handleInstagramCode(code);
+      handleInstagramOAuthCallback(code);
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, [currentBusiness]);
 
-  const handleInstagramCode = async (code: string) => {
+  const handleInstagramOAuthCallback = async (code: string) => {
     if (!currentBusiness) return;
 
-    setLoading(true);
+    setIsProcessingOAuth(true);
+    setLoading(false);
     setError('');
     setSuccess('');
 
     try {
-      const { error: processError } = await processInstagramCode(code, currentBusiness.id);
+      // Send code to n8n webhook
+      const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code })
+      });
 
-      if (processError) {
-        throw new Error(processError.message);
+      if (!webhookResponse.ok) {
+        throw new Error(`Webhook request failed: ${webhookResponse.status}`);
       }
 
-      setSuccess('Instagram account connected successfully!');
+      const webhookResult = await webhookResponse.json();
       
-      // Refresh data after a short delay
+      if (webhookResult.status !== 'created') {
+        throw new Error('Unexpected webhook response');
+      }
+
+      setSuccess('Instagram OAuth processed successfully! Checking connection status...');
+      
+      // Poll for connection status updates
+      let attempts = 0;
+      const maxAttempts = 10;
+      const pollInterval = 2000; // 2 seconds
+
+      const pollForConnection = async () => {
+        attempts++;
+        
+        const { error: refreshError } = await refreshBusinessData(currentBusiness.id);
+        
+        if (refreshError) {
+          console.error('Error refreshing business data:', refreshError);
+        }
+        
+        // Check if connection is established
+        if (currentBusiness.instagram_status === 'connected' && currentBusiness.instagram_username) {
+          setSuccess('Instagram account connected successfully!');
+          setIsProcessingOAuth(false);
+          return;
+        }
+        
+        // Continue polling if not connected yet and haven't exceeded max attempts
+        if (attempts < maxAttempts) {
+          setTimeout(pollForConnection, pollInterval);
+        } else {
+          setError('Connection timeout. Please refresh the page and try again.');
+          setIsProcessingOAuth(false);
+        }
+      };
+      
       setTimeout(() => {
-        handleRefreshInstagramData();
+        pollForConnection();
       }, 2000);
 
     } catch (err: any) {
-      setError(err.message || 'Failed to connect Instagram account. Please try again.');
+      console.error('Instagram OAuth error:', err);
+      setError(err.message || 'Failed to process Instagram connection. Please try again.');
+      setIsProcessingOAuth(false);
     } finally {
-      setLoading(false);
+      // Don't set loading to false here as we're still processing
     }
   };
 
@@ -101,6 +147,7 @@ export const BusinessView: React.FC = () => {
   const isConnected = currentBusiness.instagram_status === 'connected';
   const isConnecting = currentBusiness.instagram_status === 'connecting';
   const hasError = currentBusiness.instagram_status === 'error';
+  const isPending = isProcessingOAuth || isConnecting;
 
   return (
     <div className="space-y-8">
@@ -188,6 +235,25 @@ export const BusinessView: React.FC = () => {
               <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
               <span>Check Status</span>
             </Button>
+          </div>
+        ) : isPending ? (
+          /* OAuth Processing State */
+          <div className="instagram-connection">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center relative">
+                <Clock size={32} className="text-orange-400" />
+                <div className="absolute inset-0 rounded-full border-2 border-orange-400/30 animate-ping"></div>
+              </div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-4">Processing OAuth Connection</h3>
+            <p className="text-white/70 mb-6">
+              We're processing your Instagram authorization. Please wait while we establish the connection.
+            </p>
+            <div className="flex items-center justify-center space-x-2 text-orange-400">
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            </div>
           </div>
         ) : hasError ? (
           /* Error State */

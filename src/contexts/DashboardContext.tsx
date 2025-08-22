@@ -191,44 +191,28 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
 
   const processInstagramCode = async (code: string, businessId: string) => {
     try {
-      // Update business status to connecting
-      await updateBusiness(businessId, { instagram_status: 'connecting' });
-
-      // Clean the code (remove last 2 characters if they are #_)
-      const cleanCode = code.endsWith('#_') ? code.slice(0, -2) : code;
-
-      // Send to N8N webhook
+      // Send code directly to N8N webhook
       const response = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code: cleanCode, business_id: businessId })
+        body: JSON.stringify({ code, business_id: businessId })
       });
 
       if (!response.ok) {
-        throw new Error(`N8N webhook failed: ${response.status}`);
+        throw new Error(`Webhook request failed: ${response.status}`);
       }
 
       const result = await response.json();
 
-      if (result.success) {
-        // Update business with Instagram data
-        await updateBusiness(businessId, {
-          instagram_username: result.username,
-          instagram_account_id: result.account_id,
-          instagram_status: 'connected'
-        });
-        return { error: null };
-      } else {
-        // Update status to error
-        await updateBusiness(businessId, { instagram_status: 'error' });
-        return { error: { message: result.error || 'Instagram connection failed' } };
+      if (result.status !== 'created') {
+        throw new Error(result.error || 'Instagram connection failed');
       }
+
+      return { error: null };
     } catch (error: any) {
       console.error('Error processing Instagram code:', error);
-      // Update status to error
-      await updateBusiness(businessId, { instagram_status: 'error' });
       return { error };
     }
   };
