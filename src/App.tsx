@@ -196,7 +196,7 @@ const AppContent: React.FC = () => {
   // Show legal pages (not protected)
   if (currentPage === 'privacy-policy') {
     return (
-      <div className="dark-gradient-bg">
+      <div>
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -212,7 +212,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'terms-and-conditions') {
     return (
-      <div className="dark-gradient-bg">
+       <div>
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -228,7 +228,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'account-deletion-policy') {
     return (
-      <div className="dark-gradient-bg">
+       <div>
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}

@@ -2,7 +2,7 @@ import React from 'react';
 
 export const TermsAndConditions: React.FC = () => {
   return (
-    <div className="min-h-screen pt-20 pb-12">
+    <div className="min-h-screen pt-20 pb-12 section-gradient-2">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="glass-card p-8">
           <h1 className="text-4xl font-bold text-white mb-8">Terms and Conditions</h1>
@@ -44,7 +44,7 @@ export const TermsAndConditions: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">4. Instagram Integration</h2>
+              <h2 className="text-2xl font-semibent text-white mb-4">4. Instagram Integration</h2>
               <p>
                 To use our services, you must connect a professional Instagram account (Business or Creator). 
                 You acknowledge that your use of Instagram through our service is subject to Instagram's 
@@ -101,7 +101,7 @@ export const TermsAndConditions: React.FC = () => {
               <h2 className="text-2xl font-semibold text-white mb-4">10. Contact Information</h2>
               <p>
                 If you have any questions about these Terms and Conditions, please contact us at{' '}
-                <a href="mailto:legal@fead.app" className="text-green-400 hover:underline">
+                <a href="mailto:legal@fead.app" className="text-[var(--brand-green)] hover:underline">
                   legal@fead.app
                 </a>
               </p>
