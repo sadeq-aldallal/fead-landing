@@ -16,7 +16,7 @@ export const BusinessView: React.FC = () => {
 
   const handleInstagramConnect = () => {
     const clientId = '1292743865568326';
-    const redirectUri = 'https://www.fead.app/';
+    const redirectUri = 'https://fead.app';
     const scope = 'instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights';
     
     const authUrl = `https://www.instagram.com/oauth/authorize?force_reauth=true&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
