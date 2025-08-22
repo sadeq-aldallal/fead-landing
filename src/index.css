@@ -112,47 +112,40 @@ body {
 
 /* Dashboard Navigation - Glass white with green touch */
 .dashboard-nav {
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(15, 20, 25, 0.9);
   backdrop-filter: blur(25px);
-  border-bottom: 2px solid var(--border-accent);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1),
-              0 0 20px var(--brand-green-light);
+  border-bottom: 1px solid rgba(0, 212, 170, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Dashboard nav text colors */
 .dashboard-nav .nav-item {
-  color: var(--bg-primary);
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .dashboard-nav .nav-item:hover {
   color: var(--brand-green);
-  opacity: 1;
 }
 
 /* Dashboard dropdown menu */
 .dashboard-nav .dropdown-menu {
-  background: rgba(255, 255, 255, 0.98);
-  border: 1px solid var(--border-accent);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
-              0 0 16px var(--brand-green-light);
+  background: rgba(15, 20, 25, 0.98);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              0 0 16px rgba(0, 212, 170, 0.1);
 }
 
 .dashboard-nav .dropdown-menu-item {
-  color: var(--bg-primary);
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .dashboard-nav .dropdown-menu-item:hover {
-  background: var(--brand-green);
-  background-opacity: 0.1;
-  color: var(--bg-primary);
-  opacity: 0.9;
+  background: rgba(0, 212, 170, 0.1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .dashboard-nav .dropdown-menu-item.active {
-  background: var(--brand-green);
-  background-opacity: 0.15;
+  background: rgba(0, 212, 170, 0.15);
   color: var(--brand-green);
 }
 
