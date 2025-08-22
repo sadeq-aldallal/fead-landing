@@ -110,6 +110,9 @@ export const OrganizationView: React.FC = () => {
                   <p className="text-white/70 text-sm">
                     Created: {new Date(business.created_at).toLocaleDateString()}
                   </p>
+                  <p className="text-white/70 text-sm capitalize">
+                    Type: {business.type}
+                  </p>
                   {business.instagram_username && (
                     <p className="text-green-400 text-sm">
                       Instagram: @{business.instagram_username}

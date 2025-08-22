@@ -5,7 +5,7 @@ import { Organization, Business, DashboardState } from '../types/dashboard';
 
 interface DashboardContextType extends DashboardState {
   createOrganization: (data: Omit<Organization, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => Promise<{ error: any }>;
-  createBusiness: (name: string, organizationId: string) => Promise<{ error: any }>;
+  createBusiness: (name: string, organizationId: string, type?: 'retail' | 'service') => Promise<{ error: any }>;
   updateBusiness: (id: string, data: Partial<Business>) => Promise<{ error: any }>;
   refreshBusinessData: (businessId: string) => Promise<{ error: any }>;
   setCurrentBusiness: (business: Business | null) => void;
@@ -112,7 +112,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     }
   };
 
-  const createBusiness = async (name: string, organizationId: string) => {
+  const createBusiness = async (name: string, organizationId: string, type: 'retail' | 'service' = 'service') => {
     if (!user) return { error: { message: 'User not authenticated' } };
 
     try {
@@ -120,6 +120,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         .from('businesses')
         .insert([{ 
           name, 
+          type,
           org_id: organizationId, 
           user_id: user.id,
           permissions: {},

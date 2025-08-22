@@ -12,6 +12,7 @@ export interface Organization {
 export interface Business {
   id: string;
   name: string;
+  type: 'retail' | 'service';
   org_id: string;
   user_id: string;
   permissions: Record<string, any>;

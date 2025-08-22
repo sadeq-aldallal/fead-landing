@@ -356,6 +356,10 @@ export const BusinessView: React.FC = () => {
             <p className="text-white">{currentBusiness.name}</p>
           </div>
           <div>
+            <label className="form-label">Business Type</label>
+            <p className="text-white capitalize">{currentBusiness.type}</p>
+          </div>
+          <div>
             <label className="form-label">Status</label>
             <div className="flex items-center space-x-2">
               <div className={`w-2 h-2 rounded-full ${
