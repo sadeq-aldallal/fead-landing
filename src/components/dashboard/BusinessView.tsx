@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle, Clock } from 'lucide-react';
+import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle, Clock, PartyPopper } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { Button } from '../ui/Button';
@@ -10,6 +10,7 @@ export const BusinessView: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isProcessingConnection, setIsProcessingConnection] = useState(false);
   
   // Check if we're currently processing OAuth (business status is 'connecting')
   const isProcessingOAuth = currentBusiness?.instagram_status === 'connecting';
@@ -19,10 +20,25 @@ export const BusinessView: React.FC = () => {
     const redirectUri = 'https://fead.app/';
     const scope = 'instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights';
     
+    setIsProcessingConnection(true);
+    setError('');
+    setSuccess('');
+    
     const authUrl = `https://www.instagram.com/oauth/authorize?force_reauth=false&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
     
     window.location.href = authUrl;
   };
+
+  // Listen for successful Instagram connections
+  useEffect(() => {
+    if (currentBusiness?.instagram_status === 'connected' && 
+        currentBusiness?.is_webhook_subscribed === true && 
+        isProcessingConnection) {
+      setSuccess('Hooray! Your Instagram account has successfully connected');
+      setIsProcessingConnection(false);
+      setError('');
+    }
+  }, [currentBusiness, isProcessingConnection]);
 
   const handleRefreshInstagramData = async () => {
     if (!currentBusiness) return;
@@ -90,6 +106,18 @@ export const BusinessView: React.FC = () => {
       {success && (
         <div className="success-message flex items-center">
           <CheckCircle size={20} className="mr-2 flex-shrink-0" />
+          <div className="flex items-center">
+            {success.includes('Hooray') && (
+              <PartyPopper size={20} className="mr-2 text-green-400" />
+            )}
+            <p>{success}</p>
+          </div>
+        </div>
+      )}
+
+      {success && (
+        <div className="success-message flex items-center">
+          <CheckCircle size={20} className="mr-2 flex-shrink-0" />
           <p>{success}</p>
         </div>
       )}
@@ -135,8 +163,9 @@ export const BusinessView: React.FC = () => {
           /* Connecting State */
           <div className="instagram-connection">
             <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center relative">
                 <RefreshCw size={32} className="text-yellow-400 animate-spin" />
+                <div className="absolute inset-0 rounded-full border-2 border-yellow-400/30 animate-ping"></div>
               </div>
             </div>
             <h3 className="text-xl font-semibold text-white mb-4">Processing Instagram Connection</h3>
@@ -153,7 +182,7 @@ export const BusinessView: React.FC = () => {
               <span>Check Status</span>
             </Button>
           </div>
-        ) : isPending ? (
+        ) : isPending || isProcessingConnection ? (
           /* OAuth Processing State */
           <div className="instagram-connection">
             <div className="flex items-center justify-center mb-6">
@@ -162,9 +191,13 @@ export const BusinessView: React.FC = () => {
                 <div className="absolute inset-0 rounded-full border-2 border-orange-400/30 animate-ping"></div>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-white mb-4">Processing OAuth Connection</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">
+              {isProcessingConnection ? 'Finalizing Instagram Connection' : 'Processing OAuth Connection'}
+            </h3>
             <p className="text-white/70 mb-6">
-              We're processing your Instagram authorization. Please wait while we establish the connection.
+              {isProcessingConnection 
+                ? 'We\'re finalizing your Instagram connection and setting up webhooks. This may take a few moments...'
+                : 'We\'re processing your Instagram authorization. Please wait while we establish the connection.'}
             </p>
             <div className="flex items-center justify-center space-x-2 text-orange-400">
               <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>

@@ -19,6 +19,7 @@ export interface Business {
   instagram_username?: string;
   instagram_account_id?: string;
   instagram_status: 'disconnected' | 'connecting' | 'connected' | 'error';
+  is_webhook_subscribed?: boolean;
   created_at: string;
   updated_at: string;
 }

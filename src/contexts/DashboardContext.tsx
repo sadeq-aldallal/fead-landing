@@ -249,35 +249,44 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}. Check if n8n workflow is active.`);
       }
 
-      // Poll for connection status
-      const maxAttempts = 30;
-      let attempts = 0;
+      console.log('DashboardContext: Webhook request successful, implementing 10-second wait workaround...');
       
-      while (attempts < maxAttempts) {
-        attempts++;
-        console.log(`DashboardContext: Polling attempt ${attempts}/${maxAttempts}`);
-        
-        // Refresh business data
-        await refreshBusinessData(businessId);
-        
-        // Get the updated business from state
-        const updatedBusiness = dashboardState.businesses.find(b => b.id === businessId);
-        
-        if (updatedBusiness?.instagram_status === 'connected' && updatedBusiness?.instagram_username) {
-          console.log('DashboardContext: Instagram connection successful!');
-          break;
-        }
-        
-        if (attempts < maxAttempts) {
-          console.log('DashboardContext: Connection not ready, continuing to poll...');
-          await new Promise(resolve => setTimeout(resolve, 2000));
-        } else {
-          console.log('DashboardContext: Polling timeout reached');
-          // Update business status to error on timeout
-          await updateBusiness(businessId, { instagram_status: 'error' });
-        }
+      // Implement 10-second wait workaround
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      
+      console.log('DashboardContext: Wait period complete, refetching business data...');
+      
+      // Refetch business data to check connection status
+      const { data: businessData, error: fetchError } = await supabase
+        .from('businesses')
+        .select('id, name, instagram_status, instagram_username, instagram_account_id, is_webhook_subscribed')
+        .eq('id', businessId)
+        .single();
+
+      if (fetchError) {
+        console.error('DashboardContext: Error refetching business data:', fetchError);
+        throw new Error('Failed to verify Instagram connection status');
       }
 
+      console.log('DashboardContext: Refetched business data:', businessData);
+
+      // Update the business in state with refetched data
+      setDashboardState(prev => ({
+        ...prev,
+        businesses: prev.businesses.map(b => b.id === businessId ? businessData : b),
+        currentBusiness: prev.currentBusiness?.id === businessId ? businessData : prev.currentBusiness
+      }));
+
+      // Validate connection status
+      const isConnected = businessData.instagram_status === 'connected';
+      const isWebhookSubscribed = businessData.is_webhook_subscribed === true;
+
+      if (!isConnected || !isWebhookSubscribed) {
+        console.log('DashboardContext: Connection validation failed:', { isConnected, isWebhookSubscribed });
+        throw new Error('Instagram connection was not completed successfully. Please try again.');
+      }
+
+      console.log('DashboardContext: Instagram connection validation successful!');
       return { error: null };
     } catch (error: any) {
       console.error('DashboardContext: Error processing Instagram code:', error);
