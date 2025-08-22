@@ -21,6 +21,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
   const [newTester, setNewTester] = useState('');
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [disconnectLoading, setDisconnectLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -122,6 +123,31 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
     }
   };
 
+  const handleDisconnectInstagram = async () => {
+    const confirmMessage = `Are you sure you want to disconnect @${business.instagram_username}?\n\nThis will:\n• Stop all automated responses\n• Remove access to Instagram messages\n• Require reconnection to resume service\n\nThis action cannot be undone automatically.`;
+    
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    setDisconnectLoading(true);
+    setError('');
+
+    try {
+      // Store business ID for handling the redirect
+      localStorage.setItem('disconnecting_business_id', business.id);
+      
+      // Redirect to Instagram authorization with empty scope to trigger cancellation
+      const clientId = '1292743865568326';
+      const redirectUri = 'https://fead.app/';
+      const cancelUrl = `https://www.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=`;
+      
+      window.location.href = cancelUrl;
+    } catch (error) {
+      setError('Failed to initiate Instagram disconnection');
+      setDisconnectLoading(false);
+    }
+  };
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleAddTester();
@@ -136,7 +162,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
         <button
           onClick={onClose}
           className="modal-close"
-          disabled={loading || deleteLoading}
+          disabled={loading || deleteLoading || disconnectLoading}
         >
           <X size={24} />
         </button>
@@ -280,6 +306,25 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
             </div>
             
             <div className="space-y-4">
+              {/* Disconnect Instagram */}
+              {business.instagram_status === 'connected' && business.instagram_username && (
+                <div>
+                  <h4 className="text-white font-medium mb-2">Disconnect Instagram Account</h4>
+                  <p className="text-white/70 text-sm mb-4">
+                    Disconnect @{business.instagram_username} from this business. This will stop all automated responses 
+                    and remove access to Instagram messages. You can reconnect later if needed.
+                  </p>
+                  <Button
+                    onClick={handleDisconnectInstagram}
+                    loading={disconnectLoading}
+                    disabled={disconnectLoading}
+                    className="bg-orange-600 hover:bg-orange-700 text-white border-orange-600"
+                  >
+                    {disconnectLoading ? 'Disconnecting...' : 'Disconnect Instagram'}
+                  </Button>
+                </div>
+              )}
+
               <div>
                 <h4 className="text-white font-medium mb-2">Delete Business</h4>
                 <p className="text-white/70 text-sm mb-4">
