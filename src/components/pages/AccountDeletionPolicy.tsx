@@ -2,7 +2,7 @@ import React from 'react';
 
 export const AccountDeletionPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen pt-20 pb-12 section-gradient-3">
+    <div className="min-h-screen pt-20 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="glass-card p-8">
           <h1 className="text-4xl font-bold text-white mb-8">Account Deletion Policy</h1>
@@ -16,8 +16,8 @@ export const AccountDeletionPolicy: React.FC = () => {
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Through your account settings in the dashboard</li>
-                <li>By contacting our support team at <a href="mailto:support@fead.app" className="text-[var(--brand-green)] hover:underline">support@fead.app</a></li>
-                <li>By sending a deletion request to <a href="mailto:delete@fead.app" className="text-[var(--brand-green)] hover:underline">delete@fead.app</a></li>
+                <li>By contacting our support team at <a href="mailto:support@fead.app" className="text-green-400 hover:underline">support@fead.app</a></li>
+                <li>By sending a deletion request to <a href="mailto:delete@fead.app" className="text-green-400 hover:underline">delete@fead.app</a></li>
               </ul>
             </section>
 
@@ -103,8 +103,8 @@ export const AccountDeletionPolicy: React.FC = () => {
                 please contact us:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Email: <a href="mailto:support@fead.app" className="text-[var(--brand-green)] hover:underline">support@fead.app</a></li>
-                <li>Deletion requests: <a href="mailto:delete@fead.app" className="text-[var(--brand-green)] hover:underline">delete@fead.app</a></li>
+                <li>Email: <a href="mailto:support@fead.app" className="text-green-400 hover:underline">support@fead.app</a></li>
+                <li>Deletion requests: <a href="mailto:delete@fead.app" className="text-green-400 hover:underline">delete@fead.app</a></li>
               </ul>
             </section>
 

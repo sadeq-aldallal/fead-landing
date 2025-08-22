@@ -2,7 +2,7 @@ import React from 'react';
 
 export const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen pt-20 pb-12 section-gradient-1">
+    <div className="min-h-screen pt-20 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="glass-card p-8">
           <h1 className="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
@@ -82,7 +82,7 @@ export const PrivacyPolicy: React.FC = () => {
               <h2 className="text-2xl font-semibold text-white mb-4">7. Contact Us</h2>
               <p>
                 If you have any questions about this Privacy Policy, please contact us at{' '}
-                <a href="mailto:privacy@fead.app" className="text-[var(--brand-green)] hover:underline">
+                <a href="mailto:privacy@fead.app" className="text-green-400 hover:underline">
                   privacy@fead.app
                 </a>
               </p>

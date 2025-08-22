@@ -5,7 +5,7 @@ export const AboutSection: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   return (
-    <section className="section-gradient-3 section-tight-sm relative overflow-hidden">
+    <section className="dark-gradient-bg py-20 relative overflow-hidden">
       {/* Abstract shape for this section */}
       <div className="absolute bottom-10 right-10 abstract-shape opacity-30"></div>
       

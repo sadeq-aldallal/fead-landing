@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <>
-      <footer id="contact" className="glass-nav border-t border-white/10">
+      <footer id="contact" className="dark-gradient-bg border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Logo and Description */}
@@ -49,12 +49,7 @@ export const Footer: React.FC<FooterProps> = ({
               </p>
               <div className="flex space-x-3">
                 {/* Facebook */}
-                <a 
-                  href="https://www.facebook.com/profile.php?id=61570444176973" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-white/60 hover:text-[var(--brand-green)] transition-colors duration-200"
-                >
+                <a href="#" className="text-white/60 hover:text-[var(--brand-green)] transition-colors duration-200">
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
@@ -128,30 +123,24 @@ export const Footer: React.FC<FooterProps> = ({
               © 2025 fead.app. {t('footer.rights')}.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <a 
-                href="/privacy-policy" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => onPrivacyClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Privacy Policy
-              </a>
-              <a 
-                href="/terms-and-conditions" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              </button>
+              <button 
+                onClick={() => onTermsClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Terms of Service
-              </a>
-              <a 
-                href="/account-deletion-policy" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              </button>
+              <button 
+                onClick={() => onAccountDeletionClick?.()}
                 className={`text-white/60 hover:text-white text-sm transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
               >
                 Account Deletion
-              </a>
+              </button>
             </div>
           </div>
         </div>

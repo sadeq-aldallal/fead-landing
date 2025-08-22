@@ -18,9 +18,6 @@ import { BusinessView } from './components/dashboard/BusinessView';
 import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { PrivacyPolicy } from './components/pages/PrivacyPolicy';
-import { TermsAndConditions } from './components/pages/TermsAndConditions';
-import { AccountDeletionPolicy } from './components/pages/AccountDeletionPolicy';
 import { useDashboard } from './contexts/DashboardContext';
 
 const AppContent: React.FC = () => {
@@ -196,7 +193,7 @@ const AppContent: React.FC = () => {
   // Show legal pages (not protected)
   if (currentPage === 'privacy-policy') {
     return (
-      <div>
+      <div className="dark-gradient-bg">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -212,7 +209,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'terms-and-conditions') {
     return (
-       <div>
+      <div className="dark-gradient-bg">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -228,7 +225,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'account-deletion-policy') {
     return (
-       <div>
+      <div className="dark-gradient-bg">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
