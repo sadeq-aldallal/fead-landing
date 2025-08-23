@@ -73,6 +73,30 @@ body {
   overflow-x: hidden;
 }
 
+/* Prevent text selection on clickable elements */
+button,
+.nav-item,
+.hero-title,
+.section-title,
+h1, h2, h3, h4, h5, h6,
+.btn-primary,
+.btn-outline,
+.mobile-menu-button,
+.dropdown-menu-item,
+.glass-card,
+.feature-card,
+.challenge-card,
+.business-card-title,
+img,
+.ai-bot,
+.chat-bubble,
+.support-icon {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
 /* Dark gradient background */
 .dark-gradient-bg {
   background: linear-gradient(135deg, #0F1419 0%, #1A2332 30%, #243447 60%, #0F1419 100%);
@@ -651,6 +675,10 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .section-title {
@@ -681,6 +709,10 @@ body {
               inset 0 1px 0 rgba(255, 255, 255, 0.25);
   position: relative;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .btn-primary::before {
@@ -717,6 +749,10 @@ body {
   transition: all 0.3s ease;
   backdrop-filter: blur(15px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .btn-outline:hover {
@@ -733,6 +769,10 @@ body {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .nav-item:hover {

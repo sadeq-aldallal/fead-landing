@@ -67,13 +67,11 @@ export const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center justify-between h-16">
             {/* Logo - Left side */}
             <div className="flex items-center">
-              <button onClick={onHomeClick} className="flex items-center">
-                <img 
-                  src="/fead.app_logo.png" 
-                  alt="fead.app" 
-                  className="h-10 w-auto md:h-12"
-                />
-              </button>
+              <img 
+                src="/fead.app_logo.png" 
+                alt="fead.app" 
+                className="h-10 w-auto md:h-12"
+              />
             </div>
 
             {/* Center Navigation Links - Only show on home page */}
