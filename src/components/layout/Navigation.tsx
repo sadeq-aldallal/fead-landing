@@ -80,11 +80,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               </button>
             </div>
 
-            {/* Right spacer for centering */}
-            <div className="flex items-center flex-1 justify-end">
-            </div>
-
-            {/* Desktop Navigation - Only show on home page */}
+            {/* Desktop Navigation & Auth Buttons - Only show on home page */}
             {!isDashboard && (
               <div className="hidden md:flex items-center space-x-8 absolute right-4">
                 <a
@@ -105,8 +101,69 @@ export const Navigation: React.FC<NavigationProps> = ({
                 >
                   {t('nav.contact')}
                 </a>
+
+                {/* Login Button */}
+                {!user && (
+                  <Button
+                    variant="outline"
+                    size="md"
+                    onClick={onLoginClick}
+                    className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
+                  >
+                    {t('nav.login')}
+                  </Button>
+                )}
+                
+                {/* User Menu or Sign Up Button */}
+                {user ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowUserDropdown(!showUserDropdown)}
+                      className="flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg glass-card"
+                    >
+                      <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
+                        <span className="text-[var(--brand-green)] text-sm font-medium">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    </button>
+                    
+                    {showUserDropdown && (
+                      <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
+                        <button
+                          onClick={() => {
+                            onDashboardClick?.();
+                            setShowUserDropdown(false);
+                          }}
+                          className="dropdown-menu-item text-left w-full"
+                        >
+                          {t('nav.dashboard')}
+                        </button>
+                        <hr className="border-white/10 my-1" />
+                        <button
+                          onClick={handleLogout}
+                          className="dropdown-menu-item text-left w-full text-red-400"
+                        >
+                          {t('nav.logout')}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Button 
+                    onClick={onSignupClick}
+                    size="md"
+                    className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
+                  >
+                    {t('nav.signup')}
+                  </Button>
+                )}
               </div>
             )}
+
+            {/* Right spacer for centering when no auth buttons */}
+            <div className="flex items-center flex-1 justify-end">
+            </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
             <div className="md:hidden">
