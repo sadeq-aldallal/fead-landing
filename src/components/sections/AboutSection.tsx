@@ -6,9 +6,6 @@ export const AboutSection: React.FC = () => {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Abstract shape for this section */}
-      <div className="absolute bottom-10 right-10 abstract-shape opacity-30"></div>
-      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
         <h2 className={`section-title mb-8 ${isRTL ? 'font-arabic' : ''}`}>
