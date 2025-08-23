@@ -65,12 +65,8 @@ export const Navigation: React.FC<NavigationProps> = ({
       <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'dashboard-nav' : 'glass-nav'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Left spacer for centering */}
-            <div className="flex items-center flex-1">
-            </div>
-
-            {/* Centered Logo */}
-            <div className="flex items-center justify-center">
+            {/* Logo - Left side */}
+            <div className="flex items-center">
               <button onClick={onHomeClick} className="flex items-center">
                 <img 
                   src="/fead.app_logo.png" 
@@ -80,9 +76,9 @@ export const Navigation: React.FC<NavigationProps> = ({
               </button>
             </div>
 
-            {/* Desktop Navigation & Auth Buttons - Only show on home page */}
+            {/* Center Navigation Links - Only show on home page */}
             {!isDashboard && (
-              <div className="hidden md:flex items-center space-x-8 absolute right-4">
+              <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
                 <a
                   href="#challenges"
                   className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
@@ -101,55 +97,21 @@ export const Navigation: React.FC<NavigationProps> = ({
                 >
                   {t('nav.contact')}
                 </a>
+              </div>
+            )}
 
-                {/* Login Button */}
-                {!user && (
+            {/* Right side - Auth Buttons */}
+            <div className="hidden md:flex items-center space-x-4">
+              {!isDashboard && !user && (
+                <>
                   <Button
                     variant="outline"
                     size="md"
                     onClick={onLoginClick}
-                    className={`ml-4 ${isRTL ? 'font-arabic mr-4 ml-0' : ''}`}
+                    className={`${isRTL ? 'font-arabic' : ''}`}
                   >
                     {t('nav.login')}
                   </Button>
-                )}
-                
-                {/* User Menu or Sign Up Button */}
-                {user ? (
-                  <div className="relative">
-                    <button
-                      onClick={() => setShowUserDropdown(!showUserDropdown)}
-                      className="flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg glass-card"
-                    >
-                      <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
-                        <span className="text-[var(--brand-green)] text-sm font-medium">
-                          {user.email?.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                    </button>
-                    
-                    {showUserDropdown && (
-                      <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
-                        <button
-                          onClick={() => {
-                            onDashboardClick?.();
-                            setShowUserDropdown(false);
-                          }}
-                          className="dropdown-menu-item text-left w-full"
-                        >
-                          {t('nav.dashboard')}
-                        </button>
-                        <hr className="border-white/10 my-1" />
-                        <button
-                          onClick={handleLogout}
-                          className="dropdown-menu-item text-left w-full text-red-400"
-                        >
-                          {t('nav.logout')}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
                   <Button 
                     onClick={onSignupClick}
                     size="md"
@@ -157,12 +119,44 @@ export const Navigation: React.FC<NavigationProps> = ({
                   >
                     {t('nav.signup')}
                   </Button>
-                )}
-              </div>
-            )}
-
-            {/* Right spacer for centering when no auth buttons */}
-            <div className="flex items-center flex-1 justify-end">
+                </>
+              )}
+              
+              {!isDashboard && user && (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    className="flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg glass-card"
+                  >
+                    <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
+                      <span className="text-[var(--brand-green)] text-sm font-medium">
+                        {user.email?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  </button>
+                  
+                  {showUserDropdown && (
+                    <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
+                      <button
+                        onClick={() => {
+                          onDashboardClick?.();
+                          setShowUserDropdown(false);
+                        }}
+                        className="dropdown-menu-item text-left w-full"
+                      >
+                        {t('nav.dashboard')}
+                      </button>
+                      <hr className="border-white/10 my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="dropdown-menu-item text-left w-full text-red-400"
+                      >
+                        {t('nav.logout')}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
