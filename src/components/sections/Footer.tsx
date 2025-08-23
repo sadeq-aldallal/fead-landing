@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, X } from 'lucide-react';
+import { Mail, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
 
 interface FooterProps {
   onPrivacyClick?: () => void;
@@ -20,6 +19,7 @@ export const Footer: React.FC<FooterProps> = ({
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
+    company: '',
     message: '',
   });
 
@@ -27,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({
     e.preventDefault();
     console.log('Contact form submitted:', contactForm);
     setShowContactModal(false);
-    setContactForm({ name: '', email: '', message: '' });
+    setContactForm({ name: '', email: '', company: '', message: '' });
   };
 
   return (
@@ -148,50 +148,107 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* Contact Modal */}
       {showContactModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="glass-card max-w-md w-full p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className={`text-xl font-semibold text-white ${isRTL ? 'font-arabic' : ''}`}>
-                {t('footer.contact')}
-              </h3>
-              <button
-                onClick={() => setShowContactModal(false)}
-                className="text-white/60 hover:text-white transition-colors duration-200"
-              >
-                <X size={24} />
-              </button>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-lg max-w-md w-full p-6 relative">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowContactModal(false)}
+              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors duration-200"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
+                Contact Us
+              </h2>
+              <p className={`text-white/70 ${isRTL ? 'font-arabic text-right' : ''}`}>
+                Get in touch with our team for any questions or support
+              </p>
             </div>
             
             <form onSubmit={handleContactSubmit} className="space-y-4">
-              <Input
-                label="Name"
-                value={contactForm.name}
-                onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                required
-              />
-              <Input
-                label="Email"
-                type="email"
-                value={contactForm.email}
-                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                required
-              />
+              {/* Full Name */}
+              <div>
+                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  Full Name
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  Email Address
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                    placeholder="Enter your email address"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Company Name */}
+              <div>
+                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  Company Name
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={contactForm.company}
+                    onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
+                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                    placeholder="Enter your company name"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Message */}
               <div>
                 <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
                   Message
                 </label>
                 <textarea
-                  className={`w-full px-3 py-2 glass-card border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200 ${isRTL ? 'text-right' : 'text-left'}`}
+                  className="w-full px-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 resize-none"
                   rows={4}
                   value={contactForm.message}
                   onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  placeholder="Tell us how we can help you..."
                   required
                 />
               </div>
-              <Button type="submit" className="w-full btn-primary">
-                Send Message
+
+              <Button
+                type="submit"
+                className="w-full bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                Send
               </Button>
             </form>
+
+            {/* Footer */}
+            <div className="mt-6 text-center">
+              <p className={`text-sm text-white/60 ${isRTL ? 'font-arabic' : ''}`}>
+                We'll get back to you within 24 hours
+              </p>
+            </div>
           </div>
         </div>
       )}
