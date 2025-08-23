@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
 
 interface FooterProps {
   onPrivacyClick?: () => void;
@@ -170,55 +171,34 @@ export const Footer: React.FC<FooterProps> = ({
             
             <form onSubmit={handleContactSubmit} className="space-y-4">
               {/* Full Name */}
-              <div>
-                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  Full Name
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </div>
-              </div>
+              <Input
+                label="Full Name"
+                type="text"
+                value={contactForm.name}
+                onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                placeholder="Enter your full name"
+                required
+              />
 
               {/* Email */}
-              <div>
-                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  Email Address
-                </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter your email address"
-                    required
-                  />
-                </div>
-              </div>
+              <Input
+                label="Email Address"
+                type="email"
+                value={contactForm.email}
+                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                placeholder="Enter your email address"
+                required
+              />
 
               {/* Company Name */}
-              <div>
-                <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  Company Name
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={contactForm.company}
-                    onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
-                    className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter your company name"
-                    required
-                  />
-                </div>
-              </div>
+              <Input
+                label="Company Name"
+                type="text"
+                value={contactForm.company}
+                onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
+                placeholder="Enter your company name"
+                required
+              />
 
               {/* Message */}
               <div>

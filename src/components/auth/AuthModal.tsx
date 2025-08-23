@@ -3,6 +3,7 @@ import { X, Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/Button'
+import { Input } from '../ui/Input'
 import { FormData, FormErrors } from '../../types/auth'
 
 interface AuthModalProps {
@@ -213,126 +214,79 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Full Name - Signup only */}
           {mode === 'signup' && (
-            <div>
-              <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                Full Name
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 text-white/60" size={20} />
-                <input
-                  type="text"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className={`w-full pl-10 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 ${errors.fullName ? 'border-red-500/50' : ''}`}
-                  placeholder="John Doe"
-                  disabled={isSubmitting}
-                />
-              </div>
-              {errors.fullName && (
-                <p className="text-sm text-red-400 mt-1">{errors.fullName}</p>
-              )}
-            </div>
+            <Input
+              label="Full Name"
+              type="text"
+              value={formData.fullName}
+              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              placeholder="John Doe"
+              disabled={isSubmitting}
+              leftIcon={<User size={20} />}
+              error={errors.fullName}
+            />
           )}
 
           {/* Email */}
-          <div>
-            <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-3 text-white/60" size={20} />
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className={`w-full pl-10 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 ${errors.email ? 'border-red-500/50' : ''}`}
-                placeholder="john@example.com"
-                disabled={isSubmitting}
-                autoComplete="email"
-              />
-            </div>
-            {errors.email && (
-              <p className="text-sm text-red-400 mt-1">{errors.email}</p>
-            )}
-          </div>
+          <Input
+            label="Email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            placeholder="john@example.com"
+            disabled={isSubmitting}
+            autoComplete="email"
+            leftIcon={<Mail size={20} />}
+            error={errors.email}
+          />
 
           {/* Password - Not for reset mode */}
           {mode !== 'reset' && (
-            <div>
-              <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-white/60" size={20} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className={`w-full pl-10 pr-10 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 ${errors.password ? 'border-red-500/50' : ''}`}
-                  placeholder="••••••••"
-                  disabled={isSubmitting}
-                  autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 text-white/60 hover:text-white/90"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isSubmitting}
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-sm text-red-400 mt-1">{errors.password}</p>
-              )}
-            </div>
+            <Input
+              label="Password"
+              type="password"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              placeholder="••••••••"
+              disabled={isSubmitting}
+              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+              leftIcon={<Lock size={20} />}
+              showPasswordToggle={true}
+              error={errors.password}
+            />
           )}
 
           {/* Confirm Password - Signup only */}
           {mode === 'signup' && (
-            <div>
-              <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                Confirm Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-white/60" size={20} />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className={`w-full pl-10 pr-10 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 ${errors.confirmPassword ? 'border-red-500/50' : ''}`}
-                  placeholder="••••••••"
-                  disabled={isSubmitting}
-                  autoComplete="new-password"
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 text-white/60 hover:text-white/90"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  disabled={isSubmitting}
-                >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-sm text-red-400 mt-1">{errors.confirmPassword}</p>
-              )}
-            </div>
+            <Input
+              label="Confirm Password"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              placeholder="••••••••"
+              disabled={isSubmitting}
+              autoComplete="new-password"
+              leftIcon={<Lock size={20} />}
+              showPasswordToggle={true}
+              passwordVisible={showConfirmPassword}
+              onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+              error={errors.confirmPassword}
+            />
           )}
 
           {/* Remember Me - Signin only */}
           {mode === 'signin' && (
             <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                checked={formData.rememberMe}
-                onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                className="w-4 h-4 text-[var(--brand-green)] bg-white/5 border-white/20 rounded focus:ring-[var(--brand-green)] focus:ring-2"
-                disabled={isSubmitting}
-              />
-              <label htmlFor="rememberMe" className="ml-2 text-sm text-white/70">
-                Remember me
+              <label className="custom-checkbox flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.rememberMe}
+                  onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+                  disabled={isSubmitting}
+                />
+                <span className="checkmark"></span>
+                <span className="ml-3 text-sm text-white/70 select-none">
+                  Remember me
+                </span>
               </label>
             </div>
           )}
@@ -354,9 +308,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </Button>
         </form>
 
-        {/* Footer Links */}
+        {/* Footer Links - Temporarily commented out 
         <div className="mt-6 space-y-4">
-          {/* Forgot Password - Signin only */}
+          {/* Forgot Password - Signin only 
           {mode === 'signin' && (
             <div className="text-center">
               <button
@@ -369,7 +323,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
           )}
 
-          {/* Mode Switch */}
+          {/* Mode Switch 
           <div className="text-center">
             <p className={`text-white/70 text-sm ${isRTL ? 'font-arabic' : ''}`}>
               {mode === 'signin' && "Don't have an account? "}
@@ -388,6 +342,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </p>
           </div>
         </div>
+        */}
       </div>
     </div>
   )

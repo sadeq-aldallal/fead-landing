@@ -115,7 +115,7 @@ body::before {
   scrollbar-color: var(--brand-green) var(--bg-primary);
 }
 
-/* Prevent text selection on clickable elements */
+/* Prevent text selection and cursor on clickable elements */
 button,
 .nav-item,
 .hero-title,
@@ -137,6 +137,81 @@ img,
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  cursor: default;
+}
+
+/* Global cursor fix - prevent text cursor on all non-input elements */
+*, *::before, *::after {
+  cursor: default !important;
+}
+
+/* Additional aggressive fix for text elements */
+p, span, div, h1, h2, h3, h4, h5, h6, 
+label, strong, em, i, b, small, sub, sup,
+img, svg, path, circle, rect, line, polygon,
+.text-white, .text-gray-400, .text-white\/70, .text-white\/80, .text-white\/90,
+[class*="text-"], [class*="font-"], 
+[class*="h-"], [class*="w-"], [class*="max-w-"], [class*="mx-"], [class*="px-"],
+.lucide, .lucide-menu {
+  cursor: default !important;
+}
+
+/* Force default cursor on flex containers and common layout elements */
+.flex, .grid, .block, .inline-block, .inline-flex,
+[class*="flex"], [class*="grid"], [class*="space-"],
+.items-center, .justify-between, .justify-center {
+  cursor: default !important;
+}
+
+/* Allow text cursor only on text input elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea,
+[contenteditable="true"],
+[contenteditable=""] {
+  cursor: text !important;
+}
+
+/* Pointer cursor for interactive elements */
+button,
+a,
+label,
+[role="button"],
+[onClick],
+.cursor-pointer,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+select {
+  cursor: pointer !important;
+}
+
+/* Specific cursor types for special elements */
+[disabled] {
+  cursor: not-allowed !important;
+}
+
+.cursor-grab {
+  cursor: grab !important;
+}
+
+.cursor-grabbing {
+  cursor: grabbing !important;
+}
+
+.cursor-move {
+  cursor: move !important;
+}
+
+.cursor-resize {
+  cursor: ew-resize !important;
 }
 
 /* Dark gradient background */
@@ -1809,6 +1884,219 @@ img,
   .ai-customer-support-bg {
     display: none;
   }
+}
+
+/* ===== AUTOFILL STYLING FIX ===== */
+
+/* Ultra-high specificity autofill fix for webkit browsers */
+html body input:-webkit-autofill,
+html body input:-webkit-autofill:hover,
+html body input:-webkit-autofill:focus,
+html body input:-webkit-autofill:active,
+html body textarea:-webkit-autofill,
+html body textarea:-webkit-autofill:hover,
+html body textarea:-webkit-autofill:focus,
+html body textarea:-webkit-autofill:active,
+html body select:-webkit-autofill,
+html body select:-webkit-autofill:hover,
+html body select:-webkit-autofill:focus,
+html body select:-webkit-autofill:active {
+  /* Override any Tailwind background classes */
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  transition: none !important;
+}
+
+/* Even more specific for bg-white/5 classes */
+html body input[class*="bg-white"]:-webkit-autofill,
+html body input[class*="bg-white"]:-webkit-autofill:hover,
+html body input[class*="bg-white"]:-webkit-autofill:focus,
+html body input[class*="bg-white"]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+}
+
+/* Target specific input classes that appear in AuthModal */
+html body .relative input[type="email"]:-webkit-autofill,
+html body .relative input[type="password"]:-webkit-autofill,
+html body .relative input[type="text"]:-webkit-autofill,
+html body .relative input[type="email"]:-webkit-autofill:hover,
+html body .relative input[type="password"]:-webkit-autofill:hover,
+html body .relative input[type="text"]:-webkit-autofill:hover,
+html body .relative input[type="email"]:-webkit-autofill:focus,
+html body .relative input[type="password"]:-webkit-autofill:focus,
+html body .relative input[type="text"]:-webkit-autofill:focus,
+html body .relative input[type="email"]:-webkit-autofill:active,
+html body .relative input[type="password"]:-webkit-autofill:active,
+html body .relative input[type="text"]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Form input class fix */
+html body .form-input:-webkit-autofill,
+html body .form-input:-webkit-autofill:hover,
+html body .form-input:-webkit-autofill:focus,
+html body .form-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-card) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Firefox autofill styling */
+html body input:-moz-autofill,
+html body textarea:-moz-autofill,
+html body select:-moz-autofill {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Focus state for autofilled inputs */
+html body input:-webkit-autofill:focus,
+html body textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: var(--brand-green) !important;
+  outline: 2px solid var(--brand-green) !important;
+  outline-offset: -2px !important;
+}
+
+/* Ensure autofill placeholder text remains consistent */
+html body input:-webkit-autofill::placeholder,
+html body textarea:-webkit-autofill::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+  opacity: 1 !important;
+}
+
+/* Additional forced dark styling for stubborn browsers */
+html body input[autocomplete="email"]:-webkit-autofill,
+html body input[autocomplete="current-password"]:-webkit-autofill,
+html body input[autocomplete="new-password"]:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Nuclear option - disable autofill transition completely */
+html body input:-webkit-autofill,
+html body input:-webkit-autofill:hover,
+html body input:-webkit-autofill:focus,
+html body input:-webkit-autofill:active {
+  transition-delay: 9999s !important;
+  transition-property: background-color, color !important;
+}
+
+/* ===== CUSTOM CHECKBOX STYLING ===== */
+
+/* Hide default checkbox */
+.custom-checkbox {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Custom checkbox container */
+.custom-checkbox .checkmark {
+  position: relative;
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* On mouse-over, add background color */
+.custom-checkbox:hover input ~ .checkmark {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--brand-green);
+}
+
+/* When checkbox is checked */
+.custom-checkbox input:checked ~ .checkmark {
+  background: var(--brand-green);
+  border-color: var(--brand-green);
+  box-shadow: 0 0 10px rgba(0, 212, 170, 0.3);
+}
+
+/* Create the checkmark (hidden when not checked) */
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark */
+.custom-checkbox .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Focus state */
+.custom-checkbox input:focus ~ .checkmark {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.custom-checkbox input:disabled ~ .checkmark {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-checkbox input:disabled ~ .checkmark:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Force styles with animation override */
+@keyframes autofillfix {
+  from { 
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+  to { 
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+}
+
+html body input:-webkit-autofill {
+  animation: autofillfix 0s forwards !important;
 }
 
 /* ===== AI CUSTOMER SUPPORT THEMED BACKGROUND ===== */

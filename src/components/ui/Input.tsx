@@ -6,20 +6,36 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   showPasswordToggle?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  passwordVisible?: boolean;
+  onTogglePassword?: () => void;
 }
 
 export const Input: React.FC<InputProps> = ({
   label,
   error,
   showPasswordToggle = false,
+  leftIcon,
+  rightIcon,
+  passwordVisible,
+  onTogglePassword,
   type = 'text',
   className = '',
   ...props
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [internalShowPassword, setInternalShowPassword] = useState(false);
+  
+  // Use external state if provided, otherwise use internal state
+  const showPassword = passwordVisible !== undefined ? passwordVisible : internalShowPassword;
+  const togglePassword = onTogglePassword || (() => setInternalShowPassword(!internalShowPassword));
   const { isRTL } = useLanguage();
 
   const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
+  
+  // Calculate padding based on icons and RTL
+  const hasLeftIcon = leftIcon || (!isRTL && showPasswordToggle);
+  const hasRightIcon = rightIcon || (isRTL && showPasswordToggle) || (!isRTL && showPasswordToggle);
 
   return (
     <div className="space-y-1">
@@ -29,28 +45,42 @@ export const Input: React.FC<InputProps> = ({
         </label>
       )}
       <div className="relative">
+        {/* Left Icon */}
+        {leftIcon && (
+          <div className="absolute left-3 top-3 text-white/60 z-10">
+            {leftIcon}
+          </div>
+        )}
+        
         <input
           type={inputType}
           className={`
-            w-full px-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30
+            w-full py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30
             focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent
             transition-colors duration-200
             ${error ? 'border-red-500/50 focus:ring-red-500' : ''}
-            ${showPasswordToggle ? (isRTL ? 'pl-10' : 'pr-10') : ''}
+            ${hasLeftIcon ? 'pl-10' : 'pl-3'}
+            ${hasRightIcon ? 'pr-10' : 'pr-3'}
             ${isRTL ? 'text-right' : 'text-left'}
             ${className}
           `}
           {...props}
         />
-        {showPasswordToggle && (
+        
+        {/* Right Icon or Password Toggle */}
+        {showPasswordToggle ? (
           <button
             type="button"
-            className={`absolute inset-y-0 ${isRTL ? 'left-0 pl-3' : 'right-0 pr-3'} flex items-center text-white/70 hover:text-white/90 z-10`}
-            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-3 text-white/60 hover:text-white/90 z-10"
+            onClick={togglePassword}
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
-        )}
+        ) : rightIcon ? (
+          <div className="absolute right-3 top-3 text-white/60 z-10">
+            {rightIcon}
+          </div>
+        ) : null}
       </div>
       {error && (
         <p className={`text-sm text-red-400 ${isRTL ? 'text-right' : 'text-left'}`}>

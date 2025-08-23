@@ -42,50 +42,52 @@ export const InstagramModal: React.FC<InstagramModalProps> = ({ isOpen, onClose,
 
         <div className="space-y-6">
           {/* Legal Compliance Checkbox */}
-          <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="terms"
-              checked={acceptedTerms}
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
-              className="checkbox-input"
-            />
-            <label htmlFor="terms" className="checkbox-label">
-              I accept the{' '}
-              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
-                Privacy Policy
-              </a>
-              ,{' '}
-              <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">
-                Terms and Conditions
-              </a>
-              , and{' '}
-              <a href="/account-deletion-policy" target="_blank" rel="noopener noreferrer">
-                Account Deletion Policy
-              </a>
+          <div className="mb-6">
+            <label className="custom-checkbox flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+              />
+              <span className="checkmark mt-0.5"></span>
+              <span className="ml-3 text-sm text-white/70 leading-relaxed select-none">
+                I accept the{' '}
+                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green)] hover:underline">
+                  Privacy Policy
+                </a>
+                ,{' '}
+                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green)] hover:underline">
+                  Terms and Conditions
+                </a>
+                , and{' '}
+                <a href="/account-deletion-policy" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green)] hover:underline">
+                  Account Deletion Policy
+                </a>
+              </span>
             </label>
           </div>
 
           {/* Professional Account Checkbox */}
-          <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="professional"
-              checked={confirmedProfessional}
-              onChange={(e) => setConfirmedProfessional(e.target.checked)}
-              className="checkbox-input"
-            />
-            <label htmlFor="professional" className="checkbox-label">
-              I confirm my Instagram account is a professional account (Business or Creator).{' '}
-              <a 
-                href="https://help.instagram.com/502981923235522" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center"
-              >
-                Learn how to convert to professional account
-                <ExternalLink size={14} className="ml-1" />
-              </a>
+          <div className="mb-6">
+            <label className="custom-checkbox flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                checked={confirmedProfessional}
+                onChange={(e) => setConfirmedProfessional(e.target.checked)}
+              />
+              <span className="checkmark mt-0.5"></span>
+              <span className="ml-3 text-sm text-white/70 leading-relaxed select-none">
+                I confirm my Instagram account is a professional account (Business or Creator).{' '}
+                <a 
+                  href="https://help.instagram.com/502981923235522" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-[var(--brand-green)] hover:underline"
+                >
+                  Learn how to convert to professional account
+                  <ExternalLink size={14} className="ml-1" />
+                </a>
+              </span>
             </label>
           </div>
 
