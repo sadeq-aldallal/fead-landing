@@ -172,6 +172,11 @@ const AppContent: React.FC = () => {
     }
   }, [currentPage]);
 
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   // Handle scrolling to sections when hash is present
   useEffect(() => {
     const handleHashScroll = () => {
