@@ -19,9 +19,21 @@ import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { useDashboard } from './contexts/DashboardContext';
+import { PrivacyPolicy } from './components/legal/PrivacyPolicy';
+import { TermsAndConditions } from './components/legal/TermsAndConditions';
+import { AccountDeletionPolicy } from './components/legal/AccountDeletionPolicy';
 
 const AppContent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>('home');
+  // Initialize currentPage based on the current URL to avoid race conditions
+  const getInitialPage = (): 'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy' => {
+    const path = window.location.pathname;
+    if (path === '/privacy-policy') return 'privacy-policy';
+    if (path === '/terms-and-conditions') return 'terms-and-conditions';
+    if (path === '/account-deletion-policy') return 'account-deletion-policy';
+    return 'home';
+  };
+  
+  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>(getInitialPage());
   const [dashboardView, setDashboardView] = useState<'organization' | 'business'>('organization');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
@@ -128,16 +140,28 @@ const AppContent: React.FC = () => {
     handleInstagramCallback();
   }, [user, organization, businesses, currentBusiness, dashboardLoading, processInstagramCode, setCurrentBusiness]);
 
-  // Handle URL-based routing for legal pages
+  // No need for initial URL routing useEffect since state is initialized correctly
+
+  // Handle browser navigation (back/forward buttons)
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === '/privacy-policy') {
-      setCurrentPage('privacy-policy');
-    } else if (path === '/terms-and-conditions') {
-      setCurrentPage('terms-and-conditions');
-    } else if (path === '/account-deletion-policy') {
-      setCurrentPage('account-deletion-policy');
-    }
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/privacy-policy') {
+        setCurrentPage('privacy-policy');
+      } else if (path === '/terms-and-conditions') {
+        setCurrentPage('terms-and-conditions');
+      } else if (path === '/account-deletion-policy') {
+        setCurrentPage('account-deletion-policy');
+      } else if (path === '/') {
+        setCurrentPage('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   // Update URL when page changes
@@ -148,19 +172,53 @@ const AppContent: React.FC = () => {
     }
   }, [currentPage]);
 
+  // Handle scrolling to sections when hash is present
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash && currentPage === 'home') {
+        // Try multiple times with increasing delays to ensure DOM is ready
+        const tryScroll = (attempt = 0) => {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          } else if (attempt < 10) {
+            // If element not found, try again with longer delay
+            setTimeout(() => tryScroll(attempt + 1), 100 * (attempt + 1));
+          }
+        };
+        
+        setTimeout(() => tryScroll(), 300); // Initial delay for page load
+      }
+    };
+
+    // Handle initial load with hash
+    handleHashScroll();
+
+    // Handle hash changes
+    window.addEventListener('hashchange', handleHashScroll);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashScroll);
+    };
+  }, [currentPage]);
+
   // Auto-redirect to dashboard when user logs in
   useEffect(() => {
     // Check if there's an OAuth code being processed
     const urlParams = new URLSearchParams(window.location.search);
     const hasOAuthCode = urlParams.get('code');
     
+    const legalPages = ['privacy-policy', 'terms-and-conditions', 'account-deletion-policy'];
+    
     // Only auto-redirect if no OAuth code is present (to avoid interfering with OAuth processing)
     if (user && currentPage === 'home' && !hasOAuthCode) {
       setCurrentPage('dashboard');
-    } else if (!user && currentPage !== 'home') {
+    } else if (!user && currentPage !== 'home' && !legalPages.includes(currentPage)) {
+      // Only redirect to home if user is not authenticated AND not on a legal page
       setCurrentPage('home');
     }
-  }, [user, currentPage]);
+  }, [user]); // Only run when user authentication state changes
 
   // Check for organization and show modal if needed
   useEffect(() => {

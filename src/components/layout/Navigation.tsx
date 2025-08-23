@@ -90,7 +90,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   {t('nav.features')}
                 </a>
                 <a
-                  href="#contact"
+                  href="/#contact"
                   className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.contact')}
@@ -206,7 +206,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                       {t('nav.features')}
                     </a>
                     <a
-                      href="#contact"
+                      href="/#contact"
                       onClick={closeMobileMenu}
                       className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                     >
