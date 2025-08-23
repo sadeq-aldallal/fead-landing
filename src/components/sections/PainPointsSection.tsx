@@ -57,19 +57,26 @@ export const PainPointsSection: React.FC = () => {
             return (
               <div
                 key={index}
-                className="challenge-card group hover:scale-105 transition-all duration-300"
+                className="challenge-card-new group relative"
               >
-                <div className="flex items-center mb-6">
-                  <div className={`p-3 rounded-lg glass-card ${isRTL ? 'ml-4' : 'mr-4'}`}>
-                    <Icon className="h-6 w-6 text-green-400" />
-                  </div>
-                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic text-right' : ''}`}>
+                {/* Background Watermark Icon */}
+                <div className="card-watermark-icon">
+                  <Icon className="watermark-icon" />
+                </div>
+                
+                {/* Content */}
+                <div className="card-content">
+                  <h3 className={`card-title-big ${isRTL ? 'font-arabic text-right' : ''}`}>
                     {point.title}
                   </h3>
+                  <p className={`card-description-big ${isRTL ? 'font-arabic text-right' : ''}`}>
+                    {point.description}
+                  </p>
                 </div>
-                <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic text-right' : ''}`}>
-                  {point.description}
-                </p>
+                
+                {/* Hover Effect Elements */}
+                <div className="card-hover-line"></div>
+                <div className="card-gradient-overlay"></div>
               </div>
             );
           })}

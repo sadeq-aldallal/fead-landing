@@ -16,7 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden hero-with-dots">
+    <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden hero-with-dots">
       {/* AI Customer Support Themed Background */}
       <div className="ai-customer-support-bg">
         {/* Floating Chat Bubbles */}

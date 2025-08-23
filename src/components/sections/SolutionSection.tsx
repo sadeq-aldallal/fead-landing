@@ -40,18 +40,9 @@ export const SolutionSection: React.FC = () => {
 
 
   return (
-    <section id="features" className="dark-gradient-bg py-20 relative">
+    <section id="features" className="py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          {/* Logo Section */}
-          <div className="flex items-center justify-center mb-8">
-            <img 
-              src="/fead.app_logo.png" 
-              alt="fead.app" 
-              className="h-8 w-auto"
-            />
-          </div>
-          
           <h2 className={`section-title mb-6 ${isRTL ? 'font-arabic' : ''}`}>
             {t('solution.title')}
           </h2>
@@ -66,19 +57,26 @@ export const SolutionSection: React.FC = () => {
             return (
               <div
                 key={index}
-                className="feature-card group hover:scale-105 transition-all duration-300 text-center"
+                className="solution-card-new group relative"
               >
-                <div className="flex flex-col items-center mb-6">
-                  <div className="p-4 rounded-lg glass-card mb-4">
-                    <Icon className="h-8 w-8 text-green-300/90" />
-                  </div>
-                  <h3 className={`text-xl font-bold text-white ${isRTL ? 'font-arabic' : ''}`}>
+                {/* Background Watermark Icon */}
+                <div className="card-watermark-icon">
+                  <Icon className="watermark-icon" />
+                </div>
+                
+                {/* Content */}
+                <div className="card-content">
+                  <h3 className={`solution-card-title ${isRTL ? 'font-arabic text-right' : ''}`}>
                     {solution.title}
                   </h3>
+                  <p className={`solution-card-description ${isRTL ? 'font-arabic text-right' : ''}`}>
+                    {solution.description}
+                  </p>
                 </div>
-                <p className={`text-white/80 leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
-                  {solution.description}
-                </p>
+                
+                {/* Hover Effect Elements */}
+                <div className="card-hover-line"></div>
+                <div className="card-gradient-overlay"></div>
               </div>
             );
           })}
