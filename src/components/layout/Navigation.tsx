@@ -191,7 +191,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           ></div>
           
           {/* Mobile menu content */}
-          <div className={`mobile-menu-content fixed top-16 left-0 right-0 glass-card mx-4 mt-4 rounded-lg ${isRTL ? 'text-right' : 'text-left'}`}>
+          <div className={`mobile-menu-content fixed top-16 left-0 right-0 bg-white/8 backdrop-blur-sm border border-white/15 mx-4 mt-4 rounded-lg ${isRTL ? 'text-right' : 'text-left'}`}>
             <div className="p-6 space-y-6">
               {/* Navigation Links */}
               <div className="space-y-4">
@@ -234,7 +234,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="border-t border-white/10 pt-4">
                 {!user ? (
                   !isDashboard && (
-                    <div className="mobile-login-message glass-card p-4 rounded-lg border border-yellow-500/30">
+                    <div className="mobile-login-message bg-white/8 backdrop-blur-sm border border-yellow-500/30 p-4 rounded-lg">
                       <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
                         {t('mobile.loginMessage')}
                       </p>

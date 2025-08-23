@@ -109,7 +109,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
               </p>
 
               {/* CTA Button */}
-              <div className={`flex justify-start items-center mb-16 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              <div className={`flex justify-center lg:justify-start items-center mb-16 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <Button 
                   onClick={onGetStarted}
                   className={`btn-primary px-8 py-4 text-lg font-semibold ${isRTL ? 'font-arabic' : ''}`}
