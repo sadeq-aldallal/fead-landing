@@ -17,72 +17,80 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden hero-with-dots">
-      {/* Animated Dotted Background */}
-      <div className="animated-dots-background">
-        <div className="dots-container">
-          {/* Generate dots programmatically via CSS */}
-          <div className="dot dot-1"></div>
-          <div className="dot dot-2"></div>
-          <div className="dot dot-3"></div>
-          <div className="dot dot-4"></div>
-          <div className="dot dot-5"></div>
-          <div className="dot dot-6"></div>
-          <div className="dot dot-7"></div>
-          <div className="dot dot-8"></div>
-          <div className="dot dot-9"></div>
-          <div className="dot dot-10"></div>
-          <div className="dot dot-11"></div>
-          <div className="dot dot-12"></div>
-          <div className="dot dot-13"></div>
-          <div className="dot dot-14"></div>
-          <div className="dot dot-15"></div>
-          <div className="dot dot-16"></div>
-          <div className="dot dot-17"></div>
-          <div className="dot dot-18"></div>
-          <div className="dot dot-19"></div>
-          <div className="dot dot-20"></div>
-        </div>
-      </div>
-
-      {/* AI Neural Network Animation */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Animated Neural Network Nodes */}
-        <div className="ai-neural-network">
-          {/* Primary Nodes */}
-          <div className="neural-node node-1"></div>
-          <div className="neural-node node-2"></div>
-          <div className="neural-node node-3"></div>
-          <div className="neural-node node-4"></div>
-          <div className="neural-node node-5"></div>
-          <div className="neural-node node-6"></div>
-          <div className="neural-node node-7"></div>
-          <div className="neural-node node-8"></div>
-          
-          {/* Connecting Lines */}
-          <div className="neural-connection connection-1"></div>
-          <div className="neural-connection connection-2"></div>
-          <div className="neural-connection connection-3"></div>
-          <div className="neural-connection connection-4"></div>
-          <div className="neural-connection connection-5"></div>
-          <div className="neural-connection connection-6"></div>
+      {/* AI Customer Support Themed Background */}
+      <div className="ai-customer-support-bg">
+        {/* Floating Chat Bubbles */}
+        <div className="chat-bubbles-container">
+          <div className="chat-bubble customer-bubble bubble-1">
+            <div className="bubble-content">Hello! I need help</div>
+          </div>
+          <div className="chat-bubble ai-bubble bubble-2">
+            <div className="bubble-content">I'm here to assist you!</div>
+          </div>
+          <div className="chat-bubble customer-bubble bubble-3">
+            <div className="bubble-content">Quick question...</div>
+          </div>
+          <div className="chat-bubble ai-bubble bubble-4">
+            <div className="bubble-content">✓ Resolved</div>
+          </div>
+          <div className="chat-bubble customer-bubble bubble-5">
+            <div className="bubble-content">Thank you!</div>
+          </div>
         </div>
 
-        {/* Floating Data Particles */}
-        <div className="data-particles">
-          <div className="particle particle-1"></div>
-          <div className="particle particle-2"></div>
-          <div className="particle particle-3"></div>
-          <div className="particle particle-4"></div>
-          <div className="particle particle-5"></div>
-          <div className="particle particle-6"></div>
+        {/* AI Bot Icons */}
+        <div className="ai-bots-container">
+          <div className="ai-bot bot-1">
+            <div className="bot-core"></div>
+            <div className="bot-eyes">
+              <div className="eye"></div>
+              <div className="eye"></div>
+            </div>
+          </div>
+          <div className="ai-bot bot-2">
+            <div className="bot-core"></div>
+            <div className="bot-eyes">
+              <div className="eye"></div>
+              <div className="eye"></div>
+            </div>
+          </div>
+          <div className="ai-bot bot-3">
+            <div className="bot-core"></div>
+            <div className="bot-eyes">
+              <div className="eye"></div>
+              <div className="eye"></div>
+            </div>
+          </div>
         </div>
 
-        {/* AI Brain Visualization */}
-        <div className="ai-brain-container">
-          <div className="ai-brain-core"></div>
-          <div className="ai-brain-ring ring-1"></div>
-          <div className="ai-brain-ring ring-2"></div>
-          <div className="ai-brain-ring ring-3"></div>
+        {/* Conversation Flow Lines */}
+        <div className="conversation-flows">
+          <div className="flow-line flow-1"></div>
+          <div className="flow-line flow-2"></div>
+          <div className="flow-line flow-3"></div>
+          <div className="flow-line flow-4"></div>
+        </div>
+
+        {/* Support Icons */}
+        <div className="support-icons">
+          <div className="support-icon icon-1">
+            <div className="icon-chat"></div>
+          </div>
+          <div className="support-icon icon-2">
+            <div className="icon-bot"></div>
+          </div>
+          <div className="support-icon icon-3">
+            <div className="icon-lightning"></div>
+          </div>
+          <div className="support-icon icon-4">
+            <div className="icon-star"></div>
+          </div>
+          <div className="support-icon icon-5">
+            <div className="icon-phone"></div>
+          </div>
+          <div className="support-icon icon-6">
+            <div className="icon-bulb"></div>
+          </div>
         </div>
       </div>
       
