@@ -4,10 +4,9 @@ import { Button } from '../ui/Button';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
-  onContactUs: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContactUs }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
   const { t, isRTL } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -109,20 +108,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onContac
                 {t('hero.newSubtitle')}
               </p>
 
-              {/* CTA Buttons */}
-              <div className={`flex flex-col sm:flex-row gap-4 ${isRTL ? 'lg:justify-start' : 'lg:justify-start'} justify-center items-center mb-16 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                <Button 
-                  onClick={onContactUs}
-                  className={`btn-primary px-6 py-3 text-base font-semibold ${isRTL ? 'font-arabic' : ''}`}
-                >
-                  {t('hero.contactUs')}
-                </Button>
-                
+              {/* CTA Button */}
+              <div className={`flex justify-start items-center mb-16 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <Button 
                   onClick={onGetStarted}
-                  className={`btn-outline px-6 py-3 text-base font-semibold ${isRTL ? 'font-arabic' : ''}`}
+                  className={`btn-primary px-8 py-4 text-lg font-semibold ${isRTL ? 'font-arabic' : ''}`}
                 >
-                  {t('hero.ourServices')}
+                  Request Demo
                 </Button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { X, Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
@@ -33,6 +33,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const { t, isRTL } = useLanguage()
   const { signIn, signUp, resetPassword, loading } = useAuth()
 
+  // Sync internal mode state with defaultMode prop when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setMode(defaultMode)
+    }
+  }, [defaultMode, isOpen])
+
   // Form validation
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -52,8 +59,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         newErrors.password = 'Password must be at least 6 characters'
       }
 
-      // Signup specific validations
-      if (mode === 'signup') {
+      // Signup specific validations - DISABLED: Users must request demo first
+      /* if (mode === 'signup') {
         if (!formData.fullName?.trim()) {
           newErrors.fullName = 'Full name is required'
         }
@@ -63,7 +70,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         } else if (formData.password !== formData.confirmPassword) {
           newErrors.confirmPassword = 'Passwords do not match'
         }
-      }
+      } */
     }
 
     setErrors(newErrors)
@@ -88,7 +95,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         } else {
           onClose()
         }
-      } else if (mode === 'signup') {
+      // DISABLED: Signup functionality - Users must request demo first
+      /* 
+      else if (mode === 'signup') {
         const { error } = await signUp(formData.email, formData.password, formData.fullName)
         if (error) {
           setErrors({ general: getErrorMessage(error) })
@@ -98,6 +107,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             onClose()
           }, 2000)
         }
+      } 
+      */ 
       } else if (mode === 'reset') {
         const { error } = await resetPassword(formData.email)
         if (error) {
@@ -174,12 +185,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <div className="mb-6">
           <h2 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
             {mode === 'signin' && 'Sign In'}
-            {mode === 'signup' && 'Create Account'}
+            {/* {mode === 'signup' && 'Create Account'} */}
             {mode === 'reset' && 'Reset Password'}
           </h2>
           <p className={`text-white/70 ${isRTL ? 'font-arabic text-right' : ''}`}>
             {mode === 'signin' && 'Welcome back to fead.app'}
-            {mode === 'signup' && 'Join fead.app today'}
+            {/* {mode === 'signup' && 'Join fead.app today'} */}
             {mode === 'reset' && 'Enter your email to reset your password'}
           </p>
         </div>

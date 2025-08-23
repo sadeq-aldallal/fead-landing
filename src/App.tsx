@@ -12,6 +12,8 @@ import { SolutionSection } from './components/sections/SolutionSection';
 import { Footer } from './components/sections/Footer';
 import { AuthModal } from './components/auth/AuthModal';
 import { ContactModal } from './components/modals/ContactModal';
+import { DemoRequestModal } from './components/modals/DemoRequestModal';
+import { CookieConsentModal } from './components/modals/CookieConsentModal';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { OrganizationView } from './components/dashboard/OrganizationView';
 import { BusinessView } from './components/dashboard/BusinessView';
@@ -38,7 +40,9 @@ const AppContent: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
   const [showOrganizationModal, setShowOrganizationModal] = useState(false);
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
   const { user, loading, initialized } = useAuth();
   const { 
     organization, 
@@ -231,18 +235,38 @@ const AppContent: React.FC = () => {
       setShowOrganizationModal(true);
     }
   }, [user, currentPage, dashboardLoading, organization]);
+
+  // Check for first-time visit and show cookie consent
+  useEffect(() => {
+    const hasAcceptedCookies = localStorage.getItem('cookieConsent');
+    if (!hasAcceptedCookies) {
+      setShowCookieConsent(true);
+    }
+  }, []);
   const handleLoginClick = () => {
     setAuthModalMode('signin');
     setShowAuthModal(true);
   };
 
   const handleSignupClick = () => {
-    setAuthModalMode('signup');
-    setShowAuthModal(true);
+    // CHANGED: Open demo request instead of signup
+    setShowDemoModal(true);
+    // setAuthModalMode('signup');
+    // setShowAuthModal(true);
   };
 
   const handleNavigateToLegalPage = (page: 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy') => {
     setCurrentPage(page);
+  };
+
+  const handleAcceptCookies = () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    setShowCookieConsent(false);
+  };
+
+  const handleDeclineCookies = () => {
+    localStorage.setItem('cookieConsent', 'declined');
+    setShowCookieConsent(false);
   };
   // Show loading while auth is initializing
   if (!initialized || loading) {
@@ -266,6 +290,17 @@ const AppContent: React.FC = () => {
           currentPage={currentPage}
         />
         <PrivacyPolicy />
+        
+        <DemoRequestModal 
+          isOpen={showDemoModal} 
+          onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <CookieConsentModal
+          isOpen={showCookieConsent}
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
+        />
       </div>
     );
   }
@@ -282,6 +317,17 @@ const AppContent: React.FC = () => {
           currentPage={currentPage}
         />
         <TermsAndConditions />
+        
+        <DemoRequestModal 
+          isOpen={showDemoModal} 
+          onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <CookieConsentModal
+          isOpen={showCookieConsent}
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
+        />
       </div>
     );
   }
@@ -298,6 +344,17 @@ const AppContent: React.FC = () => {
           currentPage={currentPage}
         />
         <AccountDeletionPolicy />
+        
+        <DemoRequestModal 
+          isOpen={showDemoModal} 
+          onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <CookieConsentModal
+          isOpen={showCookieConsent}
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
+        />
       </div>
     );
   }
@@ -361,7 +418,6 @@ const AppContent: React.FC = () => {
       
       <HeroSection 
         onGetStarted={handleSignupClick}
-        onContactUs={() => setShowContactModal(true)}
       />
       <PainPointsSection />
       <SolutionSection />
@@ -372,15 +428,28 @@ const AppContent: React.FC = () => {
         onAccountDeletionClick={() => setCurrentPage('account-deletion-policy')}
       />
       
+      <ContactModal 
+        isOpen={showContactModal} 
+        onClose={() => setShowContactModal(false)} 
+      />
+      
+      <DemoRequestModal 
+        isOpen={showDemoModal} 
+        onClose={() => setShowDemoModal(false)} 
+      />
+      
+      {/* AuthModal only for login functionality */}
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)} 
         defaultMode={authModalMode}
       />
       
-      <ContactModal 
-        isOpen={showContactModal} 
-        onClose={() => setShowContactModal(false)} 
+      {/* Cookie Consent Modal */}
+      <CookieConsentModal
+        isOpen={showCookieConsent}
+        onAccept={handleAcceptCookies}
+        onDecline={handleDeclineCookies}
       />
     </div>
   );

@@ -78,6 +78,12 @@ export const Navigation: React.FC<NavigationProps> = ({
             {!isDashboard && (
               <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
                 <a
+                  href="/#home"
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                >
+                  {t('nav.home')}
+                </a>
+                <a
                   href="#challenges"
                   className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
@@ -115,7 +121,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     size="md"
                     className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
                   >
-                    {t('nav.signup')}
+                    Request Demo
                   </Button>
                 </>
               )}
@@ -191,6 +197,13 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="space-y-4">
                 {!isDashboard && (
                   <>
+                    <a
+                      href="/#home"
+                      onClick={closeMobileMenu}
+                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                    >
+                      {t('nav.home')}
+                    </a>
                     <a
                       href="#challenges"
                       onClick={closeMobileMenu}

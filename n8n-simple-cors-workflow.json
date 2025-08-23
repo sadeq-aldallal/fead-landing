@@ -1,0 +1,92 @@
+{
+  "name": "fead.app Simple CORS Email",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "fead-app-emails",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseHeaders": {
+          "entries": [
+            {
+              "name": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "name": "Access-Control-Allow-Methods",
+              "value": "POST, GET, OPTIONS"
+            },
+            {
+              "name": "Access-Control-Allow-Headers",
+              "value": "Content-Type"
+            }
+          ]
+        }
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "webhookId": "fead-app-emails"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "sendTo": "sadeq.aldallal@fead.app",
+        "subject": "=Test Email from {{ $json.body.formData.name || $json.formData.name }}",
+        "emailType": "text",
+        "message": "=New form submission:\n\nType: {{ $json.body.type || $json.type }}\nName: {{ $json.body.formData.name || $json.formData.name }}\nEmail: {{ $json.body.formData.email || $json.formData.email }}\n\nMessage: {{ $json.body.formData.message || $json.formData.message }}"
+      },
+      "id": "gmail",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KNmOV4uqX4PJ2dWA",
+          "name": "fead.app_google_account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"success\": true, \"message\": \"Email sent successfully\" }"
+      },
+      "id": "respond",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [740, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "staticData": {}
+}

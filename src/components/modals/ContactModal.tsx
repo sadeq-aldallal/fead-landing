@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { X, Mail, User, MessageSquare } from 'lucide-react';
+import { X, Mail, User, MessageSquare, FileText } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { sendContactEmail } from '../../services/emailService';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -13,29 +14,40 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
   
   const { t, isRTL } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setLoading(false);
-    setSuccess(true);
-    
-    // Reset form after success
-    setTimeout(() => {
-      setSuccess(false);
-      setFormData({ name: '', email: '', message: '' });
-      onClose();
-    }, 2000);
+    try {
+      const result = await sendContactEmail(formData);
+      
+      if (result.success) {
+        setSuccess(true);
+        
+        // Reset form after success
+        setTimeout(() => {
+          setSuccess(false);
+          setFormData({ name: '', email: '', subject: '', message: '' });
+          onClose();
+        }, 3000);
+      } else {
+        setError(result.error || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -59,13 +71,20 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
           </p>
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
+            {error}
+          </div>
+        )}
+
         {success ? (
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <Mail className="w-8 h-8 text-green-400" />
             </div>
             <p className={`text-green-400 text-lg font-semibold ${isRTL ? 'font-arabic' : ''}`}>
-              {t('contact.success')}
+              Message sent successfully! We'll get back to you soon.
             </p>
           </div>
         ) : (
@@ -92,6 +111,19 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className={isRTL ? 'pr-10' : 'pl-10'}
                 placeholder={isRTL ? 'ahmed@example.com' : 'john@example.com'}
+                required
+              />
+            </div>
+
+            <div className="relative">
+              <FileText className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'} text-white/60`} size={20} />
+              <Input
+                label="Subject"
+                type="text"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className={isRTL ? 'pr-10' : 'pl-10'}
+                placeholder={isRTL ? 'موضوع الرسالة' : 'What can we help you with?'}
                 required
               />
             </div>
