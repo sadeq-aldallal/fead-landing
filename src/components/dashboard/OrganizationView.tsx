@@ -57,10 +57,11 @@ export const OrganizationView: React.FC = () => {
         {businesses.length > 0 && (
           <Button
             onClick={() => setShowBusinessModal(true)}
-            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+            variant="outline"
+            className="flex items-center space-x-2"
           >
             <Plus size={20} />
-            <span>Add Business</span>
+            <span className="hidden md:inline">Add Business</span>
           </Button>
         )}
       </div>
@@ -110,62 +111,68 @@ export const OrganizationView: React.FC = () => {
           /* Has businesses - Show grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((business) => (
-              <div key={business.id} className="business-card flex flex-col">
-                <div className="business-card-header">
-                  <h3 className="business-card-title">{business.name}</h3>
-                  {business.instagram_status === 'connected' && (
-                    <button
-                      onClick={() => handleManageBusiness(business)}
-                      className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors duration-200"
-                      title="Manage Business"
-                    >
-                      <Settings size={18} />
-                    </button>
-                  )}
-                </div>
-                <div className="space-y-2 flex-1">
-                  <p className="text-white/70 text-sm">
-                    Created: {new Date(business.created_at).toLocaleDateString()}
-                  </p>
-                  <p className="text-white/70 text-sm capitalize">
-                    Type: {business.type}
-                  </p>
-                  {business.instagram_username && (
-                    <p className="text-green-400 text-sm">
-                      Instagram: @{business.instagram_username}
-                    </p>
-                  )}
-                  <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      business.instagram_status === 'connected' ? 'bg-green-400' :
-                      business.instagram_status === 'connecting' ? 'bg-yellow-400' :
-                      business.instagram_status === 'error' ? 'bg-red-400' :
-                      'bg-gray-400'
-                    }`}></div>
-                    <span className={`text-xs ${
-                      business.instagram_status === 'connected' ? 'status-connected' :
-                      business.instagram_status === 'connecting' ? 'status-connecting' :
-                      business.instagram_status === 'error' ? 'status-error' :
-                      'status-disconnected'
-                    }`}>
-                      {business.instagram_status === 'connected' ? 'Connected' :
-                       business.instagram_status === 'connecting' ? 'Connecting...' :
-                       business.instagram_status === 'error' ? 'Connection Error' :
-                       'Not Connected'}
-                    </span>
+              <div key={business.id} className={`business-card premium-card ${
+                business.instagram_status === 'connected' ? 'connected' : 'disconnected'
+              }`}>
+                <div className="card-header-modern">
+                  <div className="business-avatar">
+                    <Building2 size={24} className="text-brand-green" />
                   </div>
+                  <div className="business-info">
+                    <div className="name-status-row">
+                      <h3 className="business-name">{business.name}</h3>
+                      <div className={`status-badge ${
+                        business.instagram_status === 'connected' ? 'connected' :
+                        business.instagram_status === 'connecting' ? 'connecting' :
+                        business.instagram_status === 'error' ? 'error' :
+                        'disconnected'
+                      }`}>
+                        <div className="status-dot-mini"></div>
+                        <span className="status-label">
+                          {business.instagram_status === 'connected' ? 'Live' :
+                           business.instagram_status === 'connecting' ? 'Syncing' :
+                           business.instagram_status === 'error' ? 'Issue' :
+                           'Setup'}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="business-type">{business.type}</span>
+                  </div>
+                  <button
+                    onClick={() => handleManageBusiness(business)}
+                    className="settings-btn"
+                    title="Manage Business"
+                  >
+                    <Settings size={16} />
+                  </button>
                 </div>
-                <div className="mt-4 pt-4">
-                  {business.instagram_status !== 'connected' && (
-                    <Button
+                
+                <div className="card-body">
+                  <div className="business-stats">
+                    <div className="stat-item">
+                      <span className="stat-label">Since</span>
+                      <span className="stat-value">{new Date(business.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                    </div>
+                    {business.instagram_username && (
+                      <div className="stat-item">
+                        <span className="stat-label">Instagram</span>
+                        <span className="stat-value">@{business.instagram_username}</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                </div>
+
+                {business.instagram_status !== 'connected' && (
+                  <div className="card-footer">
+                    <button
                       onClick={() => handleConnectInstagram(business)}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
-                      size="sm"
+                      className="connect-btn-mini"
                     >
                       Connect
-                    </Button>
-                  )}
-                </div>
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>

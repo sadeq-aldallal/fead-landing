@@ -7,6 +7,7 @@ interface DashboardContextType extends DashboardState {
   createOrganization: (data: Omit<Organization, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => Promise<{ error: any }>;
   createBusiness: (name: string, organizationId: string, type?: 'retail' | 'service') => Promise<{ error: any }>;
   updateBusiness: (id: string, data: Partial<Business>) => Promise<{ error: any }>;
+  deleteBusiness: (id: string) => Promise<{ error: any }>;
   refreshBusinessData: (businessId: string) => Promise<{ error: any }>;
   setCurrentBusiness: (business: Business | null) => void;
   fetchOrganizationData: () => Promise<void>;
@@ -169,6 +170,29 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     }
   };
 
+  const deleteBusiness = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('businesses')
+        .update({ is_deleted: true, deleted_at: new Date().toISOString() })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Remove the business from local state
+      setDashboardState(prev => ({
+        ...prev,
+        businesses: prev.businesses.filter(b => b.id !== id),
+        currentBusiness: prev.currentBusiness?.id === id ? null : prev.currentBusiness
+      }));
+
+      return { error: null };
+    } catch (error: any) {
+      console.error('Error deleting business:', error);
+      return { error };
+    }
+  };
+
   const getCurrentBusiness = async () => {
     if (!dashboardState.currentBusiness) return null;
     
@@ -326,6 +350,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     createOrganization,
     createBusiness,
     updateBusiness,
+    deleteBusiness,
     refreshBusinessData,
     setCurrentBusiness,
     fetchOrganizationData,

@@ -164,7 +164,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
-            <div className="md:hidden">
+            <div className="md:hidden mr-4">
               <button
                 onClick={toggleMobileMenu}
                 className="mobile-menu-button p-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
@@ -251,17 +251,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                         className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
                       >
                         {t('nav.dashboard')}
-                      </button>
-                    )}
-                    {isDashboard && (
-                      <button
-                        onClick={() => {
-                          onProfileClick?.();
-                          closeMobileMenu();
-                        }}
-                        className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
-                      >
-                        Profile
                       </button>
                     )}
                     <button

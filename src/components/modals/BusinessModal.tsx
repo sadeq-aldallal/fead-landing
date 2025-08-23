@@ -62,19 +62,20 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button
-          onClick={onClose}
-          className="modal-close"
-          disabled={loading}
-        >
-          <X size={24} />
-        </button>
-
         <div className="modal-header">
-          <h2 className="modal-title">Create Business</h2>
-          <p className="modal-subtitle">
-            Add a new business to your organization
-          </p>
+          <div>
+            <h2 className="modal-title">Create Business</h2>
+            <p className="modal-subtitle">
+              Add a new business to your organization
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="modal-close"
+            disabled={loading}
+          >
+            <X size={24} />
+          </button>
         </div>
 
         {error && (
@@ -83,7 +84,8 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="modal-body">
+          <form onSubmit={handleSubmit} className="space-y-6">
           <div className="form-group">
             <label className="form-label">
               Business Name *
@@ -144,26 +146,16 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
             </div>
           </div>
 
-          <div className="flex space-x-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              disabled={loading}
-              className="flex-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              loading={loading}
-              disabled={loading}
-              className="flex-1"
-            >
-              {loading ? 'Creating...' : 'Create Business'}
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            loading={loading}
+            disabled={loading}
+            className="w-full bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            {loading ? 'Creating...' : 'Create Business'}
+          </Button>
         </form>
+        </div>
       </div>
     </div>
   );

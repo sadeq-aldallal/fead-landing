@@ -15,13 +15,15 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
   onClose,
   business
 }) => {
-  const { updateBusiness } = useDashboard();
+  const { updateBusiness, deleteBusiness } = useDashboard();
   const [mode, setMode] = useState<'test' | 'production'>(business.mode || 'test');
   const [testers, setTesters] = useState<string[]>(business.testers || []);
   const [newTester, setNewTester] = useState('');
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [disconnectLoading, setDisconnectLoading] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -58,8 +60,8 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
       return;
     }
 
-    if (testers.length >= 5) {
-      setError('Maximum 5 testers allowed in test mode');
+    if (testers.length >= 7) {
+      setError('Maximum 7 testers allowed in test mode');
       return;
     }
 
@@ -100,23 +102,21 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
   };
 
   const handleDeleteBusiness = async () => {
-    if (!confirm('Are you sure you want to delete this business? You will have 30 days to restore it.')) {
+    if (deleteConfirmText !== business.name) {
+      setError(`Please type "${business.name}" to confirm deletion`);
       return;
     }
 
     setDeleteLoading(true);
     setError('');
 
-    const { error: updateError } = await updateBusiness(business.id, { 
-      is_deleted: true,
-      deleted_at: new Date().toISOString()
-    });
+    const { error: deleteError } = await deleteBusiness(business.id);
     
-    if (updateError) {
+    if (deleteError) {
       setError('Failed to delete business');
       setDeleteLoading(false);
     } else {
-      setSuccess('Business deleted successfully. You have 30 days to restore it.');
+      setSuccess('Business deleted successfully.');
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -185,19 +185,20 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
   return (
     <div className="modal-overlay">
       <div className="modal-content max-w-7xl w-full">
-        <button
-          onClick={onClose}
-          className="modal-close"
-          disabled={loading || deleteLoading || disconnectLoading}
-        >
-          <X size={24} />
-        </button>
-
         <div className="modal-header">
-          <h2 className="modal-title">Manage Business</h2>
-          <p className="modal-subtitle">
-            Configure settings for {business.name}
-          </p>
+          <div>
+            <h2 className="modal-title">Manage Business</h2>
+            <p className="modal-subtitle">
+              Configure settings for {business.name}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="modal-close"
+            disabled={loading || deleteLoading || disconnectLoading}
+          >
+            <X size={24} />
+          </button>
         </div>
 
         {error && (
@@ -216,7 +217,6 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
           {/* Mode Toggle Section */}
           <div className="bg-white/5 rounded-lg p-6 border border-white/10">
             <div className="flex items-center mb-4">
-              <Settings className="w-5 h-5 text-green-400 mr-2" />
               <h3 className="text-lg font-semibold text-white">Mode Settings</h3>
             </div>
             
@@ -225,7 +225,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                 <div>
                   <p className="text-white font-medium">Current Mode</p>
                   <p className="text-white/70 text-sm">
-                    {mode === 'test' ? 'Test Mode - Limited to 5 Instagram accounts' : 'Production Mode - Unlimited accounts'}
+                    {mode === 'test' ? 'Test Mode - Limited to 7 Instagram accounts' : 'Production Mode - Unlimited accounts'}
                   </p>
                 </div>
                 <div className="flex bg-white/10 rounded-lg p-1">
@@ -234,9 +234,12 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                     disabled={loading}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                       mode === 'test'
-                        ? 'bg-green-600 text-white'
+                        ? 'text-white'
                         : 'text-white/70 hover:text-white hover:bg-white/10'
                     }`}
+                    style={{
+                      backgroundColor: mode === 'test' ? '#ea580c' : undefined
+                    }}
                   >
                     Test
                   </button>
@@ -245,7 +248,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                     disabled={loading}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                       mode === 'production'
-                        ? 'bg-green-600 text-white'
+                        ? 'bg-green-700 text-white'
                         : 'text-white/70 hover:text-white hover:bg-white/10'
                     }`}
                   >
@@ -261,7 +264,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                     <Users className="w-4 h-4 text-blue-400 mr-2" />
                     <h4 className="text-white font-medium">Test Instagram Accounts</h4>
                     <span className="ml-2 text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">
-                      {testers.length}/5
+                      {testers.length}/7
                     </span>
                   </div>
                   
@@ -279,19 +282,19 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                         value={newTester}
                         onChange={(e) => setNewTester(e.target.value)}
                         onKeyPress={handleKeyPress}
-                        className="form-input pl-8"
+                        className="form-input pl-10 h-12"
                         placeholder="instagram_username"
-                        disabled={loading || testers.length >= 5}
+                        disabled={loading || testers.length >= 7}
                       />
                     </div>
                     <Button
                       onClick={handleAddTester}
-                      disabled={loading || !newTester.trim() || testers.length >= 5}
+                      disabled={loading || !newTester.trim() || testers.length >= 7}
                       size="sm"
-                      className="flex items-center space-x-1"
+                      variant="outline"
+                      className="flex items-center justify-center w-12 h-12 min-w-12 border-white/60 hover:border-white hover:bg-white/20 transition-all duration-200"
                     >
                       <Plus size={16} />
-                      <span>Add</span>
                     </Button>
                   </div>
 
@@ -299,7 +302,7 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                   {testers.length > 0 && (
                     <div className="space-y-2">
                       {testers.map((username, index) => (
-                        <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-3">
+                        <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg px-3 h-12">
                           <span className="text-white">@{username}</span>
                           <button
                             onClick={() => handleRemoveTester(username)}
@@ -332,20 +335,66 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
             </div>
             
             <div className="space-y-4">
-              <div>
-                <h4 className="text-white font-medium mb-2">Delete Business</h4>
-                <p className="text-white/70 text-sm mb-4">
-                  Once you delete this business, it will be moved to trash. You will have 30 days to restore it before permanent deletion.
-                </p>
-                <Button
-                  onClick={handleDeleteBusiness}
-                  loading={deleteLoading}
-                  disabled={deleteLoading}
-                  className="bg-red-600 hover:bg-red-700 text-white border-red-600"
-                >
-                  {deleteLoading ? 'Deleting...' : 'Delete Business'}
-                </Button>
-              </div>
+              {!showDeleteConfirm ? (
+                <div>
+                  <h4 className="text-white font-medium mb-2">Delete Business</h4>
+                  <p className="text-white/70 text-sm mb-4">
+                    This will permanently delete this business and all associated data. This action cannot be undone and there is no way to restore it.
+                  </p>
+                  <Button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="bg-red-600 hover:bg-red-700 text-white border-red-600"
+                  >
+                    Delete Business
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="text-center mb-4">
+                    <AlertTriangle size={48} className="mx-auto text-red-400 mb-4" />
+                    <h4 className="text-red-400 font-medium mb-2">Permanently Delete Business</h4>
+                    <p className="text-white/70 text-sm">
+                      This will permanently delete <strong className="text-white">{business.name}</strong> and all associated data. 
+                      This action cannot be undone and there is no way to restore it.
+                    </p>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">
+                      Type "{business.name}" to confirm deletion
+                    </label>
+                    <input
+                      type="text"
+                      value={deleteConfirmText}
+                      onChange={(e) => setDeleteConfirmText(e.target.value)}
+                      className="form-input"
+                      placeholder={business.name}
+                    />
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <Button
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setDeleteConfirmText('');
+                        setError('');
+                      }}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleDeleteBusiness}
+                      loading={deleteLoading}
+                      disabled={deleteLoading || deleteConfirmText !== business.name}
+                      className="bg-red-600 hover:bg-red-700 text-white border-red-600 flex-1"
+                    >
+                      {deleteLoading ? 'Deleting...' : 'Delete Forever'}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

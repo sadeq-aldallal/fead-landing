@@ -26,23 +26,24 @@ export const InstagramModal: React.FC<InstagramModalProps> = ({ isOpen, onClose,
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button
-          onClick={onClose}
-          className="modal-close"
-        >
-          <X size={24} />
-        </button>
-
         <div className="modal-header">
-          <h2 className="modal-title">Connect Instagram Account</h2>
-          <p className="modal-subtitle">
-            Please review and accept the following requirements before connecting your Instagram account
-          </p>
+          <div>
+            <h2 className="modal-title">Connect Instagram Account</h2>
+            <p className="modal-subtitle">
+              Please review and accept the following requirements before connecting your Instagram account
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="modal-close"
+          >
+            <X size={24} />
+          </button>
         </div>
 
-        <div className="space-y-6">
+        <div className="modal-body">
           {/* Legal Compliance Checkbox */}
-          <div className="mb-6">
+          <div>
             <label className="custom-checkbox flex items-start cursor-pointer">
               <input
                 type="checkbox"
@@ -68,7 +69,7 @@ export const InstagramModal: React.FC<InstagramModalProps> = ({ isOpen, onClose,
           </div>
 
           {/* Professional Account Checkbox */}
-          <div className="mb-6">
+          <div>
             <label className="custom-checkbox flex items-start cursor-pointer">
               <input
                 type="checkbox"
@@ -100,23 +101,16 @@ export const InstagramModal: React.FC<InstagramModalProps> = ({ isOpen, onClose,
             </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex space-x-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="flex-1"
-            >
-              Cancel
-            </Button>
+          {/* Action Button */}
+          <div className="flex justify-center">
             <Button
               type="button"
               onClick={handleConnect}
               disabled={!canConnect}
-              className={`flex-1 ${!canConnect ? 'opacity-50 cursor-not-allowed' : ''}`}
+              size="lg"
+              className="px-8"
             >
-              Connect Instagram
+              Connect
             </Button>
           </div>
         </div>

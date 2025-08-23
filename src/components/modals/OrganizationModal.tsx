@@ -222,19 +222,20 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button
-          onClick={onClose}
-          className="modal-close"
-          disabled={loading}
-        >
-          <X size={24} />
-        </button>
-
         <div className="modal-header">
-          <h2 className="modal-title">Create Organization</h2>
-          <p className="modal-subtitle">
-            Set up your organization to get started with fead.app
-          </p>
+          <div>
+            <h2 className="modal-title">Create Organization</h2>
+            <p className="modal-subtitle">
+              Set up your organization to get started with fead.app
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="modal-close"
+            disabled={loading}
+          >
+            <X size={24} />
+          </button>
         </div>
 
         {error && (
