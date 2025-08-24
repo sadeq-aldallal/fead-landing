@@ -6,6 +6,7 @@ import { BusinessModal } from '../modals/BusinessModal';
 import { BusinessManagementModal } from '../modals/BusinessManagementModal';
 import { Button } from '../ui/Button';
 import { Business } from '../../types/dashboard';
+import { redirectToInstagramAuth } from '../../utils/instagramAuth';
 
 export const OrganizationView: React.FC = () => {
   const { organization, businesses, setCurrentBusiness } = useDashboard();
@@ -25,14 +26,9 @@ export const OrganizationView: React.FC = () => {
     setCurrentBusiness(business);
     setShowManagementModal(true);
   };
+
   const handleInstagramConnect = () => {
-    const clientId = '1292743865568326';
-    const redirectUri = 'https://fead.app/';
-    const scope = 'instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights';
-    
-    const authUrl = `https://www.instagram.com/oauth/authorize?force_reauth=false&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
-    
-    window.location.href = authUrl;
+    redirectToInstagramAuth();
   };
 
   if (!organization) {
@@ -96,16 +92,19 @@ export const OrganizationView: React.FC = () => {
         <h2 className="text-2xl font-bold text-white mb-6">Businesses</h2>
         
         {businesses.length === 0 ? (
-          /* No businesses - Center the create button */
+          /* No businesses - Center the create section */
           <div className="flex justify-center">
-            <button
-              onClick={() => setShowBusinessModal(true)}
-              className="create-business-btn"
-            >
-              <Plus size={48} />
-              <h3 className="text-xl font-semibold mb-2">Create Your First Business</h3>
-              <p className="text-sm">Get started by adding a business to your organization</p>
-            </button>
+            <div className="create-business-container">
+              <button
+                onClick={() => setShowBusinessModal(true)}
+                className="create-business-plus-btn"
+                title="Create Your First Business"
+              >
+                <Plus size={48} />
+              </button>
+              <h3 className="text-xl font-semibold mb-2 text-center">Create Your First Business</h3>
+              <p className="text-sm text-center">Get started by adding a business to your organization</p>
+            </div>
           </div>
         ) : (
           /* Has businesses - Show grid */

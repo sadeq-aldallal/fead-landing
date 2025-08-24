@@ -1,9 +1,9 @@
+/* Import Documentation Styles */
+@import './components/docs/DocumentationStyles.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import Documentation Styles */
-@import './components/docs/DocumentationStyles.css';
 
 /* Custom CSS Variables for Dark Futuristic Theme */
 :root {
@@ -856,33 +856,37 @@ select {
   }
 }
 
-/* Create Business Button */
-.create-business-btn {
+/* Create Business Section */
+.create-business-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 200px;
-  background: var(--bg-card);
-  border: 2px dashed var(--border-primary);
-  border-radius: var(--radius-xl);
   color: var(--text-secondary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
 }
 
-.create-business-btn:hover {
+.create-business-plus-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: var(--bg-card);
+  border: 2px dashed var(--border-primary);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: var(--spacing-lg);
+}
+
+.create-business-plus-btn:hover {
   border-color: var(--border-accent);
   background: var(--bg-card-hover);
   color: var(--brand-green);
 }
 
-.create-business-btn svg {
-  width: 48px;
-  height: 48px;
-  margin-bottom: var(--spacing-md);
-}
 
 /* Instagram Connection */
 .instagram-connection {

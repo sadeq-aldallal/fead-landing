@@ -249,7 +249,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       console.log('DashboardContext: Sending code to n8n webhook...');
       
       // Send code directly to N8N webhook
-      const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook/fb9e4641-dc87-4d30-af15-e7b775482125', {
+      const webhookResponse = await fetch('https://fead.app.n8n.cloud/webhook/ig_auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -257,7 +257,10 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         body: JSON.stringify({ 
           code,
           business_id: businessId,
-          business_name: dashboardState.businesses.find(b => b.id === businessId)?.name
+          business_name: dashboardState.businesses.find(b => b.id === businessId)?.name,
+          redirect_uri: import.meta.env.VITE_INSTAGRAM_REDIRECT_URL || 'https://fead.app/',
+          client_id: import.meta.env.VITE_INSTAGRAM_CLIENT_ID || '1292743865568326',
+          env: import.meta.env.DEV ? 'dev' : 'prod'
         })
       });
 

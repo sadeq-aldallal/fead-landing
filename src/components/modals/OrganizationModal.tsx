@@ -205,7 +205,9 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
     if (createError) {
       setError(createError.message || 'Failed to create organization');
     } else {
+      // Successfully created organization - close modal
       onClose();
+      // Let the dashboard context handle the state update and UI refresh
     }
     
     setLoading(false);
@@ -221,7 +223,7 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content max-w-md">
         <div className="modal-header">
           <div>
             <h2 className="modal-title">Create Organization</h2>
@@ -229,22 +231,16 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
               Set up your organization to get started with fead.app
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="modal-close"
-            disabled={loading}
-          >
-            <X size={24} />
-          </button>
         </div>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        <div className="modal-body">
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
           <div className="form-group">
             <label className="form-label">
               Organization Name *
@@ -347,6 +343,7 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
             {loading ? 'Creating Organization...' : 'Create Organization'}
           </Button>
         </form>
+        </div>
       </div>
     </div>
   );

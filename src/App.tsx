@@ -237,8 +237,11 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     if (user && currentPage === 'dashboard' && !dashboardLoading && !organization) {
       setShowOrganizationModal(true);
+    } else if (organization && showOrganizationModal) {
+      // Close modal when organization becomes available
+      setShowOrganizationModal(false);
     }
-  }, [user, currentPage, dashboardLoading, organization]);
+  }, [user, currentPage, dashboardLoading, organization, showOrganizationModal]);
 
   // Check for first-time visit and show cookie consent
   useEffect(() => {
@@ -425,13 +428,7 @@ const AppContent: React.FC = () => {
         
         <OrganizationModal
           isOpen={showOrganizationModal}
-          onClose={() => {
-            setShowOrganizationModal(false);
-            // If user closes modal without creating org, redirect to home
-            if (!organization) {
-              setCurrentPage('home');
-            }
-          }}
+          onClose={() => setShowOrganizationModal(false)}
         />
       </ProtectedRoute>
     );

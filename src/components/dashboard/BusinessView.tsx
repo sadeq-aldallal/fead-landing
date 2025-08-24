@@ -3,9 +3,10 @@ import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircl
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { Button } from '../ui/Button';
+import { redirectToInstagramAuth } from '../../utils/instagramAuth';
 
 export const BusinessView: React.FC = () => {
-  const { currentBusiness, refreshBusinessData, processInstagramCode } = useDashboard();
+  const { currentBusiness, refreshBusinessData } = useDashboard();
   const [showInstagramModal, setShowInstagramModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,18 +36,13 @@ export const BusinessView: React.FC = () => {
       }
     };
   }, [showCountdown, countdown]);
+
   const handleInstagramConnect = () => {
-    const clientId = '1292743865568326';
-    const redirectUri = 'https://fead.app/';
-    const scope = 'instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights';
-    
     setIsProcessingConnection(true);
     setError('');
     setSuccess('');
     
-    const authUrl = `https://www.instagram.com/oauth/authorize?force_reauth=false&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
-    
-    window.location.href = authUrl;
+    redirectToInstagramAuth();
   };
 
   // Listen for successful Instagram connections

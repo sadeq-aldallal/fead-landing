@@ -59,12 +59,25 @@ npm install
 2. Copy your **Project URL** and **anon public key**
 
 ### 3. Environment Variables
-Create a `.env.local` file in the root directory:
 
+Choose the appropriate environment file based on your setup:
+
+#### For Local Development
+Copy `.env.local` and update with your values:
 ```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+# Local Environment Variables
+VITE_N8N_WEBHOOK_URL=https://your-local-n8n-instance.com/webhook/fead-app-emails
+VITE_INSTAGRAM_CLIENT_ID=your_local_instagram_client_id
+VITE_INSTAGRAM_REDIRECT_URL=http://localhost:5173/
+VITE_SUPABASE_URL=your_local_supabase_url_here
+VITE_SUPABASE_ANON_KEY=your_local_supabase_anon_key_here
 ```
+
+#### For Development Environment
+Use `.env.dev` with development-specific values.
+
+#### For Production
+Use `.env.prod` with production values.
 
 ### 4. Start Development Server
 ```bash
