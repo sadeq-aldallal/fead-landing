@@ -10,7 +10,8 @@ interface NavigationProps {
   onDashboardClick?: () => void;
   onProfileClick?: () => void;
   onHomeClick?: () => void;
-  currentPage: 'home' | 'dashboard' | 'profile';
+  onDocsClick?: () => void;
+  currentPage: 'home' | 'dashboard' | 'profile' | 'docs';
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ 
@@ -19,6 +20,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   onDashboardClick, 
   onProfileClick, 
   onHomeClick,
+  onDocsClick,
   currentPage 
 }) => {
   const { t, currentLanguage, setLanguage, isRTL } = useLanguage();
@@ -101,6 +103,12 @@ export const Navigation: React.FC<NavigationProps> = ({
                 >
                   {t('nav.contact')}
                 </a>
+                <button
+                  onClick={onDocsClick}
+                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''} ${currentPage === 'docs' ? 'text-[var(--brand-green)]' : ''}`}
+                >
+                  Docs
+                </button>
               </div>
             )}
 

@@ -24,18 +24,20 @@ import { useDashboard } from './contexts/DashboardContext';
 import { PrivacyPolicy } from './components/legal/PrivacyPolicy';
 import { TermsAndConditions } from './components/legal/TermsAndConditions';
 import { AccountDeletionPolicy } from './components/legal/AccountDeletionPolicy';
+import { DocumentationPage } from './components/docs/DocumentationPage';
 
 const AppContent: React.FC = () => {
   // Initialize currentPage based on the current URL to avoid race conditions
-  const getInitialPage = (): 'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy' => {
+  const getInitialPage = (): 'home' | 'dashboard' | 'profile' | 'docs' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy' => {
     const path = window.location.pathname;
+    if (path === '/docs') return 'docs';
     if (path === '/privacy-policy') return 'privacy-policy';
     if (path === '/terms-and-conditions') return 'terms-and-conditions';
     if (path === '/account-deletion-policy') return 'account-deletion-policy';
     return 'home';
   };
   
-  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>(getInitialPage());
+  const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'docs' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>(getInitialPage());
   const [dashboardView, setDashboardView] = useState<'organization' | 'business'>('organization');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
@@ -150,7 +152,9 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      if (path === '/privacy-policy') {
+      if (path === '/docs') {
+        setCurrentPage('docs');
+      } else if (path === '/privacy-policy') {
         setCurrentPage('privacy-policy');
       } else if (path === '/terms-and-conditions') {
         setCurrentPage('terms-and-conditions');
@@ -218,7 +222,7 @@ const AppContent: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const hasOAuthCode = urlParams.get('code');
     
-    const legalPages = ['privacy-policy', 'terms-and-conditions', 'account-deletion-policy'];
+    const legalPages = ['docs', 'privacy-policy', 'terms-and-conditions', 'account-deletion-policy'];
     
     // Only auto-redirect if no OAuth code is present (to avoid interfering with OAuth processing)
     if (user && currentPage === 'home' && !hasOAuthCode) {
@@ -277,6 +281,35 @@ const AppContent: React.FC = () => {
     );
   }
 
+  // Show documentation page (not protected)
+  if (currentPage === 'docs') {
+    return (
+      <div className="dark-gradient-bg">
+        <Navigation 
+          onLoginClick={handleLoginClick}
+          onSignupClick={handleSignupClick}
+          onDashboardClick={() => setCurrentPage('dashboard')}
+          onProfileClick={() => setCurrentPage('profile')}
+          onHomeClick={() => setCurrentPage('home')}
+          onDocsClick={() => setCurrentPage('docs')}
+          currentPage={currentPage}
+        />
+        <DocumentationPage />
+        
+        <DemoRequestModal 
+          isOpen={showDemoModal} 
+          onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <CookieConsentModal
+          isOpen={showCookieConsent}
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
+        />
+      </div>
+    );
+  }
+
   // Show legal pages (not protected)
   if (currentPage === 'privacy-policy') {
     return (
@@ -287,6 +320,7 @@ const AppContent: React.FC = () => {
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
           onHomeClick={() => setCurrentPage('home')}
+          onDocsClick={() => setCurrentPage('docs')}
           currentPage={currentPage}
         />
         <PrivacyPolicy />
@@ -314,6 +348,7 @@ const AppContent: React.FC = () => {
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
           onHomeClick={() => setCurrentPage('home')}
+          onDocsClick={() => setCurrentPage('docs')}
           currentPage={currentPage}
         />
         <TermsAndConditions />
@@ -341,6 +376,7 @@ const AppContent: React.FC = () => {
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
           onHomeClick={() => setCurrentPage('home')}
+          onDocsClick={() => setCurrentPage('docs')}
           currentPage={currentPage}
         />
         <AccountDeletionPolicy />
@@ -382,10 +418,7 @@ const AppContent: React.FC = () => {
         <DashboardLayout
           currentView={dashboardView}
           onViewChange={setDashboardView}
-          breadcrumbs={[
-            { label: 'Dashboard', href: '#' },
-            { label: dashboardView === 'organization' ? 'Organization' : 'Business', current: true }
-          ]}
+          onDocsClick={() => setCurrentPage('docs')}
         >
           {dashboardView === 'organization' ? <OrganizationView /> : <BusinessView />}
         </DashboardLayout>
@@ -413,6 +446,7 @@ const AppContent: React.FC = () => {
         onDashboardClick={() => setCurrentPage('dashboard')}
         onProfileClick={() => setCurrentPage('profile')}
         onHomeClick={() => setCurrentPage('home')}
+        onDocsClick={() => setCurrentPage('docs')}
         currentPage={currentPage}
       />
       

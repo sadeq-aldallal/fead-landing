@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Documentation Styles */
+@import './components/docs/DocumentationStyles.css';
+
 /* Custom CSS Variables for Dark Futuristic Theme */
 :root {
   /* Color System - Green and White Only */

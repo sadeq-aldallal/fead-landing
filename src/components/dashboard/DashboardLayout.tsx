@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Menu, X, Settings } from 'lucide-react';
+import { Users, Menu, X, Settings, FileText } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Navigation } from '../layout/Navigation';
@@ -9,12 +9,14 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
   currentView: 'organization' | 'business';
   onViewChange: (view: 'organization' | 'business') => void;
+  onDocsClick?: () => void;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   currentView,
-  onViewChange
+  onViewChange,
+  onDocsClick
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -78,6 +80,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         {/* Bottom Section */}
         <div className="mt-auto space-y-4">
+        {/* Documentation */}
+        {onDocsClick && (
+          <button
+            onClick={onDocsClick}
+            className="sidebar-nav-item w-full"
+          >
+            <FileText size={20} />
+            <span>Documentation</span>
+          </button>
+        )}
+
         {/* Settings */}
         <button
           onClick={() => setShowSettingsModal(true)}
