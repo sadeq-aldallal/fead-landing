@@ -260,7 +260,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
           business_name: dashboardState.businesses.find(b => b.id === businessId)?.name,
           redirect_uri: import.meta.env.VITE_INSTAGRAM_REDIRECT_URL || 'https://fead.app/',
           client_id: import.meta.env.VITE_INSTAGRAM_CLIENT_ID || '1292743865568326',
-          env: import.meta.env.DEV ? 'dev' : 'prod'
+          env: import.meta.env.VITE_ENV || 'dev'
         })
       });
 
