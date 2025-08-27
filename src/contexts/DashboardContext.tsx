@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
 import { Organization, Business, DashboardState } from '../types/dashboard';
+import { useLoadingTracker } from '../components/ui/loading-analytics';
 
 interface DashboardContextType extends DashboardState {
   createOrganization: (data: Omit<Organization, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => Promise<{ error: any }>;
@@ -38,10 +39,20 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
     error: null
   });
 
+  // Loading analytics for dashboard data fetching
+  const { start: startDataFetch, end: endDataFetch } = useLoadingTracker('dashboard-data-fetch', {
+    onComplete: (duration) => {
+      if (duration > 2000) {
+        console.warn(`Dashboard data fetch took ${duration.toFixed(0)}ms - consider optimization`);
+      }
+    }
+  });
+
   const fetchOrganizationData = async () => {
     if (!user) return;
 
     try {
+      startDataFetch('loading');
       setDashboardState(prev => ({ ...prev, loading: true, error: null }));
 
       // Fetch organization
@@ -80,6 +91,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         businesses,
         loading: false
       }));
+      endDataFetch();
     } catch (error: any) {
       console.error('Error fetching organization data:', error);
       setDashboardState(prev => ({
@@ -87,6 +99,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
         error: error.message,
         loading: false
       }));
+      endDataFetch();
     }
   };
 

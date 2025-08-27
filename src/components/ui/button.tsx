@@ -59,6 +59,15 @@ export interface ButtonProps
   loadingText?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  
+  // Accessibility props
+  ariaLabel?: string
+  ariaDescribedBy?: string
+  screenReaderText?: string
+  tooltip?: string
+  shortcut?: string
+  confirmAction?: boolean
+  confirmMessage?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -73,18 +82,73 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     rightIcon,
     disabled,
     children,
+    ariaLabel,
+    ariaDescribedBy,
+    screenReaderText,
+    tooltip,
+    shortcut,
+    confirmAction = false,
+    confirmMessage,
+    onClick,
     ...props 
   }, ref) => {
     const Comp = asChild ? Slot : "button"
     const isDisabled = disabled || loading
+    const [showConfirm, setShowConfirm] = React.useState(false)
+    const confirmTimeoutRef = React.useRef<NodeJS.Timeout>()
+    
+    // Handle confirmation for destructive actions
+    const handleClick = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+      if (confirmAction && !showConfirm) {
+        e.preventDefault()
+        setShowConfirm(true)
+        
+        // Auto-reset confirmation after 3 seconds
+        confirmTimeoutRef.current = setTimeout(() => {
+          setShowConfirm(false)
+        }, 3000)
+        return
+      }
+      
+      // Reset confirmation state
+      if (showConfirm) {
+        setShowConfirm(false)
+        if (confirmTimeoutRef.current) {
+          clearTimeout(confirmTimeoutRef.current)
+        }
+      }
+      
+      onClick?.(e)
+    }, [confirmAction, showConfirm, onClick])
+    
+    // Cleanup timeout on unmount
+    React.useEffect(() => {
+      return () => {
+        if (confirmTimeoutRef.current) {
+          clearTimeout(confirmTimeoutRef.current)
+        }
+      }
+    }, [])
+    
+    // Build accessibility attributes
+    const accessibilityProps = {
+      'aria-label': ariaLabel || (showConfirm && confirmMessage ? confirmMessage : undefined),
+      'aria-describedby': ariaDescribedBy,
+      'aria-busy': loading,
+      'aria-disabled': isDisabled,
+      title: tooltip || (shortcut ? `${tooltip || ''} (${shortcut})`.trim() : undefined),
+    }
+    
+    const displayChildren = showConfirm && confirmMessage ? confirmMessage : children
+    const displayVariant = showConfirm ? 'destructive' : variant
     
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant: displayVariant, size, className }))}
         ref={ref}
         disabled={isDisabled}
-        aria-busy={loading}
-        aria-disabled={isDisabled}
+        onClick={handleClick}
+        {...accessibilityProps}
         {...props}
       >
         {loading && (
@@ -95,8 +159,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         
         <span className={cn(loading && loadingText && "sr-only")}>
-          {children}
+          {displayChildren}
         </span>
+        
+        {screenReaderText && (
+          <span className="sr-only">{screenReaderText}</span>
+        )}
+        
+        {shortcut && (
+          <span className="sr-only">Keyboard shortcut: {shortcut}</span>
+        )}
         
         {loading && loadingText && (
           <span>{loadingText}</span>

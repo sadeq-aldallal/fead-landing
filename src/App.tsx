@@ -27,6 +27,7 @@ import { PrivacyPolicy } from './components/legal/PrivacyPolicy';
 import { TermsAndConditions } from './components/legal/TermsAndConditions';
 import { AccountDeletionPolicy } from './components/legal/AccountDeletionPolicy';
 import { DocumentationPage } from './components/docs/DocumentationPage';
+import { LoadingAnalyticsProvider } from './components/ui/loading-analytics';
 
 const AppContent: React.FC = () => {
   // Initialize currentPage based on the current URL to avoid race conditions
@@ -548,15 +549,17 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <DashboardProvider>
-        <LanguageProvider>
-          <ThemeProvider>
-            <AppContent />
-          </ThemeProvider>
-        </LanguageProvider>
-      </DashboardProvider>
-    </AuthProvider>
+    <LoadingAnalyticsProvider>
+      <AuthProvider>
+        <DashboardProvider>
+          <LanguageProvider>
+            <ThemeProvider>
+              <AppContent />
+            </ThemeProvider>
+          </LanguageProvider>
+        </DashboardProvider>
+      </AuthProvider>
+    </LoadingAnalyticsProvider>
   );
 }
 

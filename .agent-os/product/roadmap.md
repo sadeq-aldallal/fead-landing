@@ -27,12 +27,12 @@
 use shadn bloks and components in dashboeds, adding sidebar, navbar and layouts `M`, 
 - [*] Component Standardization - Establish consistent SaaS UI patterns some button like login lloks ugly, and accept cookies`L`
 - [*] Enhanced  light Mode - Improve glassmorphism effects with shadcn/ui theming, please take extra atttention to the light mode, it has many issues `M`
-- [ ] abilit to full function in Responsive Design Audit - Ensure perfect mobile experience for SaaS platform `M`
-- [ ] Accessibility Improvements - WCAG compliance for professional SaaS `M`
+- [*] abilit to full function in Responsive Design Audit - Ensure perfect mobile experience for SaaS platform `M`
+- [*] Accessibility Improvements - WCAG compliance for professional SaaS `M`
 - [ ] Loading States Enhancement - Improve perceived performance across the platform `S`
 - [ ] In-app documentation system `M`
-- [ ] Support (Arabic) `M`
-- [ ] Fully complete Legal compliance system (privacy policy, terms, GDPR-compliant account deletion)
+- [ ] Support (Arabic) language, in RTL, this need to use https://fonts.google.com/noto/specimen/Noto+Naskh+Arabic, the default  language is detected by th eaprabc contriens, if the app could not get location, or the user doeos not allow then make english and the language togol must be always in the navbar, be very carful in translating to arabic and be sure the UI is functuning in both languages En adn Ar `XL`
+- [ ] Fully complete Legal compliance system (privacy policy, Terms of Service, GDPR-compliant Meta facebook developers account deletion), this is very important because the app will be submented for meta to get facebook app approve, we must not break intagram or facebook or whatapp complineces, also not their automation complaninces , it is alos important that fead.app is a company based in netherlands with chamber number "97935557" and CEO name is "Sadeq Al-Dallal"
 
 ### SaaS Specific Requirements
 - Professional onboarding flow

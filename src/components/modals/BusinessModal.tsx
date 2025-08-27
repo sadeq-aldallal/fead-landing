@@ -19,6 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useKeyboardShortcut, useFocusTrap, useScreenReaderAnnouncement } from '../ui/accessibility-utils';
+import { LoadingTransition, LoadingDots } from '../ui/loading-transitions';
+import { useLoadingTracker } from '../ui/loading-analytics';
 
 interface BusinessModalProps {
   isOpen: boolean;
@@ -32,6 +35,26 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Accessibility hooks
+  const focusTrapRef = useFocusTrap(isOpen);
+  const { announce, AnnouncementRegion } = useScreenReaderAnnouncement();
+
+  // Loading analytics for business creation
+  const { start: startBusinessCreation, end: endBusinessCreation } = useLoadingTracker('business-creation', {
+    onComplete: (duration) => {
+      console.log(`Business creation completed in ${duration.toFixed(0)}ms`);
+    }
+  });
+
+  // Keyboard shortcuts
+  useKeyboardShortcut('Enter', () => {
+    if (isOpen && !loading && businessName.trim()) {
+      handleSubmit(new Event('submit') as any);
+    }
+  }, { ctrlKey: true, enabled: isOpen });
+
+  useKeyboardShortcut('Escape', onClose, { enabled: isOpen });
 
   const businessTypes = [
     { 
@@ -51,37 +74,48 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
   const handleSubmit = async (e: React.FormEvent) => {
     if (!organization) return;
     
+    startBusinessCreation('loading');
     setLoading(true);
     setError('');
+    announce('Creating business...', 'polite');
 
     if (!businessName.trim()) {
-      setError('Business name is required');
+      const errorMsg = 'Business name is required';
+      setError(errorMsg);
+      announce(errorMsg, 'assertive');
       setLoading(false);
+      endBusinessCreation();
       return;
     }
 
     const { error: createError } = await createBusiness(businessName.trim(), organization.id, businessType);
     
     if (createError) {
-      setError(createError.message || 'Failed to create business');
+      const errorMsg = createError.message || 'Failed to create business';
+      setError(errorMsg);
+      announce(`Error: ${errorMsg}`, 'assertive');
     } else {
+      announce(`Business "${businessName.trim()}" created successfully!`, 'polite');
       setBusinessName('');
       setBusinessType('service');
       onClose();
     }
     
     setLoading(false);
+    endBusinessCreation();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md max-w-[95vw] mx-4">
+      <DialogContent ref={focusTrapRef} className="sm:max-w-md max-w-[95vw] mx-4">
         <DialogHeader>
           <DialogTitle>Create Business</DialogTitle>
           <DialogDescription>
-            Add a new business to your organization
+            Add a new business to your organization. Press Ctrl+Enter to submit or Escape to cancel.
           </DialogDescription>
         </DialogHeader>
+
+        <AnnouncementRegion />
 
         <FormInstructions 
           instructions={[
@@ -140,15 +174,31 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
           </div>
 
           <div className="pt-4 sm:pt-2">
-            <Button
-              type="submit"
-              loading={loading}
-              loadingText="Creating..."
-              className="w-full"
-              size="lg"
+            <LoadingTransition
+              isLoading={loading}
+              enter="scale"
+              fallback={
+                <Button
+                  disabled
+                  className="w-full"
+                  size="lg"
+                >
+                  <LoadingDots size="sm" className="mr-2" />
+                  Creating...
+                </Button>
+              }
             >
-              Create Business
-            </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                shortcut="Ctrl+Enter"
+                tooltip="Create a new business in your organization"
+                screenReaderText={loading ? "Creating business, please wait" : "Submit form to create business"}
+              >
+                Create Business
+              </Button>
+            </LoadingTransition>
           </div>
         </AccessibleForm>
       </DialogContent>

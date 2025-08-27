@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { LoadingSpinner } from '@/components/ui/loading-states'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -18,7 +19,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (!initialized || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="loading-spinner w-8 h-8"></div>
+        <LoadingSpinner 
+          variant="spinner" 
+          size="lg" 
+          text="Loading..."
+          className="animate-fade-in"
+        />
       </div>
     )
   }

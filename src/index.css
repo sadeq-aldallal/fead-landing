@@ -298,6 +298,137 @@ body {
     }
   }
 
+  /* Loading and Skeleton Animations */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes wave {
+    0%, 100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Skeleton Animation Classes */
+  .animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  .animate-wave {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animate-wave::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: wave 1.6s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  /* Loading state utilities */
+  .loading-enter {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .loading-exit {
+    animation: fadeIn 0.2s ease-out reverse;
+  }
+
+  /* Staggered animations for lists */
+  .stagger-animation > * {
+    animation: slideIn 0.4s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-animation > *:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-shimmer,
+    .animate-wave,
+    .animate-pulse,
+    .animate-fade-in,
+    .animate-slide-in,
+    .animate-scale-in,
+    .stagger-animation > * {
+      animation: none;
+    }
+    
+    /* Provide alternative visual feedback for reduced motion */
+    .animate-shimmer,
+    .animate-wave {
+      opacity: 0.6;
+    }
+  }
+
   /* Touch-specific button spacing and sizing */
   .button-spacing-mobile {
     margin: 0.25rem 0;

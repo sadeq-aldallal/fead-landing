@@ -74,8 +74,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-card border border-border rounded-lg p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:p-6">
+        <div className="bg-card border border-border rounded-lg p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white/60 text-sm">Active Agents</p>
@@ -86,7 +86,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           </div>
         </div>
         
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white/60 text-sm">Conversations Today</p>
@@ -96,7 +96,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           </div>
         </div>
         
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white/60 text-sm">Response Time</p>
@@ -106,7 +106,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           </div>
         </div>
         
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white/60 text-sm">Customer Satisfaction</p>
@@ -118,7 +118,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      <div className="bg-card border border-border rounded-lg p-4 md:p-6">
         <h3 className="text-xl font-semibold text-white mb-4">Recent Activity</h3>
         <div className="space-y-3">
           {[
@@ -150,9 +150,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:p-6">
         {mockAgents.map((agent) => (
-          <div key={agent.id} className="bg-card border border-border rounded-lg p-6">
+          <div key={agent.id} className="bg-card border border-border rounded-lg p-4 md:p-6">
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-lg font-semibold text-white">{agent.name}</h4>
               <div className="flex items-center space-x-2">
@@ -211,9 +211,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:p-6">
         {mockInstagramAccounts.map((account) => (
-          <div key={account.id} className="bg-card border border-border rounded-lg p-6">
+          <div key={account.id} className="bg-card border border-border rounded-lg p-4 md:p-6">
             <div className="flex items-center space-x-4 mb-4">
               <img 
                 src={account.profilePicture} 
@@ -282,14 +282,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 bg-card border border-border rounded-lg p-1 mb-8 overflow-x-auto">
+        <div className="flex space-x-1 bg-card border border-border rounded-lg p-1 mb-8 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
+                className={`flex items-center space-x-2 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap min-h-[44px] ${
                   activeTab === tab.id
                     ? 'bg-purple-500 text-white'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
