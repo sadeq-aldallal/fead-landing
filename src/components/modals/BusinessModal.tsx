@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import { X, ChevronDown } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface BusinessModalProps {
   isOpen: boolean;
@@ -58,37 +73,29 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
     setLoading(false);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content max-w-md" style={{ maxHeight: 'none', overflow: 'visible' }}>
-        <div className="modal-header">
-          <div>
-            <h2 className="modal-title">Create Business</h2>
-            <p className="modal-subtitle">
-              Add a new business to your organization
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="modal-close"
-            disabled={loading}
-          >
-            <X size={24} />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Create Business</DialogTitle>
+          <DialogDescription>
+            Add a new business to your organization
+          </DialogDescription>
+        </DialogHeader>
 
         {error && (
-          <div className="error-message">
-            {error}
-          </div>
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         )}
 
-        <div className="modal-body">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="business-name">
+              Business Name *
+            </Label>
             <Input
-              label="Business Name *"
+              id="business-name"
               type="text"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
@@ -96,66 +103,44 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
               required
               disabled={loading}
               autoFocus
-              error={error && !businessName.trim() ? 'Business name is required' : undefined}
             />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-white/70 mb-1">
-                Business Type *
-              </label>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-                  className="w-full py-2 px-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white text-left
-                    focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent
-                    transition-colors duration-200 flex items-center justify-between"
-                  disabled={loading}
-                >
-                  <div>
-                    <span className="text-white text-sm">{selectedType?.label}</span>
-                    <span className="text-white/60 text-xs block">{selectedType?.description}</span>
-                  </div>
-                  <ChevronDown 
-                    size={16} 
-                    className={`text-white/60 transition-transform duration-200 ${showTypeDropdown ? 'rotate-180' : ''}`} 
-                  />
-                </button>
-                
-                {showTypeDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg z-10">
-                    {businessTypes.map((type) => (
-                      <button
-                        key={type.value}
-                        type="button"
-                        onClick={() => {
-                          setBusinessType(type.value);
-                          setShowTypeDropdown(false);
-                        }}
-                        className={`w-full px-3 py-2 text-left hover:bg-gray-700 transition-colors duration-200 ${
-                          businessType === type.value ? 'bg-gray-700' : ''
-                        } first:rounded-t-lg last:rounded-b-lg`}
-                      >
-                        <span className="text-white text-sm font-medium block">{type.label}</span>
-                        <span className="text-white/70 text-xs">{type.description}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <Button
-              type="submit"
-              loading={loading}
+          <div className="space-y-2">
+            <Label htmlFor="business-type">
+              Business Type *
+            </Label>
+            <Select
+              value={businessType}
+              onValueChange={(value: 'retail' | 'service') => setBusinessType(value)}
               disabled={loading}
-              className="w-full"
             >
-              {loading ? 'Creating...' : 'Create Business'}
-            </Button>
-          </form>
-        </div>
-      </div>
-    </div>
+              <SelectTrigger id="business-type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {businessTypes.map((type) => (
+                  <SelectItem key={type.value} value={type.value}>
+                    <div>
+                      <div className="font-medium">{type.label}</div>
+                      <div className="text-xs text-muted-foreground">{type.description}</div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Button
+            type="submit"
+            loading={loading}
+            disabled={loading}
+            className="w-full"
+          >
+            {loading ? 'Creating...' : 'Create Business'}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };

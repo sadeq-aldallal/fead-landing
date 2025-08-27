@@ -1,8 +1,26 @@
 import React, { useState } from 'react';
-import { X, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+} from '@/components/ui/select';
 import { Country } from '../../types/dashboard';
 
 interface OrganizationModalProps {
@@ -219,119 +237,99 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
     setShowCountryDropdown(false);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content max-w-md">
-        <div className="modal-header">
-          <div>
-            <h2 className="modal-title">Create Organization</h2>
-            <p className="modal-subtitle">
-              Set up your organization to get started with fead.app
-            </p>
-          </div>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Create Organization</DialogTitle>
+          <DialogDescription>
+            Set up your organization to get started with fead.app
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="modal-body">
-          {error && (
-            <div className="error-message">
-              {error}
-            </div>
-          )}
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="form-group">
-            <label className="form-label">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="org-name">
               Organization Name *
-            </label>
-            <input
+            </Label>
+            <Input
+              id="org-name"
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="form-input"
               placeholder="Enter organization name"
               required
               disabled={loading}
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
+          <div className="space-y-2">
+            <Label htmlFor="phone">
               Phone Number *
-            </label>
-            <input
+            </Label>
+            <Input
+              id="phone"
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="form-input"
               placeholder="Enter phone number"
               required
               disabled={loading}
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
+          <div className="space-y-2">
+            <Label htmlFor="email">
               Email
-            </label>
-            <input
+            </Label>
+            <Input
+              id="email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="form-input"
               placeholder="Enter email address"
               disabled={loading}
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
+          <div className="space-y-2">
+            <Label htmlFor="country">
               Country *
-            </label>
-            <div className="relative">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={countrySearch}
-                  onChange={(e) => {
-                    setCountrySearch(e.target.value);
-                    setShowCountryDropdown(true);
-                  }}
-                  onFocus={() => setShowCountryDropdown(true)}
-                  className="form-input pr-10"
-                  placeholder="Search for country"
-                  disabled={loading}
-                />
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              </div>
-              
-              {selectedCountry && !showCountryDropdown && (
-                <div className="mt-2 flex items-center space-x-2 text-sm text-white/80">
-                  <span>{selectedCountry.flag}</span>
-                  <span>{selectedCountry.name}</span>
-                </div>
-              )}
-
-              {showCountryDropdown && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg max-h-60 overflow-y-auto z-10">
-                  {filteredCountries.map((country) => (
-                    <button
-                      key={country.code}
-                      type="button"
-                      onClick={() => handleCountrySelect(country)}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-700 flex items-center space-x-3 text-white"
-                    >
-                      <span>{country.flag}</span>
-                      <span>{country.name}</span>
-                    </button>
-                  ))}
-                  {filteredCountries.length === 0 && (
-                    <div className="px-4 py-2 text-gray-400">No countries found</div>
+            </Label>
+            <Select
+              value={formData.country}
+              onValueChange={(value) => setFormData({ ...formData, country: value })}
+              disabled={loading}
+            >
+              <SelectTrigger id="country">
+                <SelectValue placeholder="Select a country">
+                  {selectedCountry && (
+                    <span className="flex items-center gap-2">
+                      <span>{selectedCountry.flag}</span>
+                      <span>{selectedCountry.name}</span>
+                    </span>
                   )}
-                </div>
-              )}
-            </div>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px]">
+                <SelectGroup>
+                  {countries.map((country) => (
+                    <SelectItem key={country.code} value={country.code}>
+                      <span className="flex items-center gap-2">
+                        <span>{country.flag}</span>
+                        <span>{country.name}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
           <Button
@@ -343,8 +341,7 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
             {loading ? 'Creating Organization...' : 'Create Organization'}
           </Button>
         </form>
-        </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
