@@ -18,24 +18,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
     <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden hero-with-dots">
       {/* AI Customer Support Themed Background */}
       <div className="ai-customer-support-bg">
-        {/* Floating Chat Bubbles */}
-        <div className="chat-bubbles-container">
-          <div className="chat-bubble customer-bubble bubble-1">
-            <div className="bubble-content">Hello! I need help</div>
-          </div>
-          <div className="chat-bubble ai-bubble bubble-2">
-            <div className="bubble-content">I'm here to assist you!</div>
-          </div>
-          <div className="chat-bubble customer-bubble bubble-3">
-            <div className="bubble-content">Quick question...</div>
-          </div>
-          <div className="chat-bubble ai-bubble bubble-4">
-            <div className="bubble-content">✓ Resolved</div>
-          </div>
-          <div className="chat-bubble customer-bubble bubble-5">
-            <div className="bubble-content">Thank you!</div>
-          </div>
-        </div>
 
         {/* AI Bot Icons */}
         <div className="ai-bots-container">

@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface NavigationProps {
   onLoginClick: () => void;
@@ -64,7 +65,6 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   const handleLogout = () => {
     signOut();
-    setShowUserDropdown(false);
     onHomeClick?.();
   };
 
@@ -139,6 +139,13 @@ export const Navigation: React.FC<NavigationProps> = ({
                   >
                     Request Demo
                   </Button>
+                </>
+              )}
+              
+              {isDashboard && user && (
+                <>
+                  {/* Theme toggle button for dashboard */}
+                  <ThemeToggle />
                 </>
               )}
               

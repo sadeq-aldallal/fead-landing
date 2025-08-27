@@ -8,7 +8,7 @@ fead.app is a SaaS customer support AI agent configuration platform that helps I
 
 ### Primary Customers
 
-- **Service Providers**: Barbers, personal trainers, padel field owners, life coaches who use Instagram for customer engagement and appointment booking
+- **Service Providers**: Such as Barbers, personal trainers, padel field owners, life coaches who use Instagram for customer engagement and appointment booking
 - **Retail Businesses**: E-commerce stores, product sellers who use Instagram for customer support and order management
 
 ### User Personas
@@ -29,15 +29,15 @@ fead.app is a SaaS customer support AI agent configuration platform that helps I
 
 ### Manual Customer Support Overload
 
-Instagram businesses spend 3-5 hours daily responding to repetitive customer inquiries about availability, pricing, and basic information. This manual approach limits growth potential and creates customer service bottlenecks.
+Instagram businesses spend all the day even after mid night responding to repetitive customer inquiries about availability, pricing, and basic information. This manual approach limits growth potential and creates customer service bottlenecks.
 
-**Our Solution:** Intelligent AI agents that automatically handle common inquiries while escalating complex issues to business owners.
+**Our Solution:** Intelligent AI agents that automatically handle common inquiries while escalating complex issues to the business human agents.
 
 ### Language Barriers Limiting Market Reach
 
 Many Instagram businesses lose potential customers due to language barriers, especially in diverse markets where customers speak multiple languages.
 
-**Our Solution:** Multilingual AI agents supporting both English and Arabic (with RTL support) that can communicate naturally with customers in their preferred language.
+**Our Solution:** Multilingual AI agents supporting both English, Arabic and kurdish (with RTL support) that can communicate naturally with customers in their preferred language.
 
 ### Business Type-Specific Configuration Complexity
 
@@ -78,7 +78,7 @@ Unlike single-business solutions, fead.app is a scalable SaaS platform supportin
 - [x] Dark futuristic UI with glassmorphism effects
 - [x] Multilingual support (English/Arabic RTL)
 - [x] Legal compliance system (privacy policy, terms, account deletion)
-- [x] Email service integration via Google Cloud Functions
+- [x] Email service integration via n8n gmail nodes
 - [x] N8N workflow automation for backend processes
 - [x] Protected routing and comprehensive user management
 - [x] Contact forms and demo request system

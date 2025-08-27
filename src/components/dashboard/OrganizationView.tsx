@@ -49,8 +49,8 @@ export const OrganizationView: React.FC = () => {
       {/* Organization Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">{organization.name}</h1>
-          <p className="text-white/70">Manage your businesses and settings</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{organization.name}</h1>
+          <p className="text-muted-foreground">Manage your businesses and settings</p>
         </div>
         {businesses.length > 0 && (
           <Button
@@ -93,22 +93,27 @@ export const OrganizationView: React.FC = () => {
 
       {/* Businesses Section */}
       <div>
-        <h2 className="text-2xl font-bold text-white mb-6">Businesses</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-6">Businesses</h2>
         
         {businesses.length === 0 ? (
           /* No businesses - Center the create section */
           <div className="flex justify-center">
-            <div className="create-business-container">
-              <button
-                onClick={() => setShowBusinessModal(true)}
-                className="create-business-plus-btn"
-                title="Create Your First Business"
-              >
-                <Plus size={48} />
-              </button>
-              <h3 className="text-xl font-semibold mb-2 text-center">Create Your First Business</h3>
-              <p className="text-sm text-center">Get started by adding a business to your organization</p>
-            </div>
+            <Card className="p-8 text-center max-w-md">
+              <CardContent className="flex flex-col items-center space-y-4">
+                <Button
+                  onClick={() => setShowBusinessModal(true)}
+                  size="lg"
+                  className="w-20 h-20 rounded-full"
+                  title="Create Your First Business"
+                >
+                  <Plus size={32} />
+                </Button>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2 text-foreground">Create Your First Business</h3>
+                  <p className="text-sm text-muted-foreground">Get started by adding a business to your organization</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         ) : (
           /* Has businesses - Show grid */

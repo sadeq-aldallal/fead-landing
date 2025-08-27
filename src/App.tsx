@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import './styles/landing.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DashboardProvider } from './contexts/DashboardContext';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { Navigation } from './components/layout/Navigation';
 import { HeroSection } from './components/sections/HeroSection';
 import { ClientLogosSection } from './components/sections/ClientLogosSection';
@@ -55,6 +57,7 @@ const AppContent: React.FC = () => {
     processInstagramCode,
     setCurrentBusiness 
   } = useDashboard();
+  const { setIsLandingPage } = useTheme();
   
   // Ref to track if OAuth code has been processed to prevent duplicate processing
   const processedOAuthCodeRef = useRef(false);
@@ -203,6 +206,16 @@ const AppContent: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
+  // Update landing page state for theme context
+  useEffect(() => {
+    const isOnLandingPage = currentPage === 'home' || 
+                           currentPage === 'docs' || 
+                           currentPage === 'privacy-policy' || 
+                           currentPage === 'terms-and-conditions' || 
+                           currentPage === 'account-deletion-policy';
+    setIsLandingPage(isOnLandingPage);
+  }, [currentPage, setIsLandingPage]);
+
   // Handle scrolling to sections when hash is present
   useEffect(() => {
     const handleHashScroll = () => {
@@ -296,8 +309,8 @@ const AppContent: React.FC = () => {
   // Show loading while auth is initializing
   if (!initialized || loading) {
     return (
-      <div className="dark-gradient-bg min-h-screen flex items-center justify-center">
-        <div className="loading-spinner w-8 h-8"></div>
+      <div className="landing-gradient-bg min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-green"></div>
       </div>
     );
   }
@@ -305,7 +318,7 @@ const AppContent: React.FC = () => {
   // Show documentation page (not protected)
   if (currentPage === 'docs') {
     return (
-      <div className="dark-gradient-bg">
+      <div className="landing-gradient-bg landing-page-container">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -334,7 +347,7 @@ const AppContent: React.FC = () => {
   // Show legal pages (not protected)
   if (currentPage === 'privacy-policy') {
     return (
-      <div className="dark-gradient-bg">
+      <div className="landing-gradient-bg landing-page-container">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -362,7 +375,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'terms-and-conditions') {
     return (
-      <div className="dark-gradient-bg">
+      <div className="landing-gradient-bg landing-page-container">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -390,7 +403,7 @@ const AppContent: React.FC = () => {
 
   if (currentPage === 'account-deletion-policy') {
     return (
-      <div className="dark-gradient-bg">
+      <div className="landing-gradient-bg landing-page-container">
         <Navigation 
           onLoginClick={handleLoginClick}
           onSignupClick={handleSignupClick}
@@ -483,7 +496,7 @@ const AppContent: React.FC = () => {
 
   // Main landing page
   return (
-    <div className="dark-gradient-bg min-h-screen">
+    <div className="landing-gradient-bg min-h-screen landing-page-container">
       <Navigation 
         onLoginClick={handleLoginClick}
         onSignupClick={handleSignupClick}
@@ -538,7 +551,9 @@ function App() {
     <AuthProvider>
       <DashboardProvider>
         <LanguageProvider>
-          <AppContent />
+          <ThemeProvider>
+            <AppContent />
+          </ThemeProvider>
         </LanguageProvider>
       </DashboardProvider>
     </AuthProvider>

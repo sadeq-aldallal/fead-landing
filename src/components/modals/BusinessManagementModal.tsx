@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { X, Plus, Trash2, AlertTriangle, Users, Settings } from 'lucide-react';
+import { Plus, Trash2, AlertTriangle, Users } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Business } from '../../types/dashboard';
 import { Button } from '../ui/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Badge } from '../ui/badge';
 
 interface BusinessManagementModalProps {
   isOpen: boolean;
@@ -180,109 +191,88 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content max-w-7xl w-full">
-        <div className="modal-header">
-          <div>
-            <h2 className="modal-title">Manage Business</h2>
-            <p className="modal-subtitle">
-              Configure settings for {business.name}
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="modal-close"
-            disabled={loading || deleteLoading || disconnectLoading}
-          >
-            <X size={24} />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Manage Business</DialogTitle>
+          <DialogDescription>
+            Configure settings for {business.name}
+          </DialogDescription>
+        </DialogHeader>
 
         {error && (
-          <div className="error-message">
-            {error}
+          <div className="bg-destructive/15 border border-destructive/20 rounded-md p-3">
+            <p className="text-destructive text-sm">{error}</p>
           </div>
         )}
 
         {success && (
-          <div className="success-message">
-            {success}
+          <div className="bg-green-500/15 border border-green-500/20 rounded-md p-3">
+            <p className="text-green-600 text-sm">{success}</p>
           </div>
         )}
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Mode Toggle Section */}
-          <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-            <div className="flex items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">Mode Settings</h3>
-            </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Mode Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
             
-            <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-white font-medium">Current Mode</p>
-                  <p className="text-white/70 text-sm">
+                  <Label className="text-base font-medium">Current Mode</Label>
+                  <p className="text-muted-foreground text-sm">
                     {mode === 'test' ? 'Test Mode - Limited to 7 Instagram accounts' : 'Production Mode - Unlimited accounts'}
                   </p>
                 </div>
-                <div className="flex bg-white/10 rounded-lg p-1">
-                  <button
+                <div className="flex bg-muted rounded-md p-1">
+                  <Button
                     onClick={() => handleModeToggle('test')}
                     disabled={loading}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                      mode === 'test'
-                        ? 'text-white'
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
-                    }`}
-                    style={{
-                      backgroundColor: mode === 'test' ? '#ea580c' : undefined
-                    }}
+                    variant={mode === 'test' ? 'default' : 'ghost'}
+                    size="sm"
                   >
                     Test
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => handleModeToggle('production')}
                     disabled={loading}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                      mode === 'production'
-                        ? 'bg-green-700 text-white'
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
-                    }`}
+                    variant={mode === 'production' ? 'default' : 'ghost'}
+                    size="sm"
                   >
                     Production
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               {/* Test Mode Testers Section */}
               {mode === 'test' && (
-                <div className="mt-6 pt-6 border-t border-white/10">
+                <div className="pt-4 border-t">
                   <div className="flex items-center mb-4">
-                    <Users className="w-4 h-4 text-blue-400 mr-2" />
-                    <h4 className="text-white font-medium">Test Instagram Accounts</h4>
-                    <span className="ml-2 text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">
+                    <Users className="w-4 h-4 mr-2" />
+                    <Label className="text-base font-medium">Test Instagram Accounts</Label>
+                    <Badge variant="secondary" className="ml-2">
                       {testers.length}/7
-                    </span>
+                    </Badge>
                   </div>
                   
-                  <p className="text-white/60 text-sm mb-4">
+                  <p className="text-muted-foreground text-sm mb-4">
                     Add Instagram usernames that can interact with your AI agent during testing. 
-                    <strong className="text-yellow-400"> Username must exactly match the Instagram username.</strong>
+                    <strong className="text-yellow-600"> Username must exactly match the Instagram username.</strong>
                   </p>
 
                   {/* Add Tester Input */}
                   <div className="flex space-x-2 mb-4">
                     <div className="flex-1 relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">@</span>
-                      <input
-                        type="text"
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">@</span>
+                      <Input
                         value={newTester}
                         onChange={(e) => setNewTester(e.target.value)}
                         onKeyPress={handleKeyPress}
-                        className="form-input pl-10 h-12"
+                        className="pl-8"
                         placeholder="instagram_username"
                         disabled={loading || testers.length >= 7}
                       />
@@ -290,11 +280,10 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                     <Button
                       onClick={handleAddTester}
                       disabled={loading || !newTester.trim() || testers.length >= 7}
-                      size="sm"
+                      size="icon"
                       variant="outline"
-                      className="flex items-center justify-center w-12 h-12 min-w-12 border-white/60 hover:border-white hover:bg-white/20 transition-all duration-200"
                     >
-                      <Plus size={16} />
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
 
@@ -302,48 +291,52 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                   {testers.length > 0 && (
                     <div className="space-y-2">
                       {testers.map((username, index) => (
-                        <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg px-3 h-12">
-                          <span className="text-white">@{username}</span>
-                          <button
+                        <div key={index} className="flex items-center justify-between bg-muted rounded-md px-3 py-2">
+                          <span>@{username}</span>
+                          <Button
                             onClick={() => handleRemoveTester(username)}
                             disabled={loading}
-                            className="text-red-400 hover:text-red-300 transition-colors duration-200"
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
                           >
-                            <Trash2 size={16} />
-                          </button>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {testers.length === 0 && (
-                    <div className="text-center py-8 text-white/60">
+                    <div className="text-center py-8 text-muted-foreground">
                       <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
                       <p>No test accounts added yet</p>
                     </div>
                   )}
                 </div>
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Danger Zone */}
-          <div className="bg-red-500/10 rounded-lg p-6 border border-red-500/30">
-            <div className="flex items-center mb-4">
-              <AlertTriangle className="w-5 h-5 text-red-400 mr-2" />
-              <h3 className="text-lg font-semibold text-red-400">Danger Zone</h3>
-            </div>
+          <Card className="border-destructive/50">
+            <CardHeader>
+              <CardTitle className="flex items-center text-destructive">
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                Danger Zone
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
             
-            <div className="space-y-4">
               {!showDeleteConfirm ? (
                 <div>
-                  <h4 className="text-white font-medium mb-2">Delete Business</h4>
-                  <p className="text-white/70 text-sm mb-4">
+                  <Label className="text-base font-medium mb-2">Delete Business</Label>
+                  <p className="text-muted-foreground text-sm mb-4">
                     This will permanently delete this business and all associated data. This action cannot be undone and there is no way to restore it.
                   </p>
                   <Button
                     onClick={() => setShowDeleteConfirm(true)}
-                    className="bg-red-600 hover:bg-red-700 text-white border-red-600"
+                    variant="destructive"
                   >
                     Delete Business
                   </Button>
@@ -351,23 +344,21 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
               ) : (
                 <div className="space-y-4">
                   <div className="text-center mb-4">
-                    <AlertTriangle size={48} className="mx-auto text-red-400 mb-4" />
-                    <h4 className="text-red-400 font-medium mb-2">Permanently Delete Business</h4>
-                    <p className="text-white/70 text-sm">
-                      This will permanently delete <strong className="text-white">{business.name}</strong> and all associated data. 
+                    <AlertTriangle size={48} className="mx-auto text-destructive mb-4" />
+                    <Label className="text-destructive font-medium mb-2">Permanently Delete Business</Label>
+                    <p className="text-muted-foreground text-sm">
+                      This will permanently delete <strong>{business.name}</strong> and all associated data. 
                       This action cannot be undone and there is no way to restore it.
                     </p>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">
+                  <div className="space-y-2">
+                    <Label>
                       Type "{business.name}" to confirm deletion
-                    </label>
-                    <input
-                      type="text"
+                    </Label>
+                    <Input
                       value={deleteConfirmText}
                       onChange={(e) => setDeleteConfirmText(e.target.value)}
-                      className="form-input"
                       placeholder={business.name}
                     />
                   </div>
@@ -386,19 +377,19 @@ export const BusinessManagementModal: React.FC<BusinessManagementModalProps> = (
                     </Button>
                     <Button
                       onClick={handleDeleteBusiness}
-                      loading={deleteLoading}
                       disabled={deleteLoading || deleteConfirmText !== business.name}
-                      className="bg-red-600 hover:bg-red-700 text-white border-red-600 flex-1"
+                      variant="destructive"
+                      className="flex-1"
                     >
                       {deleteLoading ? 'Deleting...' : 'Delete Forever'}
                     </Button>
                   </div>
                 </div>
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };

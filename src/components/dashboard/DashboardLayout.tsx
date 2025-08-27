@@ -45,7 +45,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   return (
-    <div className="dashboard-layout">
+    <div className="dashboard-layout bg-background text-foreground">
       {/* Header */}
       <Navigation 
         onLoginClick={() => {}}
@@ -58,7 +58,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
 
       {/* Desktop Sidebar */}
-      <aside className="dashboard-sidebar hidden md:flex">
+      <aside className="dashboard-sidebar hidden md:flex bg-card border-r border-border">
         {/* Logo */}
         <div className="flex items-center mb-8">
           <img 
