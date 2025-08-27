@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Mail, Lock, User, AlertCircle } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/ui/button';
 import { Input } from '../ui/Input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription } from '@/components/ui/alert'

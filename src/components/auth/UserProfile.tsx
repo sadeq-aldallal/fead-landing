@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { User, Mail, Calendar, Settings, LogOut, Shield } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/ui/button';
 
 export const UserProfile: React.FC = () => {
   const { user, signOut, updatePassword } = useAuth()

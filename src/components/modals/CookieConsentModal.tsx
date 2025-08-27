@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 
 interface CookieConsentModalProps {
   isOpen: boolean;

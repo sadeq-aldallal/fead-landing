@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 
 interface DashboardProps {
   onBack: () => void;

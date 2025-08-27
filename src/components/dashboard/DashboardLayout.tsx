@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Navigation } from '../layout/Navigation';
 import { UserSettingsModal } from '../modals/UserSettingsModal';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
@@ -45,7 +45,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   return (
-    <div className="dashboard-layout bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <Navigation 
         onLoginClick={() => {}}
@@ -56,20 +56,12 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         currentPage="dashboard"
       />
 
-
-      {/* Desktop Sidebar */}
-      <aside className="dashboard-sidebar hidden md:flex bg-card border-r border-border">
-        {/* Logo */}
-        <div className="flex items-center mb-8">
-          <img 
-            src="/fead.app_logo.png" 
-            alt="fead.app" 
-            className="h-8 w-auto"
-          />
-        </div>
-
-        {/* Navigation */}
-        <nav className="sidebar-nav flex-1">
+      {/* Dashboard Layout Container */}
+      <div className="flex h-[calc(100vh-64px)]">
+        {/* Desktop Sidebar */}
+        <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-16 bg-card border-r border-border">
+          {/* Navigation */}
+          <nav className="flex-1 space-y-2 p-4">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -87,8 +79,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           })}
         </nav>
 
-        {/* Bottom Section */}
-        <div className="mt-auto space-y-2">
+          {/* Bottom Section */}
+          <div className="mt-auto space-y-2 p-4">
           {/* Documentation */}
           {onDocsClick && (
             <Button
@@ -121,7 +113,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             <span>Logout</span>
           </Button>
         </div>
-      </aside>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 md:ml-64 overflow-auto">
+          <div className="p-6 pt-16">
+            {children}
+          </div>
+        </main>
+      </div>
 
       {/* Mobile Sidebar Sheet */}
       <div className="md:hidden fixed bottom-4 right-4 z-40">
@@ -209,16 +209,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           </SheetContent>
         </Sheet>
       </div>
-
-      {/* Main Content */}
-      <main className="dashboard-main">
-        <div className="dashboard-content">
-
-          {/* Content */}
-          {children}
-        </div>
-      </main>
-
 
       {/* User Settings Modal */}
       <UserSettingsModal

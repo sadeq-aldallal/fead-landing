@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Trash2, AlertTriangle, Users } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Business } from '../../types/dashboard';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,

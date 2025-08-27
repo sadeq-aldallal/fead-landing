@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Home, ChevronRight, ChevronDown, ArrowRight, FileText, Users, Building2, Instagram, Settings, Trash2, Copy, ExternalLink } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { 
   RequestingDemoContent, 
   CreatingOrganizationContent, 

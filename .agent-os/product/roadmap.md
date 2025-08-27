@@ -19,13 +19,14 @@
 ## Phase 1: UI Enhancement & SaaS Polish
 **Status:** 📋 PLANNED
 **Goal:** Professional SaaS UI with shadcn/ui and improved user experience
-**Success Criteria:** Modern, consistent UI that improves user onboarding and retention
+**Success Crsiteria:** Modern, consistent UI that improves user onboarding and retention
 
 ### Features
-- [*] shadcn/ui Integration - Migrate all custom Tailwind components to shadcn/ui using Claude Code AI `XL`
-- [ ] Shadn UI migration enhansment Landing page always in dark mode, while user can witch mode after loging in, and remove an customer UI in all UIs after loging in `L`
-- [ ] Component Standardization - Establish consistent SaaS UI patterns `L`
-- [ ] Enhanced Dark Mode - Improve glassmorphism effects with shadcn/ui theming `M`
+- [*] shadcn/ui Integration - Migrate all custom Tailwind components to shadcn/ui using Claude Code AI `XL`,
+- [*] remove SCC rols that effects shadn UI, and clean up unessaery css, and sskeep shadn UI styles without conflecting CSS roles
+use shadn bloks and components in dashboeds, adding sidebar, navbar and layouts `M`, 
+- [ ] Component Standardization - Establish consistent SaaS UI patterns some button like login lloks ugly, and accept cookies`L`
+- [ ] Enhanced Dark and light Mode - Improve glassmorphism effects with shadcn/ui theming `M`
 - [ ] abilit to full function in Responsive Design Audit - Ensure perfect mobile experience for SaaS platform `M`
 - [ ] Accessibility Improvements - WCAG compliance for professional SaaS `M`
 - [ ] Loading States Enhancement - Improve perceived performance across the platform `S`

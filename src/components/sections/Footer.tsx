@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface FooterProps {
   onPrivacyClick?: () => void;
@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <>
-      <footer id="contact" className="glass-nav border-t border-white/10">
+      <footer id="contact" className="bg-background/80 backdrop-blur-md border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Logo and Description */}
@@ -45,7 +45,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="h-10 w-auto md:h-12"
               />
               </div>
-              <p className={`text-white/70 mb-4 max-w-md ${isRTL ? 'font-arabic text-right' : ''}`}>
+              <p className={`text-muted-foreground mb-4 max-w-md ${isRTL ? 'font-arabic text-right' : ''}`}>
                 Automate your Instagram customer support with intelligent AI agents that work 24/7.
               </p>
               <div className="flex space-x-3">

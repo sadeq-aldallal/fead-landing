@@ -4,7 +4,7 @@ import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
 import { BusinessModal } from '../modals/BusinessModal';
 import { BusinessManagementModal } from '../modals/BusinessManagementModal';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { Business } from '../../types/dashboard';
 import { redirectToInstagramAuth } from '../../utils/instagramAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -47,20 +47,22 @@ export const OrganizationView: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Organization Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">{organization.name}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">{organization.name}</h1>
           <p className="text-muted-foreground">Manage your businesses and settings</p>
         </div>
         {businesses.length > 0 && (
-          <Button
-            onClick={() => setShowBusinessModal(true)}
-            variant="outline"
-            className="flex items-center space-x-2"
-          >
-            <Plus size={20} />
-            <span className="hidden md:inline">Add Business</span>
-          </Button>
+          <div className="flex-shrink-0">
+            <Button
+              onClick={() => setShowBusinessModal(true)}
+              variant="outline"
+              className="flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span className="hidden md:inline">Add Business</span>
+            </Button>
+          </div>
         )}
       </div>
 
@@ -117,11 +119,11 @@ export const OrganizationView: React.FC = () => {
           </div>
         ) : (
           /* Has businesses - Show grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {businesses.map((business) => (
               <Card key={business.id} className="relative overflow-hidden">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center space-x-3">
                       <div className="p-2 bg-primary/10 rounded-lg">
                         <Building2 size={20} className="text-primary" />
@@ -131,7 +133,7 @@ export const OrganizationView: React.FC = () => {
                         <CardDescription>{business.type}</CardDescription>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-shrink-0">
                       <Badge variant={
                         business.instagram_status === 'connected' ? 'default' :
                         business.instagram_status === 'connecting' ? 'secondary' :
@@ -155,8 +157,8 @@ export const OrganizationView: React.FC = () => {
                   </div>
                 </CardHeader>
                 
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <CardContent className="pt-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                     <div>
                       <p className="text-muted-foreground">Since</p>
                       <p className="font-medium">{new Date(business.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</p>

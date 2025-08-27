@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Instagram, RefreshCw, AlertCircle, CheckCircle, ExternalLink, HelpCircle, Clock, PartyPopper } from 'lucide-react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { InstagramModal } from '../modals/InstagramModal';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { redirectToInstagramAuth } from '../../utils/instagramAuth';
 
 export const BusinessView: React.FC = () => {

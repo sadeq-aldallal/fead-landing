@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -82,11 +82,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
             {/* Main Content */}
             <div className={`transform transition-all duration-1000 delay-200 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               {/* Main Headline */}
-              <h1 className={`hero-title mb-8 ${isRTL ? 'font-arabic' : ''}`}>
+              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-8 ${isRTL ? 'font-arabic' : ''}`}>
                 {t('hero.newTitle')}
               </h1>
               
-              <p className={`subtitle mb-12 ${isRTL ? 'font-arabic' : ''}`}>
+              <p className={`text-lg md:text-xl text-muted-foreground leading-relaxed mb-12 ${isRTL ? 'font-arabic' : ''}`}>
                 {t('hero.newSubtitle')}
               </p>
 
@@ -94,7 +94,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
               <div className={`flex justify-center lg:justify-start items-center mb-16 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <Button 
                   onClick={onGetStarted}
-                  className={`btn-primary px-8 py-4 text-lg font-semibold ${isRTL ? 'font-arabic' : ''}`}
+                  size="lg"
+                  className={`px-8 py-4 text-lg font-semibold ${isRTL ? 'font-arabic' : ''}`}
                 >
                   Request Demo
                 </Button>

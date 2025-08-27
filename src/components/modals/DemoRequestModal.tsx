@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '../ui/Input';
 import { sendDemoRequestEmail } from '../../services/emailService';
 

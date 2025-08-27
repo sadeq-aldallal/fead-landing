@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDashboard } from '../../contexts/DashboardContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '../ui/Input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';

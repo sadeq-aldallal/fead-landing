@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { X, User, Mail, Trash2, AlertTriangle } from 'lucide-react';
+import { User, Mail, Trash2, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { authHelpers } from '../../lib/supabase';
 
 interface UserSettingsModalProps {
@@ -23,8 +33,6 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  if (!isOpen) return null;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -103,145 +111,146 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content max-w-md">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="modal-title">Account Settings</h2>
-          <button
-            onClick={onClose}
-            className="modal-close"
-          >
-            <X size={20} />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Account Settings</DialogTitle>
+          <DialogDescription>
+            Manage your account information and preferences.
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="modal-body">
+        <div className="space-y-4">
           {/* Success Message */}
           {success && (
-            <div className="mb-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm">
-              <p>{success}</p>
-            </div>
+            <Alert>
+              <AlertDescription>{success}</AlertDescription>
+            </Alert>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
-              <p style={{ whiteSpace: 'pre-line' }}>{error}</p>
-            </div>
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription style={{ whiteSpace: 'pre-line' }}>{error}</AlertDescription>
+            </Alert>
           )}
 
           {!showDeleteConfirm ? (
             <>
               {/* Profile Update Form */}
-              <form onSubmit={handleUpdateProfile} className="form-section">
-                <div className="form-group">
-                  <label className="form-label">
-                    <User size={16} className="inline mr-2" />
+              <form onSubmit={handleUpdateProfile} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="flex items-center">
+                    <User size={16} className="mr-2" />
                     Full Name
-                  </label>
-                  <input
+                  </Label>
+                  <Input
+                    id="name"
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="form-input"
                     placeholder="Enter your full name"
                     required
                   />
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">
-                    <Mail size={16} className="inline mr-2" />
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="flex items-center">
+                    <Mail size={16} className="mr-2" />
                     Email Address
-                  </label>
-                  <input
+                  </Label>
+                  <Input
+                    id="email"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="form-input"
                     placeholder="Enter your email"
                     required
                   />
                 </div>
 
-                <button
+                <Button
                   type="submit"
                   disabled={loading}
-                  className="btn-primary w-full"
+                  className="w-full"
                 >
                   {loading ? 'Updating...' : 'Update Profile'}
-                </button>
+                </Button>
               </form>
 
               {/* Danger Zone */}
-              <div className="danger-zone">
-                <h3 className="danger-title">
+              <div className="p-4 border border-destructive/20 bg-destructive/5 rounded-lg">
+                <h3 className="text-sm font-semibold text-destructive mb-2 flex items-center">
                   <AlertTriangle size={18} className="mr-2" />
                   Danger Zone
                 </h3>
-                <p className="danger-description">
+                <p className="text-sm text-muted-foreground mb-3">
                   Permanently delete your account and all associated data. This action cannot be undone.
                 </p>
-                <button
+                <Button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 text-white border-red-600 shadow-lg hover:shadow-xl px-3 py-1.5 text-sm w-full"
+                  variant="destructive"
+                  size="sm"
+                  className="w-full"
                 >
                   <Trash2 size={16} className="mr-2" />
                   Delete Account
-                </button>
+                </Button>
               </div>
             </>
           ) : (
             /* Delete Confirmation */
-            <div className="delete-confirmation">
-              <div className="text-center mb-6">
-                <AlertTriangle size={48} className="mx-auto text-red-400 mb-4" />
-                <h3 className="modal-subtitle">Delete Account</h3>
-                <p className="danger-description">
+            <div className="space-y-4">
+              <div className="text-center">
+                <AlertTriangle size={48} className="mx-auto text-destructive mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Delete Account</h3>
+                <p className="text-sm text-muted-foreground">
                   This will permanently delete your account and all associated data (organization, businesses) from our system. 
                   You will be signed out immediately. This action cannot be undone.
                 </p>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
+              <div className="space-y-2">
+                <Label htmlFor="confirm-delete">
                   Type "DELETE MY ACCOUNT" to confirm
-                </label>
-                <input
+                </Label>
+                <Input
+                  id="confirm-delete"
                   type="text"
                   value={deleteConfirmText}
                   onChange={(e) => setDeleteConfirmText(e.target.value)}
-                  className="form-input"
                   placeholder="DELETE MY ACCOUNT"
                 />
               </div>
 
               <div className="flex space-x-3">
-                <button
+                <Button
                   onClick={() => {
                     setShowDeleteConfirm(false);
                     setDeleteConfirmText('');
                     setError('');
                   }}
-                  className="btn-outline flex-1"
+                  variant="outline"
+                  className="flex-1"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleDeleteAccount}
                   disabled={loading || deleteConfirmText !== 'DELETE MY ACCOUNT'}
-                  className="inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 text-white border-red-600 shadow-lg hover:shadow-xl px-3 py-1.5 text-sm flex-1"
+                  variant="destructive"
+                  className="flex-1"
                 >
                   {loading ? 'Deleting...' : 'Delete Forever'}
-                </button>
+                </Button>
               </div>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };

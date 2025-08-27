@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X, User, LogOut, LayoutDashboard, FileText, Home } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,7 +72,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'dashboard-nav' : 'glass-nav'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'bg-background/95 border-b border-border' : 'bg-background/80 backdrop-blur-md border-b border-border/50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo - Left side */}
