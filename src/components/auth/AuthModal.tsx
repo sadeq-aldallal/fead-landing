@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { X, Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react'
+import { Mail, Lock, User, AlertCircle } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
 import { FormData, FormErrors } from '../../types/auth'
 
 interface AuthModalProps {
@@ -170,45 +179,39 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setShowConfirmPassword(false)
   }
 
-  if (!isOpen) return null
-
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-lg max-w-md w-full p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors duration-200"
-          disabled={isSubmitting}
-        >
-          <X size={24} />
-        </button>
-
-        <div className="mb-6">
-          <h2 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className={isRTL ? 'font-arabic text-right' : ''}>
             {mode === 'signin' && 'Sign In'}
             {/* {mode === 'signup' && 'Create Account'} */}
             {mode === 'reset' && 'Reset Password'}
-          </h2>
-          <p className={`text-white/70 ${isRTL ? 'font-arabic text-right' : ''}`}>
+          </DialogTitle>
+          <DialogDescription className={isRTL ? 'font-arabic text-right' : ''}>
             {mode === 'signin' && 'Welcome back to fead.app'}
             {/* {mode === 'signup' && 'Join fead.app today'} */}
             {mode === 'reset' && 'Enter your email to reset your password'}
-          </p>
-        </div>
+          </DialogDescription>
+        </DialogHeader>
 
         {/* Success Message */}
         {successMessage && (
-          <div className="mb-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm">
-            {successMessage}
-          </div>
+          <Alert className="mb-4 border-green-500/30 bg-green-500/10">
+            <AlertDescription className="text-green-600 dark:text-green-400">
+              {successMessage}
+            </AlertDescription>
+          </Alert>
         )}
 
         {/* General Error */}
         {errors.general && (
-          <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-start">
-            <AlertCircle size={16} className="mr-2 mt-0.5 flex-shrink-0" />
-            {errors.general}
-          </div>
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              {errors.general}
+            </AlertDescription>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -275,18 +278,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           {/* Remember Me - Signin only */}
           {mode === 'signin' && (
-            <div className="flex items-center">
-              <label className="custom-checkbox flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.rememberMe}
-                  onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                  disabled={isSubmitting}
-                />
-                <span className="checkmark"></span>
-                <span className="ml-3 text-sm text-white/70 select-none">
-                  Remember me
-                </span>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="remember"
+                checked={formData.rememberMe}
+                onCheckedChange={(checked) => 
+                  setFormData({ ...formData, rememberMe: checked as boolean })
+                }
+                disabled={isSubmitting}
+              />
+              <label
+                htmlFor="remember"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Remember me
               </label>
             </div>
           )}
@@ -296,7 +301,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             type="submit"
             loading={isSubmitting || loading}
             disabled={isSubmitting || loading}
-            className="w-full bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200"
+            className="w-full"
           >
             {isSubmitting || loading ? 'Please wait...' : (
               <>
@@ -307,43 +312,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             )}
           </Button>
         </form>
-
-        {/* Footer Links - Temporarily commented out 
-        <div className="mt-6 space-y-4">
-          {/* Forgot Password - Signin only 
-          {mode === 'signin' && (
-            <div className="text-center">
-              <button
-                onClick={() => switchMode('reset')}
-                className="text-[var(--brand-green)] hover:text-[var(--brand-green)]/80 text-sm transition-colors duration-200"
-                disabled={isSubmitting}
-              >
-                Forgot your password?
-              </button>
-            </div>
-          )}
-
-          {/* Mode Switch 
-          <div className="text-center">
-            <p className={`text-white/70 text-sm ${isRTL ? 'font-arabic' : ''}`}>
-              {mode === 'signin' && "Don't have an account? "}
-              {mode === 'signup' && "Already have an account? "}
-              {mode === 'reset' && "Remember your password? "}
-              
-              <button
-                onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
-                className="text-[var(--brand-green)] hover:text-[var(--brand-green)]/80 transition-colors duration-200"
-                disabled={isSubmitting}
-              >
-                {mode === 'signin' && 'Sign up here'}
-                {mode === 'signup' && 'Sign in here'}
-                {mode === 'reset' && 'Sign in'}
-              </button>
-            </p>
-          </div>
-        </div>
-        */}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }

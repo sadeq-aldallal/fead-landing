@@ -1,6 +1,7 @@
 import React from 'react';
 import { FileText, MessageCircle, Target, BarChart3, Settings, Users } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const SolutionSection: React.FC = () => {
   const { t, isRTL } = useLanguage();
@@ -51,33 +52,33 @@ export const SolutionSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {solutions.map((solution, index) => {
             const Icon = solution.icon;
             return (
-              <div
+              <Card 
                 key={index}
-                className="solution-card-new group relative"
+                className="relative overflow-hidden group hover:shadow-lg transition-all duration-300 border-muted-foreground/20 hover:border-primary/50"
               >
                 {/* Background Watermark Icon */}
-                <div className="card-watermark-icon">
-                  <Icon className="watermark-icon" />
+                <div className="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                  <Icon className="w-24 h-24" />
                 </div>
                 
-                {/* Content */}
-                <div className="card-content">
-                  <h3 className={`solution-card-title ${isRTL ? 'font-arabic text-right' : ''}`}>
+                <CardHeader>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <CardTitle className={`text-lg ${isRTL ? 'font-arabic text-right' : ''}`}>
                     {solution.title}
-                  </h3>
-                  <p className={`solution-card-description ${isRTL ? 'font-arabic text-right' : ''}`}>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className={`${isRTL ? 'font-arabic text-right' : ''}`}>
                     {solution.description}
-                  </p>
-                </div>
-                
-                {/* Hover Effect Elements */}
-                <div className="card-hover-line"></div>
-                <div className="card-gradient-overlay"></div>
-              </div>
+                  </CardDescription>
+                </CardContent>
+              </Card>
             );
           })}
         </div>

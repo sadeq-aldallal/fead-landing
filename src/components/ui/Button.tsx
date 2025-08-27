@@ -1,5 +1,7 @@
 import React from 'react';
+import { Button as ShadcnButton } from '@/components/ui/button';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Loader2 } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -19,31 +21,39 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const { isRTL } = useLanguage();
 
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-  
-  const variantClasses = {
-    primary: 'bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-[var(--bg-primary)] border-none shadow-lg hover:shadow-xl transition-all duration-200',
-    secondary: 'bg-white/5 hover:bg-white/10 text-white focus:ring-red-900 backdrop-blur-sm',
-    outline: 'border border-[var(--brand-green)]/35 text-white hover:border-[var(--brand-green)] hover:bg-[var(--brand-green)]/15 backdrop-blur-sm transition-all duration-200',
-    ghost: 'text-white/70 hover:text-white hover:bg-white/5 focus:ring-red-800',
+  // Map old variants to shadcn variants
+  const mapVariant = (v: string) => {
+    switch (v) {
+      case 'primary': return 'default';
+      case 'secondary': return 'secondary';
+      case 'outline': return 'outline';
+      case 'ghost': return 'ghost';
+      default: return 'default';
+    }
   };
 
-  const sizeClasses = {
-    sm: 'px-2 py-1 text-xs',
-    md: 'px-3 py-1.5 text-sm',
-    lg: 'px-6 py-3 text-base',
+  // Map old sizes to shadcn sizes
+  const mapSize = (s: string) => {
+    switch (s) {
+      case 'sm': return 'sm';
+      case 'md': return 'default';
+      case 'lg': return 'lg';
+      default: return 'default';
+    }
   };
 
   return (
-    <button
-      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+    <ShadcnButton
+      variant={mapVariant(variant) as any}
+      size={mapSize(size) as any}
+      className={className}
       disabled={disabled || loading}
       {...props}
     >
       {loading && (
-        <div className={`loading-spinner ${isRTL ? 'ml-2 mr-0' : 'mr-2'}`} />
+        <Loader2 className={`h-4 w-4 animate-spin ${isRTL ? 'ml-2' : 'mr-2'}`} />
       )}
       {children}
-    </button>
+    </ShadcnButton>
   );
 };
