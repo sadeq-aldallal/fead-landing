@@ -365,16 +365,16 @@ export const DocumentationPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700">
+      <header className="sticky top-0 z-40 glass-nav border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <FileText className="w-6 h-6 text-green-400" />
-              <h1 className="text-xl font-bold text-white">Documentation</h1>
+              <h1 className="text-xl font-bold text-foreground">Documentation</h1>
               {currentPageInfo.title && (
-                <div className="hidden md:flex items-center space-x-2 text-gray-400">
+                <div className="hidden md:flex items-center space-x-2 text-muted-foreground">
                   <ChevronRight className="w-4 h-4" />
                   <span className="text-sm">{currentPageInfo.title}</span>
                 </div>
@@ -384,7 +384,7 @@ export const DocumentationPage: React.FC = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={copyCurrentUrl}
-                className="hidden md:flex items-center space-x-2 px-3 py-1.5 text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                className="hidden md:flex items-center space-x-2 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 title="Copy page URL"
               >
                 <Copy className="w-4 h-4" />
@@ -392,13 +392,13 @@ export const DocumentationPage: React.FC = () => {
               </button>
               
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search documentation..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-64 pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
               </div>
             </div>
@@ -418,7 +418,7 @@ export const DocumentationPage: React.FC = () => {
                   className={`w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-colors duration-200 ${
                     currentPath === 'overview'
                       ? 'bg-green-600/20 text-green-400'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
                   <Home size={18} />
@@ -433,7 +433,7 @@ export const DocumentationPage: React.FC = () => {
                       className={`w-full flex items-center justify-between px-3 py-2 text-left rounded-lg transition-colors duration-200 ${
                         currentPageInfo.section === section.id
                           ? 'bg-green-600/20 text-green-400'
-                          : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                       }`}
                     >
                       <div className="flex items-center space-x-3">
@@ -456,7 +456,7 @@ export const DocumentationPage: React.FC = () => {
                             className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${
                               currentPath === subsection.path
                                 ? 'bg-green-600/10 text-green-400 border-l-2 border-green-400'
-                                : 'text-gray-400 hover:bg-gray-800 hover:text-gray-300'
+                                : 'text-muted-foreground/70 hover:bg-muted hover:text-muted-foreground'
                             }`}
                           >
                             {subsection.title}
@@ -472,7 +472,7 @@ export const DocumentationPage: React.FC = () => {
 
           {/* Main Content */}
           <main className="flex-1 min-w-0">
-            <div className="bg-gray-800/50 rounded-lg border border-gray-700 min-h-[600px]">
+            <div className="glass-card rounded-lg min-h-[600px]">
               <div className="p-8">
                 <CurrentComponent />
               </div>
@@ -488,8 +488,8 @@ export const DocumentationPage: React.FC = () => {
 const OverviewPage: React.FC = () => (
   <div className="max-w-4xl mx-auto space-y-8">
     <div className="doc-header text-center">
-      <h1 className="text-4xl font-bold text-white mb-4">Fead.app Documentation</h1>
-      <p className="text-xl text-gray-300 mb-8">
+      <h1 className="text-4xl font-bold text-foreground mb-4">Fead.app Documentation</h1>
+      <p className="text-xl text-muted-foreground mb-8">
         Complete guide to setting up and using AI-powered Instagram customer support
       </p>
     </div>
@@ -584,7 +584,7 @@ const OverviewPage: React.FC = () => (
 
       <div className="doc-overview-card">
         <div className="card-icon">
-          <Settings className="w-8 h-8 text-gray-400" />
+          <Settings className="w-8 h-8 text-muted-foreground" />
         </div>
         <h3 className="card-title">Account Management</h3>
         <p className="card-description">

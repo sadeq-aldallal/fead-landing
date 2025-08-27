@@ -435,7 +435,7 @@ const AppContent: React.FC = () => {
         <div className="relative">
           <button
             onClick={() => setCurrentPage('dashboard')}
-            className="fixed top-4 left-4 z-50 bg-card/80 backdrop-blur-md border border-border rounded-lg px-4 py-2 text-foreground hover:bg-card/90 transition-colors duration-200"
+            className="fixed top-4 left-4 z-50 glass-card rounded-lg px-4 py-2 text-foreground hover:bg-card/90 transition-colors duration-200"
           >
             ← Back
           </button>

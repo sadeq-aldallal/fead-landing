@@ -9,6 +9,8 @@ import { Business } from '../../types/dashboard';
 import { redirectToInstagramAuth } from '../../utils/instagramAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { ActionMenu } from '@/components/ui/action-menu';
 
 export const OrganizationView: React.FC = () => {
   const { organization, businesses, setCurrentBusiness } = useDashboard();
@@ -134,25 +136,34 @@ export const OrganizationView: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2 flex-shrink-0">
-                      <Badge variant={
-                        business.instagram_status === 'connected' ? 'default' :
-                        business.instagram_status === 'connecting' ? 'secondary' :
-                        business.instagram_status === 'error' ? 'destructive' :
-                        'outline'
-                      }>
+                      <StatusBadge
+                        variant={
+                          business.instagram_status === 'connected' ? 'connected' :
+                          business.instagram_status === 'connecting' ? 'connecting' :
+                          business.instagram_status === 'error' ? 'error' :
+                          'setup'
+                        }
+                        pulse={business.instagram_status === 'connecting'}
+                      >
                         {business.instagram_status === 'connected' ? 'Live' :
                          business.instagram_status === 'connecting' ? 'Syncing' :
                          business.instagram_status === 'error' ? 'Issue' :
                          'Setup'}
-                      </Badge>
-                      <Button
-                        onClick={() => handleManageBusiness(business)}
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                      >
-                        <Settings size={16} />
-                      </Button>
+                      </StatusBadge>
+                      <ActionMenu
+                        items={[
+                          {
+                            label: 'Manage Business',
+                            onClick: () => handleManageBusiness(business),
+                            icon: <Settings size={14} />
+                          },
+                          {
+                            label: 'Connect Instagram',
+                            onClick: () => handleConnectInstagram(business),
+                            disabled: business.instagram_status === 'connected'
+                          }
+                        ]}
+                      />
                     </div>
                   </div>
                 </CardHeader>

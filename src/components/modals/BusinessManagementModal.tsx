@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from '../ui/dialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Input } from '../ui/input';
+import { Input } from '../ui/Input';
 import { Label } from '../ui/label';
 import { Badge } from '../ui/badge';
 

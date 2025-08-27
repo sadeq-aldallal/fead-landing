@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, User, MessageSquare, FileText, CheckCircle, AlertTriangle, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Input } from '../ui/Input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';

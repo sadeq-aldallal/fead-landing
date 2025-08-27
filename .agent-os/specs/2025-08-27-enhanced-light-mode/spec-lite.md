@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Improve glassmorphism effects and visual contrast in light mode with enhanced shadcn/ui theming integration. This feature addresses critical light mode display issues including poor glass effect visibility, insufficient contrast, and weak visual hierarchy through multi-layer shadow systems, stronger borders, and optimized opacity levels. The enhancement ensures light mode provides a professional SaaS experience with clear component separation and accessibility-compliant contrast ratios.

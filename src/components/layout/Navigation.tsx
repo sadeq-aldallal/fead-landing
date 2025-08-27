@@ -72,7 +72,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'bg-background/95 border-b border-border' : 'bg-background/80 backdrop-blur-md border-b border-border/50'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDashboard ? 'bg-background/95 border-b border-border' : 'glass-nav'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo - Left side */}
@@ -89,34 +89,35 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
                 <a
                   href="/#home"
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                  className={`nav-item text-foreground/80 hover:text-primary transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.home')}
                 </a>
                 <a
                   href="#challenges"
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                  className={`nav-item text-foreground/80 hover:text-primary transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.challenges')}
                 </a>
                 <a
                   href="#features"
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                  className={`nav-item text-foreground/80 hover:text-primary transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.features')}
                 </a>
                 <a
                   href="/#contact"
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                  className={`nav-item text-foreground/80 hover:text-primary transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                 >
                   {t('nav.contact')}
                 </a>
-                <button
+                <Button
+                  variant="ghost"
                   onClick={onDocsClick}
-                  className={`nav-item text-white/80 hover:text-[var(--brand-green)] transition-colors duration-200 ${isRTL ? 'font-arabic' : ''} ${currentPage === 'docs' ? 'text-[var(--brand-green)]' : ''}`}
+                  className={`text-foreground/80 hover:text-primary transition-colors duration-200 ${isRTL ? 'font-arabic' : ''} ${currentPage === 'docs' ? 'text-primary' : ''}`}
                 >
                   Docs
-                </button>
+                </Button>
               </div>
             )}
 
@@ -126,7 +127,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <>
                   <Button
                     variant="outline"
-                    size="md"
                     onClick={onLoginClick}
                     className={`${isRTL ? 'font-arabic' : ''}`}
                   >
@@ -134,8 +134,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                   </Button>
                   <Button 
                     onClick={onSignupClick}
-                    size="md"
-                    className={`btn-primary ${isRTL ? 'font-arabic' : ''}`}
+                    variant="brand"
+                    className={`${isRTL ? 'font-arabic' : ''}`}
                   >
                     Request Demo
                   </Button>
@@ -186,9 +186,11 @@ export const Navigation: React.FC<NavigationProps> = ({
 
             {/* Mobile Hamburger Button - Only visible on mobile */}
             <div className="md:hidden mr-4">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={toggleMobileMenu}
-                className="mobile-menu-button p-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                className="text-foreground/80 hover:text-foreground hover:bg-foreground/10"
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
@@ -196,7 +198,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 ) : (
                   <Menu size={24} />
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -207,12 +209,12 @@ export const Navigation: React.FC<NavigationProps> = ({
         <div className="mobile-menu-overlay fixed inset-0 z-40 md:hidden">
           {/* Background overlay */}
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 glass-overlay"
             onClick={closeMobileMenu}
           ></div>
           
           {/* Mobile menu content */}
-          <div className={`mobile-menu-content fixed top-16 left-0 right-0 bg-white/8 backdrop-blur-sm border border-white/15 mx-4 mt-4 rounded-lg ${isRTL ? 'text-right' : 'text-left'}`}>
+          <div className={`mobile-menu-content fixed top-16 left-0 right-0 glass-mobile-menu mx-4 mt-4 rounded-lg ${isRTL ? 'text-right' : 'text-left'}`}>
             <div className="p-6 space-y-6">
               {/* Navigation Links */}
               <div className="space-y-4">
@@ -221,28 +223,28 @@ export const Navigation: React.FC<NavigationProps> = ({
                     <a
                       href="/#home"
                       onClick={closeMobileMenu}
-                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                      className={`mobile-nav-item block text-lg font-medium text-foreground/90 hover:text-foreground transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                     >
                       {t('nav.home')}
                     </a>
                     <a
                       href="#challenges"
                       onClick={closeMobileMenu}
-                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                      className={`mobile-nav-item block text-lg font-medium text-foreground/90 hover:text-foreground transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                     >
                       {t('nav.challenges')}
                     </a>
                     <a
                       href="#features"
                       onClick={closeMobileMenu}
-                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                      className={`mobile-nav-item block text-lg font-medium text-foreground/90 hover:text-foreground transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                     >
                       {t('nav.features')}
                     </a>
                     <a
                       href="/#contact"
                       onClick={closeMobileMenu}
-                      className={`mobile-nav-item block text-lg font-medium text-white/90 hover:text-white transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
+                      className={`mobile-nav-item block text-lg font-medium text-foreground/90 hover:text-foreground transition-colors duration-200 ${isRTL ? 'font-arabic' : ''}`}
                     >
                       {t('nav.contact')}
                     </a>
@@ -255,8 +257,8 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="border-t border-white/10 pt-4">
                 {!user ? (
                   !isDashboard && (
-                    <div className="mobile-login-message bg-white/8 backdrop-blur-sm border border-yellow-500/30 p-4 rounded-lg">
-                      <p className={`text-sm text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
+                    <div className="mobile-login-message glass-card border-yellow-500/30 p-4 rounded-lg">
+                      <p className={`text-sm text-yellow-600 dark:text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
                         {t('mobile.loginMessage')}
                       </p>
                     </div>
@@ -264,25 +266,27 @@ export const Navigation: React.FC<NavigationProps> = ({
                 ) : (
                   <div className="space-y-2">
                     {!isDashboard && (
-                      <button
+                      <Button
+                        variant="ghost"
                         onClick={() => {
                           onDashboardClick?.();
                           closeMobileMenu();
                         }}
-                        className="block w-full text-left px-3 py-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                        className="w-full justify-start text-foreground/80 hover:text-foreground hover:bg-foreground/10"
                       >
                         {t('nav.dashboard')}
-                      </button>
+                      </Button>
                     )}
-                    <button
+                    <Button
+                      variant="ghost"
                       onClick={() => {
                         handleLogout();
                         closeMobileMenu();
                       }}
-                      className="block w-full text-left px-3 py-2 rounded-md text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors duration-200"
+                      className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
                       {t('nav.logout')}
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>

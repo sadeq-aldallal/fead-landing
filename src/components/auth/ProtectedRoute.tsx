@@ -17,7 +17,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Show loading spinner while initializing
   if (!initialized || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark-gradient-bg">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="loading-spinner w-8 h-8"></div>
       </div>
     )
@@ -26,15 +26,16 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // If auth is required but user is not authenticated
   if (requireAuth && !user) {
     return fallback || (
-      <div className="min-h-screen flex items-center justify-center dark-gradient-bg">
-        <div className="glass-card p-8 text-center max-w-md">
-          <h2 className="text-2xl font-bold text-white mb-4">Access Restricted</h2>
-          <p className="text-white/70 mb-6">
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="bg-card border border-border rounded-lg p-8 text-center max-w-md">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Access Restricted</h2>
+          <p className="text-muted-foreground mb-6">
             You need to be signed in to access this page.
           </p>
           <button 
             onClick={() => window.location.href = '/'}
-            className="btn-primary px-6 py-2"
+            variant="brand"
+            className="px-6 py-2"
           >
             Go to Home
           </button>

@@ -52,22 +52,22 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-lg max-w-md w-full p-6 relative">
+    <div className="fixed inset-0 glass-overlay flex items-center justify-center z-50 p-4">
+      <div className="glass-modal rounded-lg max-w-md w-full p-6 relative">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors duration-200"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors duration-200"
         >
           <X size={24} />
         </button>
 
         {/* Header */}
         <div className="mb-6">
-          <h2 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
+          <h2 className={`text-2xl font-bold text-foreground mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
             Request Demo
           </h2>
-          <p className={`text-white/70 ${isRTL ? 'font-arabic text-right' : ''}`}>
+          <p className={`text-muted-foreground ${isRTL ? 'font-arabic text-right' : ''}`}>
             See how our AI can transform your Instagram customer support
           </p>
         </div>
@@ -87,7 +87,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
             <p className={`text-green-400 text-lg font-semibold mb-2 ${isRTL ? 'font-arabic' : ''}`}>
               Demo Request Sent Successfully!
             </p>
-            <p className={`text-white/70 text-sm ${isRTL ? 'font-arabic' : ''}`}>
+            <p className={`text-muted-foreground text-sm ${isRTL ? 'font-arabic' : ''}`}>
               We'll get back to you within 24 hours to schedule your personalized demo.
             </p>
           </div>
@@ -96,7 +96,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
           <form onSubmit={handleSubmit} className="space-y-4">
           {/* Full Name */}
           <div>
-            <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <label className={`block text-sm font-medium text-muted-foreground mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
               Full Name
             </label>
             <div className="relative">
@@ -104,7 +104,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                className="w-full pl-3 pr-3 py-2 glass-input rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
                 placeholder="Enter your full name"
                 required
               />
@@ -113,7 +113,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
 
           {/* Email */}
           <div>
-            <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <label className={`block text-sm font-medium text-muted-foreground mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
               Email Address
             </label>
             <div className="relative">
@@ -121,7 +121,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                className="w-full pl-3 pr-3 py-2 glass-input rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
                 placeholder="Enter your email address"
                 required
               />
@@ -130,7 +130,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
 
           {/* Company Name */}
           <div>
-            <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <label className={`block text-sm font-medium text-muted-foreground mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
               Company Name
             </label>
             <div className="relative">
@@ -138,7 +138,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
                 type="text"
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full pl-3 pr-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200"
+                className="w-full pl-3 pr-3 py-2 glass-input rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
                 placeholder="Enter your company name"
                 required
               />
@@ -147,11 +147,11 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
 
           {/* Additional Information */}
           <div>
-            <label className={`block text-sm font-medium text-white/70 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <label className={`block text-sm font-medium text-muted-foreground mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
               Additional Information
             </label>
             <textarea
-              className="w-full px-3 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent transition-colors duration-200 resize-none"
+              className="w-full px-3 py-2 glass-input rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 resize-none"
               rows={4}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -161,9 +161,9 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
 
           <Button
             type="submit"
-            loading={isSubmitting}
             disabled={isSubmitting}
-            className="w-full bg-[var(--brand-green)] hover:bg-[var(--brand-green)]/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200"
+            variant="brand"
+            className="w-full shadow-lg hover:shadow-xl transition-all duration-200"
           >
             {isSubmitting ? 'Sending...' : 'Send'}
           </Button>
@@ -173,7 +173,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({ isOpen, onCl
         {/* Footer */}
         {!success && (
           <div className="mt-6 text-center">
-            <p className={`text-sm text-white/60 ${isRTL ? 'font-arabic' : ''}`}>
+            <p className={`text-sm text-muted-foreground ${isRTL ? 'font-arabic' : ''}`}>
               We'll get back to you within 24 hours
             </p>
           </div>

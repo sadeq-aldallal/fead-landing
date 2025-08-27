@@ -11,8 +11,8 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 174 100% 42%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
@@ -23,8 +23,13 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --ring: 174 100% 42%;
     --radius: 0.5rem;
+    
+    /* Brand color variations */
+    --brand-primary: 174 100% 42%;
+    --brand-primary-hover: 174 100% 38%;
+    --brand-primary-foreground: 0 0% 100%;
   }
 
   html.dark {
@@ -34,8 +39,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 174 100% 42%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;
@@ -46,7 +51,12 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --ring: 174 100% 42%;
+    
+    /* Brand color variations for dark mode */
+    --brand-primary: 174 100% 42%;
+    --brand-primary-hover: 174 100% 46%;
+    --brand-primary-foreground: 0 0% 100%;
   }
 }
 
@@ -59,4 +69,70 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Theme-Adaptive Glassmorphism Utilities */
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .glass-card:hover {
+    @apply bg-card/90 backdrop-blur-lg;
+  }
+  
+  .glass-nav {
+    @apply bg-background/80 backdrop-blur-md border-b border-border/50;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .glass-modal {
+    @apply bg-card/95 backdrop-blur-lg border border-border shadow-2xl;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .glass-overlay {
+    @apply bg-black/40 dark:bg-black/60 backdrop-blur-sm;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .glass-mobile-menu {
+    @apply bg-card/95 backdrop-blur-lg border border-border shadow-xl;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .glass-input {
+    @apply bg-card/60 backdrop-blur-sm border border-input;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .glass-input:focus {
+    @apply bg-card/80 backdrop-blur-md;
+  }
+  
+  /* Enhanced glassmorphism for light theme */
+  .light .glass-card {
+    @apply bg-card/70 shadow-lg shadow-black/5;
+  }
+  
+  .light .glass-nav {
+    @apply bg-background/70 shadow-sm shadow-black/5;
+  }
+  
+  .light .glass-modal {
+    @apply bg-card/90 shadow-2xl shadow-black/10;
+  }
+  
+  .light .glass-mobile-menu {
+    @apply bg-card/90 shadow-xl shadow-black/10;
+  }
+  
+  .light .glass-input {
+    @apply bg-card/40;
+  }
+  
+  .light .glass-input:focus {
+    @apply bg-card/70;
+  }
 }
