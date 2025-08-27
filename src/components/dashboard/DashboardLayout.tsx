@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Users, Menu, X, Settings, FileText } from 'lucide-react';
+import { Users, Menu, X, Settings, FileText, LogOut } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Navigation } from '../layout/Navigation';
 import { UserSettingsModal } from '../modals/UserSettingsModal';
+import { Button } from '@/components/ui/Button';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -49,8 +57,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       />
 
 
-      {/* Sidebar */}
-      <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
+      {/* Desktop Sidebar */}
+      <aside className="dashboard-sidebar hidden md:flex">
         {/* Logo */}
         <div className="flex items-center mb-8">
           <img 
@@ -65,53 +73,142 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           {sidebarItems.map((item) => {
             const Icon = item.icon;
             return (
-              <button
+              <Button
                 key={item.id}
                 onClick={() => !item.disabled && onViewChange(item.id as 'organization' | 'business')}
-                className={`sidebar-nav-item ${item.active ? 'active' : ''} ${item.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                variant={item.active ? 'secondary' : 'ghost'}
+                className={`w-full justify-start ${item.disabled ? 'opacity-50' : ''}`}
                 disabled={item.disabled}
               >
-                <Icon size={20} />
+                <Icon size={20} className="mr-2" />
                 <span>{item.label}</span>
-              </button>
+              </Button>
             );
           })}
         </nav>
 
         {/* Bottom Section */}
-        <div className="mt-auto space-y-4">
-        {/* Documentation */}
-        {onDocsClick && (
-          <button
-            onClick={onDocsClick}
-            className="sidebar-nav-item w-full"
+        <div className="mt-auto space-y-2">
+          {/* Documentation */}
+          {onDocsClick && (
+            <Button
+              onClick={onDocsClick}
+              variant="ghost"
+              className="w-full justify-start"
+            >
+              <FileText size={20} className="mr-2" />
+              <span>Documentation</span>
+            </Button>
+          )}
+
+          {/* Settings */}
+          <Button
+            onClick={() => setShowSettingsModal(true)}
+            variant="ghost"
+            className="w-full justify-start"
           >
-            <FileText size={20} />
-            <span>Documentation</span>
-          </button>
-        )}
+            <Settings size={20} className="mr-2" />
+            <span>Settings</span>
+          </Button>
 
-        {/* Settings */}
-        <button
-          onClick={() => setShowSettingsModal(true)}
-          className="sidebar-nav-item w-full"
-        >
-          <Settings size={20} />
-          <span>Settings</span>
-        </button>
-
-        {/* Logout */}
-        <button
-          onClick={handleLogout}
-          className="sidebar-nav-item text-red-400 hover:bg-red-400/10 w-full"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          <span>Logout</span>
-        </button>
+          {/* Logout */}
+          <Button
+            onClick={handleLogout}
+            variant="ghost"
+            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+          >
+            <LogOut size={20} className="mr-2" />
+            <span>Logout</span>
+          </Button>
         </div>
       </aside>
+
+      {/* Mobile Sidebar Sheet */}
+      <div className="md:hidden fixed bottom-4 right-4 z-40">
+        <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="default"
+              size="lg"
+              className="rounded-full h-14 w-14 shadow-lg"
+            >
+              <Menu size={24} />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetHeader>
+              <SheetTitle>
+                <img 
+                  src="/fead.app_logo.png" 
+                  alt="fead.app" 
+                  className="h-8 w-auto"
+                />
+              </SheetTitle>
+            </SheetHeader>
+            <div className="mt-8 flex flex-col h-full">
+              <nav className="space-y-2 flex-1">
+                {sidebarItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Button
+                      key={item.id}
+                      onClick={() => {
+                        if (!item.disabled) {
+                          onViewChange(item.id as 'organization' | 'business');
+                          setSidebarOpen(false);
+                        }
+                      }}
+                      variant={item.active ? 'secondary' : 'ghost'}
+                      className={`w-full justify-start ${item.disabled ? 'opacity-50' : ''}`}
+                      disabled={item.disabled}
+                    >
+                      <Icon size={20} className="mr-2" />
+                      <span>{item.label}</span>
+                    </Button>
+                  );
+                })}
+              </nav>
+
+              <div className="mt-auto space-y-2 pb-4">
+                {onDocsClick && (
+                  <Button
+                    onClick={() => {
+                      onDocsClick();
+                      setSidebarOpen(false);
+                    }}
+                    variant="ghost"
+                    className="w-full justify-start"
+                  >
+                    <FileText size={20} className="mr-2" />
+                    <span>Documentation</span>
+                  </Button>
+                )}
+
+                <Button
+                  onClick={() => {
+                    setShowSettingsModal(true);
+                    setSidebarOpen(false);
+                  }}
+                  variant="ghost"
+                  className="w-full justify-start"
+                >
+                  <Settings size={20} className="mr-2" />
+                  <span>Settings</span>
+                </Button>
+
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut size={20} className="mr-2" />
+                  <span>Logout</span>
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
 
       {/* Main Content */}
       <main className="dashboard-main">
@@ -122,13 +219,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </div>
       </main>
 
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
       {/* User Settings Modal */}
       <UserSettingsModal

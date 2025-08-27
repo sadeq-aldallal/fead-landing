@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User, LogOut, LayoutDashboard, FileText, Home } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 interface NavigationProps {
   onLoginClick: () => void;
@@ -26,7 +35,6 @@ export const Navigation: React.FC<NavigationProps> = ({
   const { t, currentLanguage, setLanguage, isRTL } = useLanguage();
   const { user, signOut } = useAuth();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const languages = [
@@ -135,39 +143,37 @@ export const Navigation: React.FC<NavigationProps> = ({
               )}
               
               {!isDashboard && user && (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    className="flex items-center space-x-2 px-3 py-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg glass-card"
-                  >
-                    <div className="w-8 h-8 bg-[var(--brand-green)]/20 rounded-full flex items-center justify-center">
-                      <span className="text-[var(--brand-green)] text-sm font-medium">
-                        {user.email?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  </button>
-                  
-                  {showUserDropdown && (
-                    <div className={`absolute top-full mt-2 dropdown-menu z-50 ${isRTL ? 'left-0' : 'right-0'} min-w-48`}>
-                      <button
-                        onClick={() => {
-                          onDashboardClick?.();
-                          setShowUserDropdown(false);
-                        }}
-                        className="dropdown-menu-item text-left w-full"
-                      >
-                        {t('nav.dashboard')}
-                      </button>
-                      <hr className="border-white/10 my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="dropdown-menu-item text-left w-full text-red-400"
-                      >
-                        {t('nav.logout')}
-                      </button>
-                    </div>
-                  )}
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                        <span className="text-primary text-sm font-medium">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.email}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          Manage your account
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => onDashboardClick?.()}>
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>{t('nav.dashboard')}</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>{t('nav.logout')}</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
 

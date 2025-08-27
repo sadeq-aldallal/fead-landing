@@ -7,6 +7,8 @@ import { BusinessManagementModal } from '../modals/BusinessManagementModal';
 import { Button } from '../ui/Button';
 import { Business } from '../../types/dashboard';
 import { redirectToInstagramAuth } from '../../utils/instagramAuth';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export const OrganizationView: React.FC = () => {
   const { organization, businesses, setCurrentBusiness } = useDashboard();
@@ -63,29 +65,31 @@ export const OrganizationView: React.FC = () => {
       </div>
 
       {/* Organization Details */}
-      <div className="business-card">
-        <div className="business-card-header">
-          <h2 className="business-card-title">Organization Details</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="form-label">Organization Name</label>
-            <p className="text-white">{organization.name}</p>
+      <Card>
+        <CardHeader>
+          <CardTitle>Organization Details</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Organization Name</label>
+              <p className="text-foreground mt-1">{organization.name}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
+              <p className="text-foreground mt-1">{organization.phone}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Email</label>
+              <p className="text-foreground mt-1">{organization.email}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Country</label>
+              <p className="text-foreground mt-1">{organization.country}</p>
+            </div>
           </div>
-          <div>
-            <label className="form-label">Phone Number</label>
-            <p className="text-white">{organization.phone}</p>
-          </div>
-          <div>
-            <label className="form-label">Email</label>
-            <p className="text-white">{organization.email}</p>
-          </div>
-          <div>
-            <label className="form-label">Country</label>
-            <p className="text-white">{organization.country}</p>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Businesses Section */}
       <div>
@@ -110,69 +114,70 @@ export const OrganizationView: React.FC = () => {
           /* Has businesses - Show grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((business) => (
-              <div key={business.id} className={`business-card premium-card ${
-                business.instagram_status === 'connected' ? 'connected' : 'disconnected'
-              }`}>
-                <div className="card-header-modern">
-                  <div className="business-avatar">
-                    <Building2 size={24} className="text-brand-green" />
-                  </div>
-                  <div className="business-info">
-                    <div className="name-status-row">
-                      <h3 className="business-name">{business.name}</h3>
-                      <div className={`status-badge ${
-                        business.instagram_status === 'connected' ? 'connected' :
-                        business.instagram_status === 'connecting' ? 'connecting' :
-                        business.instagram_status === 'error' ? 'error' :
-                        'disconnected'
-                      }`}>
-                        <div className="status-dot-mini"></div>
-                        <span className="status-label">
-                          {business.instagram_status === 'connected' ? 'Live' :
-                           business.instagram_status === 'connecting' ? 'Syncing' :
-                           business.instagram_status === 'error' ? 'Issue' :
-                           'Setup'}
-                        </span>
+              <Card key={business.id} className="relative overflow-hidden">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <Building2 size={20} className="text-primary" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-base">{business.name}</CardTitle>
+                        <CardDescription>{business.type}</CardDescription>
                       </div>
                     </div>
-                    <span className="business-type">{business.type}</span>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={
+                        business.instagram_status === 'connected' ? 'default' :
+                        business.instagram_status === 'connecting' ? 'secondary' :
+                        business.instagram_status === 'error' ? 'destructive' :
+                        'outline'
+                      }>
+                        {business.instagram_status === 'connected' ? 'Live' :
+                         business.instagram_status === 'connecting' ? 'Syncing' :
+                         business.instagram_status === 'error' ? 'Issue' :
+                         'Setup'}
+                      </Badge>
+                      <Button
+                        onClick={() => handleManageBusiness(business)}
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                      >
+                        <Settings size={16} />
+                      </Button>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => handleManageBusiness(business)}
-                    className="settings-btn"
-                    title="Manage Business"
-                  >
-                    <Settings size={16} />
-                  </button>
-                </div>
+                </CardHeader>
                 
-                <div className="card-body">
-                  <div className="business-stats">
-                    <div className="stat-item">
-                      <span className="stat-label">Since</span>
-                      <span className="stat-value">{new Date(business.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-muted-foreground">Since</p>
+                      <p className="font-medium">{new Date(business.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</p>
                     </div>
                     {business.instagram_username && (
-                      <div className="stat-item">
-                        <span className="stat-label">Instagram</span>
-                        <span className="stat-value">@{business.instagram_username}</span>
+                      <div>
+                        <p className="text-muted-foreground">Instagram</p>
+                        <p className="font-medium">@{business.instagram_username}</p>
                       </div>
                     )}
                   </div>
-                  
-                </div>
+                </CardContent>
 
                 {business.instagram_status !== 'connected' && (
-                  <div className="card-footer">
-                    <button
+                  <CardFooter>
+                    <Button
                       onClick={() => handleConnectInstagram(business)}
-                      className="connect-btn-mini"
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
                     >
-                      Connect
-                    </button>
-                  </div>
+                      Connect Instagram
+                    </Button>
+                  </CardFooter>
                 )}
-              </div>
+              </Card>
             ))}
           </div>
         )}
