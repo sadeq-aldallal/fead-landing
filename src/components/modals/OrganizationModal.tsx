@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { AccessibleForm, FormInstructions } from '../ui/accessible-form';
 import {
   Select,
   SelectContent,
@@ -253,50 +254,67 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="org-name">
-              Organization Name *
-            </Label>
-            <Input
-              id="org-name"
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter organization name"
-              required
-              disabled={loading}
-            />
-          </div>
+        <FormInstructions 
+          instructions={[
+            "Organization name will be visible to your team members",
+            "Country selection helps us provide location-specific features",
+            "All fields marked with * are required",
+            "You can update these details later in settings"
+          ]}
+        />
 
-          <div className="space-y-2">
-            <Label htmlFor="phone">
-              Phone Number *
-            </Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="Enter phone number"
-              required
-              disabled={loading}
-            />
-          </div>
+        <AccessibleForm
+          title=""
+          description=""
+          errorSummary={error ? [error] : []}
+          onSubmit={handleSubmit}
+        >
+          <Input
+            label="Organization Name"
+            id="org-name"
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="Enter organization name"
+            required
+            disabled={loading}
+            autoComplete="organization"
+            enterKeyHint="next"
+            inputMode="text"
+            helpText="This name will be displayed to your team members and in shared resources"
+            screenReaderInstructions="Enter the official name of your organization or company. This will be visible to team members."
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Enter email address"
-              disabled={loading}
-            />
-          </div>
+          <Input
+            label="Phone Number"
+            id="phone"
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            placeholder="Enter phone number"
+            required
+            disabled={loading}
+            autoComplete="tel"
+            enterKeyHint="done"
+            inputMode="tel"
+            helpText="Primary contact number for your organization"
+            screenReaderInstructions="Enter a phone number where your organization can be contacted. Include country code if international."
+          />
+
+          <Input
+            label="Email"
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            placeholder="Enter email address"
+            disabled={loading}
+            autoComplete="email"
+            enterKeyHint="next"
+            inputMode="email"
+            helpText="Optional: Email address for organizational communications"
+            screenReaderInstructions="Enter an email address for your organization if you want to receive notifications and updates."
+          />
 
           <div className="space-y-2">
             <Label htmlFor="country">
@@ -335,12 +353,13 @@ export const OrganizationModal: React.FC<OrganizationModalProps> = ({ isOpen, on
           <Button
             type="submit"
             loading={loading}
-            disabled={loading}
+            loadingText="Creating Organization..."
             className="w-full"
+            size="lg"
           >
-            {loading ? 'Creating Organization...' : 'Create Organization'}
+            Create Organization
           </Button>
-        </form>
+        </AccessibleForm>
       </DialogContent>
     </Dialog>
   );

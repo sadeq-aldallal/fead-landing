@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { ActionMenu } from '@/components/ui/action-menu';
+import { TouchInteractive } from '@/components/ui/touch-feedback';
 
 export const OrganizationView: React.FC = () => {
   const { organization, businesses, setCurrentBusiness } = useDashboard();
@@ -51,7 +52,7 @@ export const OrganizationView: React.FC = () => {
       {/* Organization Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">{organization.name}</h1>
+          <h1 className="text-responsive-3xl font-bold text-foreground mb-2">{organization.name}</h1>
           <p className="text-muted-foreground">Manage your businesses and settings</p>
         </div>
         {businesses.length > 0 && (
@@ -104,14 +105,19 @@ export const OrganizationView: React.FC = () => {
           <div className="flex justify-center">
             <Card className="p-8 text-center max-w-md">
               <CardContent className="flex flex-col items-center space-y-4">
-                <Button
-                  onClick={() => setShowBusinessModal(true)}
-                  size="lg"
-                  className="w-20 h-20 rounded-full"
-                  title="Create Your First Business"
+                <TouchInteractive
+                  onPress={() => setShowBusinessModal(true)}
+                  touchFeedback="scale"
+                  hapticFeedback={true}
                 >
-                  <Plus size={32} />
-                </Button>
+                  <Button
+                    size="lg"
+                    className="w-20 h-20 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                    aria-label="Create Your First Business"
+                  >
+                    <Plus size={32} />
+                  </Button>
+                </TouchInteractive>
                 <div>
                   <h3 className="text-xl font-semibold mb-2 text-foreground">Create Your First Business</h3>
                   <p className="text-sm text-muted-foreground">Get started by adding a business to your organization</p>
@@ -121,9 +127,16 @@ export const OrganizationView: React.FC = () => {
           </div>
         ) : (
           /* Has businesses - Show grid */
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {businesses.map((business) => (
-              <Card key={business.id} className="relative overflow-hidden">
+              <TouchInteractive
+                key={business.id}
+                onPress={() => handleManageBusiness(business)}
+                touchFeedback="scale"
+                hapticFeedback={true}
+                className="w-full"
+              >
+                <Card className="relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md border-2 hover:border-primary/20">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center space-x-3">
@@ -196,6 +209,7 @@ export const OrganizationView: React.FC = () => {
                   </CardFooter>
                 )}
               </Card>
+              </TouchInteractive>
             ))}
           </div>
         )}

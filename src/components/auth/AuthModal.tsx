@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { AccessibleForm, FormInstructions } from '../ui/accessible-form'
 import { FormData, FormErrors } from '../../types/auth'
 
 interface AuthModalProps {
@@ -181,7 +182,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-w-[95vw] mx-4">
         <DialogHeader>
           <DialogTitle className={isRTL ? 'font-arabic text-right' : ''}>
             {mode === 'signin' && 'Sign In'}
@@ -214,7 +215,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <FormInstructions 
+          instructions={[
+            mode === 'signin' ? "Use your registered email and password" : 
+            mode === 'signup' ? "All fields marked with * are required" :
+            "Enter the email address associated with your account",
+            "Password visibility can be toggled using the eye icon",
+            mode === 'signup' ? "Password must be at least 6 characters long" : "",
+            "Use Tab to navigate between fields"
+          ].filter(Boolean)}
+        />
+
+        <AccessibleForm
+          title=""
+          description=""
+          errorSummary={Object.values(errors).filter(Boolean) as string[]}
+          onSubmit={handleSubmit}
+        >
           {/* Full Name - Signup only */}
           {mode === 'signup' && (
             <Input
@@ -223,9 +240,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               placeholder="John Doe"
+              required
               disabled={isSubmitting}
+              autoComplete="name"
+              enterKeyHint="next"
+              inputMode="text"
               leftIcon={<User size={20} />}
               error={errors.fullName}
+              helpText="Enter your first and last name as it will appear on your profile"
+              screenReaderInstructions="This field is required for account creation. Enter your full name as you'd like it to appear to other users."
             />
           )}
 
@@ -236,10 +259,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="john@example.com"
+            required
             disabled={isSubmitting}
             autoComplete="email"
+            inputMode="email"
+            enterKeyHint={mode === 'reset' ? 'send' : 'next'}
             leftIcon={<Mail size={20} />}
             error={errors.email}
+            helpText={mode === 'reset' ? 'We\'ll send password reset instructions to this email' : 'We\'ll use this email for your account and important notifications'}
+            screenReaderInstructions={mode === 'reset' ? 'Enter the email address associated with your account to receive reset instructions' : 'Enter a valid email address that you have access to'}
           />
 
           {/* Password - Not for reset mode */}
@@ -250,11 +278,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="••••••••"
+              required
               disabled={isSubmitting}
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+              enterKeyHint={mode === 'signin' ? 'done' : 'next'}
               leftIcon={<Lock size={20} />}
               showPasswordToggle={true}
               error={errors.password}
+              helpText={mode === 'signup' ? 'Choose a strong password with at least 6 characters' : 'Enter your account password'}
+              screenReaderInstructions={mode === 'signup' ? 'Create a secure password. You can use the toggle button to show or hide the password as you type' : 'Enter the password for your account. Use the toggle button if you need to see what you\'re typing'}
             />
           )}
 
@@ -266,13 +298,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               placeholder="••••••••"
+              required
               disabled={isSubmitting}
               autoComplete="new-password"
+              enterKeyHint="done"
               leftIcon={<Lock size={20} />}
               showPasswordToggle={true}
               passwordVisible={showConfirmPassword}
               onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
               error={errors.confirmPassword}
+              helpText="Re-enter your password to confirm it matches"
+              screenReaderInstructions="Enter the same password you used above to confirm it's correct. This helps prevent typing errors."
             />
           )}
 
@@ -297,21 +333,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           )}
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            loading={isSubmitting || loading}
-            disabled={isSubmitting || loading}
-            className="w-full"
-          >
-            {isSubmitting || loading ? 'Please wait...' : (
-              <>
-                {mode === 'signin' && 'Sign In'}
-                {mode === 'signup' && 'Create Account'}
-                {mode === 'reset' && 'Send Reset Email'}
-              </>
-            )}
-          </Button>
-        </form>
+          <div className="pt-4 sm:pt-2">
+            <Button
+              type="submit"
+              loading={isSubmitting || loading}
+              loadingText="Please wait..."
+              className="w-full"
+              size="lg"
+            >
+              {mode === 'signin' && 'Sign In'}
+              {mode === 'signup' && 'Create Account'}
+              {mode === 'reset' && 'Send Reset Email'}
+            </Button>
+          </div>
+        </AccessibleForm>
       </DialogContent>
     </Dialog>
   )

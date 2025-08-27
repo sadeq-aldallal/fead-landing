@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDashboard } from '../../contexts/DashboardContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '../ui/Input';
+import { AccessibleForm, FormInstructions } from '../ui/accessible-form';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
@@ -48,7 +49,6 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
   const selectedType = businessTypes.find(type => type.value === businessType);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
     if (!organization) return;
     
     setLoading(true);
@@ -75,7 +75,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-w-[95vw] mx-4">
         <DialogHeader>
           <DialogTitle>Create Business</DialogTitle>
           <DialogDescription>
@@ -83,30 +83,38 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
           </DialogDescription>
         </DialogHeader>
 
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+        <FormInstructions 
+          instructions={[
+            "Business name will be visible to your customers",
+            "You can change the business type later if needed",
+            "All fields marked with * are required"
+          ]}
+        />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="business-name">
-              Business Name *
-            </Label>
-            <Input
-              id="business-name"
-              type="text"
-              value={businessName}
-              onChange={(e) => setBusinessName(e.target.value)}
-              placeholder="Enter business name"
-              required
-              disabled={loading}
-              autoFocus
-            />
-          </div>
+        <AccessibleForm
+          title=""
+          description=""
+          errorSummary={error ? [error] : []}
+          onSubmit={handleSubmit}
+        >
+          <Input
+            label="Business Name"
+            id="business-name"
+            type="text"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            placeholder="Enter business name"
+            required
+            disabled={loading}
+            autoFocus
+            autoComplete="organization"
+            enterKeyHint="next"
+            inputMode="text"
+            helpText="This name will appear on your business profile and communications"
+            screenReaderInstructions="Enter a descriptive name for your business. This will be shown to customers and used for identification."
+          />
 
-          <div className="space-y-2">
+          <div className="space-y-3 sm:space-y-2">
             <Label htmlFor="business-type">
               Business Type *
             </Label>
@@ -115,13 +123,13 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
               onValueChange={(value: 'retail' | 'service') => setBusinessType(value)}
               disabled={loading}
             >
-              <SelectTrigger id="business-type">
+              <SelectTrigger id="business-type" className="w-full">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="w-full">
                 {businessTypes.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    <div>
+                  <SelectItem key={type.value} value={type.value} className="w-full">
+                    <div className="w-full">
                       <div className="font-medium">{type.label}</div>
                       <div className="text-xs text-muted-foreground">{type.description}</div>
                     </div>
@@ -131,15 +139,18 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ isOpen, onClose })
             </Select>
           </div>
 
-          <Button
-            type="submit"
-            loading={loading}
-            disabled={loading}
-            className="w-full"
-          >
-            {loading ? 'Creating...' : 'Create Business'}
-          </Button>
-        </form>
+          <div className="pt-4 sm:pt-2">
+            <Button
+              type="submit"
+              loading={loading}
+              loadingText="Creating..."
+              className="w-full"
+              size="lg"
+            >
+              Create Business
+            </Button>
+          </div>
+        </AccessibleForm>
       </DialogContent>
     </Dialog>
   );
