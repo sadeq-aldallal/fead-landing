@@ -275,8 +275,13 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }
       const webhookResult = await webhookResponse.json();
       console.log('DashboardContext: Webhook result:', webhookResult);
 
+      // Check for already_exist status
+      if (webhookResult.status === 'already_exist') {
+        throw new Error(`This Instagram account (@${webhookResult.ig_account_username}) is already connected to another business. Please disconnect it first or use a different Instagram account.`);
+      }
+
       // Check for success in the response
-      if (!webhookResult.success && webhookResult.status !== 'created') {
+      if (!webhookResult.success && webhookResult.status !== 'created' && webhookResult.status !== 'connected') {
         throw new Error(`Unexpected webhook response: ${JSON.stringify(webhookResult)}. Check if n8n workflow is active.`);
       }
 

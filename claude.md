@@ -20,9 +20,10 @@ This is a React + TypeScript application for fead.app, an Instagram marketing au
 - Vercel for deployment
 
 ### Environment Configuration
-- `.env.development` - Development environment
+- `.env.development` - Development environment (includes service role key for migrations)
 - `.env.prod` - Production environment
 - Uses `VITE_ENV` variable to explicitly set environment (dev/prod)
+- Service role key available for database migrations and admin operations
 
 ### Modal Styling Standards
 - Form modals use `max-w-md` class
@@ -40,6 +41,9 @@ This is a React + TypeScript application for fead.app, an Instagram marketing au
 - Supabase tables: `organizations`, `businesses`
 - RLS policies enabled
 - Database setup files available in `/supabase/migrations/`
+- Service role key for dev environment: Available in `.env.development`
+- Use service role for database migrations and admin operations
+- Required columns for Instagram OAuth: `access_token`, `is_webhook_subscribed`
 
 ### Testing & Quality
 - Run linting and type checking after significant changes
