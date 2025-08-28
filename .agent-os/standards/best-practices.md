@@ -55,3 +55,46 @@ When adding third-party dependencies:
   - Number of stars/downloads
   - Clear documentation
 </conditional-block>
+
+## Internationalization Requirements
+
+**CRITICAL**: This app supports English and Arabic languages. ALL new user-facing text MUST be added to both languages.
+
+### Text Constants Location
+- File: `src/contexts/LanguageContext.tsx`
+- Structure: `translations.en` and `translations.ar` objects
+- Access via: `t('key.name')` function in components
+
+### Adding New Text Requirements
+When adding ANY user-facing text:
+1. **NEVER hardcode text** in components
+2. **ALWAYS add to both `en` and `ar`** in `translations` object
+3. **Use descriptive key names** following existing pattern (e.g., `'section.element.purpose'`)
+4. **Test RTL layout** for Arabic text
+5. **Use semantic HTML** for proper text direction
+
+### Key Naming Convention
+```
+'section.element.purpose': 'Text content'
+Examples:
+- 'nav.dashboard': 'Dashboard' / 'لوحة التحكم'
+- 'auth.login': 'Login' / 'تسجيل الدخول'  
+- 'hero.title': 'Main Title' / 'العنوان الرئيسي'
+```
+
+## Documentation Updates
+
+**CRITICAL**: When adding or modifying features, the documentation MUST be updated.
+
+### Documentation Requirements
+When implementing new features or modifying existing ones:
+1. **Update in-app documentation** in relevant docs components
+2. **Add usage examples** for new functionality
+3. **Document API changes** if applicable
+4. **Update troubleshooting guides** for new edge cases
+5. **Maintain consistency** with existing documentation style
+
+### Documentation Locations
+- Main docs: `src/components/docs/`
+- Enhanced docs: `src/components/docs/enhanced/`
+- Legal docs: `src/components/legal/`

@@ -254,13 +254,13 @@ const AppContent: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const hasOAuthCode = urlParams.get('code');
     
-    const legalPages = ['docs', 'privacy-policy', 'terms-and-conditions', 'account-deletion-policy'];
+    const legalPages = ['privacy-policy', 'terms-and-conditions', 'account-deletion-policy'];
     
     // Only auto-redirect if no OAuth code is present (to avoid interfering with OAuth processing)
-    if (user && currentPage === 'home' && !hasOAuthCode) {
+    if (user && (currentPage === 'home' || currentPage === 'docs') && !hasOAuthCode) {
       setCurrentPage('dashboard');
-    } else if (!user && currentPage !== 'home' && !legalPages.includes(currentPage)) {
-      // Only redirect to home if user is not authenticated AND not on a legal page
+    } else if (!user && currentPage !== 'home' && !legalPages.includes(currentPage) && currentPage !== 'docs') {
+      // Only redirect to home if user is not authenticated AND not on a legal page or docs page
       setCurrentPage('home');
     }
   }, [user]); // Only run when user authentication state changes

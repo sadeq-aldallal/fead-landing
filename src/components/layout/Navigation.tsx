@@ -403,10 +403,27 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="border-t border-white/10 pt-4">
                 {!user ? (
                   !isDashboard && (
-                    <div className="mobile-login-message glass-card border-yellow-500/30 p-4 rounded-lg">
-                      <p className={`text-sm text-yellow-600 dark:text-yellow-300 text-center ${isRTL ? 'font-arabic' : ''}`}>
-                        {t('mobile.loginMessage')}
-                      </p>
+                    <div className="space-y-3">
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          onLoginClick();
+                          closeMobileMenu();
+                        }}
+                        className={`w-full ${isRTL ? 'font-arabic' : ''}`}
+                      >
+                        {t('nav.login')}
+                      </Button>
+                      <Button 
+                        onClick={() => {
+                          onSignupClick();
+                          closeMobileMenu();
+                        }}
+                        variant="brand"
+                        className={`w-full ${isRTL ? 'font-arabic' : ''}`}
+                      >
+                        Request Demo
+                      </Button>
                     </div>
                   )
                 ) : (
