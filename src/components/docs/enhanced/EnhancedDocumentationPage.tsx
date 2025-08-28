@@ -13,7 +13,23 @@ import { DocumentationContent } from './DocumentationContent';
 import { DocSection, DocContent } from '@/types/documentation';
 import { getDocumentationContent } from '../data/documentationData';
 
-export const EnhancedDocumentationPage: React.FC = () => {
+interface EnhancedDocumentationPageProps {
+  onLoginClick?: () => void;
+  onSignupClick?: () => void;
+  onDashboardClick?: () => void;
+  onProfileClick?: () => void;
+  onHomeClick?: () => void;
+  onDocsClick?: () => void;
+}
+
+export const EnhancedDocumentationPage: React.FC<EnhancedDocumentationPageProps> = ({
+  onLoginClick,
+  onSignupClick,
+  onDashboardClick,
+  onProfileClick,
+  onHomeClick,
+  onDocsClick,
+}) => {
   const [currentPath, setCurrentPath] = useState('/docs');
 
   // Get current path from URL hash

@@ -98,7 +98,7 @@ export const DocumentationLayout: React.FC<DocumentationLayoutProps> = ({
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-16 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
@@ -150,7 +150,7 @@ export const DocumentationLayout: React.FC<DocumentationLayoutProps> = ({
         <div className="flex gap-8">
           {/* Desktop Sidebar */}
           <aside className="hidden lg:block w-80 flex-shrink-0">
-            <div className="sticky top-24 space-y-4">
+            <div className="sticky top-40 space-y-4">
               <div className="sm:hidden">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />

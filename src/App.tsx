@@ -329,7 +329,14 @@ const AppContent: React.FC = () => {
           onDocsClick={() => setCurrentPage('docs')}
           currentPage={currentPage}
         />
-        <EnhancedDocumentationPage />
+        <EnhancedDocumentationPage 
+          onLoginClick={handleLoginClick}
+          onSignupClick={handleSignupClick}
+          onDashboardClick={() => setCurrentPage('dashboard')}
+          onProfileClick={() => setCurrentPage('profile')}
+          onHomeClick={() => setCurrentPage('home')}
+          onDocsClick={() => setCurrentPage('docs')}
+        />
         
         <DemoRequestModal 
           isOpen={showDemoModal} 
