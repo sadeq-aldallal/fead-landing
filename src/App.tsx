@@ -26,7 +26,7 @@ import { useDashboard } from './contexts/DashboardContext';
 import { PrivacyPolicy } from './components/legal/PrivacyPolicy';
 import { TermsAndConditions } from './components/legal/TermsAndConditions';
 import { AccountDeletionPolicy } from './components/legal/AccountDeletionPolicy';
-import { DocumentationPage } from './components/docs/DocumentationPage';
+import { EnhancedDocumentationPage } from './components/docs/enhanced/EnhancedDocumentationPage';
 import { LoadingAnalyticsProvider } from './components/ui/loading-analytics';
 
 const AppContent: React.FC = () => {
@@ -329,7 +329,7 @@ const AppContent: React.FC = () => {
           onDocsClick={() => setCurrentPage('docs')}
           currentPage={currentPage}
         />
-        <DocumentationPage />
+        <EnhancedDocumentationPage />
         
         <DemoRequestModal 
           isOpen={showDemoModal} 

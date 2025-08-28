@@ -29,8 +29,13 @@ use shadn bloks and components in dashboeds, adding sidebar, navbar and layouts 
 - [*] Enhanced  light Mode - Improve glassmorphism effects with shadcn/ui theming, please take extra atttention to the light mode, it has many issues `M`
 - [*] abilit to full function in Responsive Design Audit - Ensure perfect mobile experience for SaaS platform `M`
 - [*] Accessibility Improvements - WCAG compliance for professional SaaS `M`
-- [ ] Loading States Enhancement - Improve perceived performance across the platform `S`
-- [ ] In-app documentation system `M`
+- [*] Loading States Enhancement - Improve perceived performance across the platform `S`
+- [*] Enhanse In-app documentation system, analyes the project and add replace the current one with new docs, do only two things:
+
+--1- UI enhansment and links for each head and sub-head topic, reponsive design, good page linking 
+--2- Replace the current content with usful sharp and on point docs with using shadcn notes when highliting points is needed
+-- DO NOT ADD in this phase ( advanced search, schreenshoot or vieos, )
+`L`
 - [ ] Support (Arabic) language, in RTL, this need to use https://fonts.google.com/noto/specimen/Noto+Naskh+Arabic, the default  language is detected by th eaprabc contriens, if the app could not get location, or the user doeos not allow then make english and the language togol must be always in the navbar, be very carful in translating to arabic and be sure the UI is functuning in both languages En adn Ar `XL`
 - [ ] Fully complete Legal compliance system (privacy policy, Terms of Service, GDPR-compliant Meta facebook developers account deletion), this is very important because the app will be submented for meta to get facebook app approve, we must not break intagram or facebook or whatapp complineces, also not their automation complaninces , it is alos important that fead.app is a company based in netherlands with chamber number "97935557" and CEO name is "Sadeq Al-Dallal"
 
@@ -138,6 +143,13 @@ use shadn bloks and components in dashboeds, adding sidebar, navbar and layouts 
 - **Enterprise:** Customer LTV, enterprise deal size
 - **Platform:** API usage, integration adoption
 - **Market:** Competitive positioning, market share growth
+
+## TODO
+**Status:** 🔧 IMMEDIATE FIXES
+**Goal:** Address immediate issues and missing features that need attention
+
+### Immediate Tasks
+- [ ] Add "Need More Help" section back to docs - The help section was removed during documentation redesign and needs to be restored with contact information, live chat availability, and video tutorials section `S`
 
 ## Dependencies & Technical Debt
 

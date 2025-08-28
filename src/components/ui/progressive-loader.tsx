@@ -44,7 +44,7 @@ export const useProgressiveLoader = <T,>(
       startTimeRef.current = Date.now()
 
       // Start phase progression
-      let phaseIndex = 0
+      const phaseIndex = 0
       setCurrentPhase(phases[phaseIndex] || "skeleton")
 
       // Progress through phases with minimum durations
