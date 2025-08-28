@@ -215,7 +215,7 @@ export const LegalDocumentPage: React.FC<LegalDocumentPageProps> = ({
               </div>
             </header>
 
-            <main>
+            <main className="legal-content">
               <div className="space-y-6">
                 {formattedContent}
               </div>

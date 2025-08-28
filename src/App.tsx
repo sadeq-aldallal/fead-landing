@@ -343,6 +343,12 @@ const AppContent: React.FC = () => {
           onClose={() => setShowDemoModal(false)} 
         />
         
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={() => setShowAuthModal(false)} 
+          defaultMode={authModalMode}
+        />
+        
         <CookieConsentModal
           isOpen={showCookieConsent}
           onAccept={handleAcceptCookies}
@@ -370,6 +376,12 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={() => setShowAuthModal(false)} 
+          defaultMode={authModalMode}
         />
         
         <CookieConsentModal
@@ -400,6 +412,12 @@ const AppContent: React.FC = () => {
           onClose={() => setShowDemoModal(false)} 
         />
         
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={() => setShowAuthModal(false)} 
+          defaultMode={authModalMode}
+        />
+        
         <CookieConsentModal
           isOpen={showCookieConsent}
           onAccept={handleAcceptCookies}
@@ -426,6 +444,12 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
+        />
+        
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={() => setShowAuthModal(false)} 
+          defaultMode={authModalMode}
         />
         
         <CookieConsentModal

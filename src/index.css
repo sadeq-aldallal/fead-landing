@@ -71,6 +71,43 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
+/* Fix cursor issues - prevent text cursor on non-interactive elements */
+h1, h2, h3, h4, h5, h6, p, span, div, section, article, header, footer, nav, aside, main {
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection and cursor for interactive/content elements */
+input, textarea, [contenteditable="true"], [role="textbox"] {
+  cursor: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Allow text selection for readable content */
+.content-text, .prose, .documentation-content, .legal-content, 
+.selectable, .text-selectable, pre, code, [data-selectable="true"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  cursor: text;
+}
+
+/* Button and interactive elements should have pointer cursor */
+button, a, [role="button"], [role="link"] {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* Theme-Adaptive Glassmorphism Utilities */
 @layer components {
   .glass-card {

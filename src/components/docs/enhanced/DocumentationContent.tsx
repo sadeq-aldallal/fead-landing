@@ -237,7 +237,7 @@ export const DocumentationContent: React.FC<DocumentationContentProps> = ({
   };
 
   return (
-    <article className="max-w-4xl mx-auto">
+    <article className="max-w-4xl mx-auto documentation-content">
       {/* Header */}
       <header className="mb-8 pb-4 border-b border-border">
         <div className="flex items-start justify-between">
