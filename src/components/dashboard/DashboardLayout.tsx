@@ -71,9 +71,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 variant={item.active ? 'secondary' : 'ghost'}
                 className={`w-full justify-start ${item.disabled ? 'opacity-50' : ''}`}
                 disabled={item.disabled}
+                leftIcon={<Icon size={20} />}
               >
-                <Icon size={20} className="mr-2" />
-                <span>{item.label}</span>
+                {item.label}
               </Button>
             );
           })}
@@ -87,9 +87,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               onClick={onDocsClick}
               variant="ghost"
               className="w-full justify-start"
+              leftIcon={<FileText size={20} />}
             >
-              <FileText size={20} className="mr-2" />
-              <span>Documentation</span>
+              Documentation
             </Button>
           )}
 
@@ -98,9 +98,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={() => setShowSettingsModal(true)}
             variant="ghost"
             className="w-full justify-start"
+            leftIcon={<Settings size={20} />}
           >
-            <Settings size={20} className="mr-2" />
-            <span>Settings</span>
+            Settings
           </Button>
 
           {/* Logout */}
@@ -108,9 +108,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={handleLogout}
             variant="ghost"
             className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+            leftIcon={<LogOut size={20} />}
           >
-            <LogOut size={20} className="mr-2" />
-            <span>Logout</span>
+            Logout
           </Button>
         </div>
         </aside>
@@ -161,9 +161,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                       variant={item.active ? 'secondary' : 'ghost'}
                       className={`w-full justify-start ${item.disabled ? 'opacity-50' : ''}`}
                       disabled={item.disabled}
+                      leftIcon={<Icon size={20} />}
                     >
-                      <Icon size={20} className="mr-2" />
-                      <span>{item.label}</span>
+                      {item.label}
                     </Button>
                   );
                 })}
@@ -178,9 +178,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     }}
                     variant="ghost"
                     className="w-full justify-start"
+                    leftIcon={<FileText size={20} />}
                   >
-                    <FileText size={20} className="mr-2" />
-                    <span>Documentation</span>
+                    Documentation
                   </Button>
                 )}
 
@@ -191,18 +191,18 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   }}
                   variant="ghost"
                   className="w-full justify-start"
+                  leftIcon={<Settings size={20} />}
                 >
-                  <Settings size={20} className="mr-2" />
-                  <span>Settings</span>
+                  Settings
                 </Button>
 
                 <Button
                   onClick={handleLogout}
                   variant="ghost"
                   className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+                  leftIcon={<LogOut size={20} />}
                 >
-                  <LogOut size={20} className="mr-2" />
-                  <span>Logout</span>
+                  Logout
                 </Button>
               </div>
             </div>

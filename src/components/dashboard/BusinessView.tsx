@@ -182,10 +182,9 @@ export const BusinessView: React.FC = () => {
                 disabled={loading}
                 variant="outline"
                 size="sm"
-                className="flex items-center space-x-2"
+                leftIcon={<RefreshCw size={16} className={loading ? 'animate-spin' : ''} />}
               >
-                <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-                <span>Refresh</span>
+                Refresh
               </Button>
               <Button
                 onClick={() => setShowInstagramModal(true)}
@@ -234,10 +233,9 @@ export const BusinessView: React.FC = () => {
               onClick={showCountdown ? undefined : startCountdownAndRefresh}
               disabled={loading || showCountdown}
               variant="outline"
-              className="flex items-center space-x-2"
+              leftIcon={<RefreshCw size={16} className={loading || showCountdown ? 'animate-spin' : ''} />}
             >
-              <RefreshCw size={16} className={loading || showCountdown ? 'animate-spin' : ''} />
-              <span>{showCountdown ? 'Checking...' : 'Check Status'}</span>
+              {showCountdown ? 'Checking...' : 'Check Status'}
             </Button>
           </div>
         ) : isPending || isProcessingConnection ? (
@@ -299,17 +297,16 @@ export const BusinessView: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => setShowInstagramModal(true)}
-                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+                className="bg-green-600 hover:bg-green-700"
+                leftIcon={<Instagram size={20} />}
               >
-                <Instagram size={20} />
-                <span>Try Again</span>
+                Try Again
               </Button>
               <Button
                 variant="outline"
-                className="flex items-center space-x-2"
+                leftIcon={<HelpCircle size={20} />}
               >
-                <HelpCircle size={20} />
-                <span>Get Help</span>
+                Get Help
               </Button>
             </div>
           </div>
@@ -328,10 +325,10 @@ export const BusinessView: React.FC = () => {
             <div className="space-y-4">
               <Button
                 onClick={() => setShowInstagramModal(true)}
-                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+                className="bg-green-600 hover:bg-green-700"
+                leftIcon={<Instagram size={20} />}
               >
-                <Instagram size={20} />
-                <span>Connect Instagram</span>
+                Connect Instagram
               </Button>
               <p className="text-white/60 text-sm">
                 Make sure your Instagram account is set to Business or Creator mode before connecting.

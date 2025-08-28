@@ -135,9 +135,8 @@ export const OrganizationView: React.FC = () => {
                 <Button
                   onClick={() => setShowBusinessModal(true)}
                   variant="outline"
-                  className="flex items-center space-x-2"
+                  leftIcon={<Plus size={20} />}
                 >
-                  <Plus size={20} />
                   <span className="hidden md:inline">Add Business</span>
                 </Button>
               </LoadingTransition>

@@ -195,8 +195,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({
                   variant="destructive"
                   size="sm"
                   className="w-full"
+                  leftIcon={<Trash2 size={16} />}
                 >
-                  <Trash2 size={16} className="mr-2" />
                   Delete Account
                 </Button>
               </div>

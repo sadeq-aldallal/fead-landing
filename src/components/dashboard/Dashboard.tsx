@@ -144,8 +144,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-semibold text-white">AI Agents</h3>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-          <Plus size={16} className="mr-2" />
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          leftIcon={<Plus size={16} />}
+        >
           Create Agent
         </Button>
       </div>
@@ -187,11 +189,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
                 variant="outline" 
                 size="sm"
                 className="flex-1"
+                leftIcon={agent.status === 'active' ? <PowerOff size={16} /> : <Power size={16} />}
               >
-                {agent.status === 'active' ? <PowerOff size={16} /> : <Power size={16} />}
-                <span className="ml-2">{agent.status === 'active' ? 'Deactivate' : 'Activate'}</span>
+                {agent.status === 'active' ? 'Deactivate' : 'Activate'}
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="icon-sm">
                 <Settings size={16} />
               </Button>
             </div>
@@ -205,8 +207,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-semibold text-white">Instagram Accounts</h3>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-          <Plus size={16} className="mr-2" />
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          leftIcon={<Plus size={16} />}
+        >
           Connect Account
         </Button>
       </div>
