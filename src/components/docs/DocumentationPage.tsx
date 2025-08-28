@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Home, ChevronRight, ChevronDown, ArrowRight, FileText, Users, Building2, Instagram, Settings, Trash2, Copy, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Navigation } from '../layout/Navigation';
 import { 
   RequestingDemoContent, 
   CreatingOrganizationContent, 
@@ -24,7 +25,23 @@ interface DocSubsection {
   path: string;
 }
 
-export const DocumentationPage: React.FC = () => {
+interface DocumentationPageProps {
+  onLoginClick: () => void;
+  onSignupClick: () => void;
+  onDashboardClick?: () => void;
+  onProfileClick?: () => void;
+  onHomeClick?: () => void;
+  onDocsClick?: () => void;
+}
+
+export const DocumentationPage: React.FC<DocumentationPageProps> = ({
+  onLoginClick,
+  onSignupClick,
+  onDashboardClick,
+  onProfileClick,
+  onHomeClick,
+  onDocsClick,
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     'getting-started': true,
@@ -366,13 +383,24 @@ export const DocumentationPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 glass-nav border-b">
+      {/* Navigation */}
+      <Navigation
+        onLoginClick={onLoginClick}
+        onSignupClick={onSignupClick}
+        onDashboardClick={onDashboardClick}
+        onProfileClick={onProfileClick}
+        onHomeClick={onHomeClick}
+        onDocsClick={onDocsClick}
+        currentPage="docs"
+      />
+      
+      {/* Documentation Header */}
+      <header className="sticky top-16 z-30 glass-nav border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-4">
-              <FileText className="w-6 h-6 text-green-400" />
-              <h1 className="text-xl font-bold text-foreground">Documentation</h1>
+              <FileText className="w-5 h-5 text-green-400" />
+              <h1 className="text-lg font-bold text-foreground">Documentation</h1>
               {currentPageInfo.title && (
                 <div className="hidden md:flex items-center space-x-2 text-muted-foreground">
                   <ChevronRight className="w-4 h-4" />
@@ -410,7 +438,7 @@ export const DocumentationPage: React.FC = () => {
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside className="w-80 flex-shrink-0">
-            <div className="sticky top-24">
+            <div className="sticky top-32">
               <nav className="space-y-2">
                 {/* Overview Link */}
                 <button
