@@ -98,3 +98,35 @@ When implementing new features or modifying existing ones:
 - Main docs: `src/components/docs/`
 - Enhanced docs: `src/components/docs/enhanced/`
 - Legal docs: `src/components/legal/`
+
+## Subagent Usage Requirements
+
+**CRITICAL**: Always use specialized subagents when available to maximize efficiency and leverage specialized capabilities.
+
+### Available Subagents
+- **arabic-app-translator**: For all Arabic translations and UI/UX localization
+- **shadcn-ui-builder**: For creating/modifying React components with shadcn/ui
+- **context-fetcher**: For retrieving Agent OS documentation and context
+- **file-creator**: For creating files, directories, and applying templates
+- **general-purpose**: For complex multi-step tasks and research
+- **git-workflow**: For git operations and branch management
+- **test-runner**: For running tests and analyzing failures
+- **project-manager**: For task tracking and roadmap updates
+
+### Subagent Usage Rules
+1. **ALWAYS check available subagents** before starting any task
+2. **Use specialized subagents** instead of doing work manually when:
+   - Translating text to Arabic → Use `arabic-app-translator`
+   - Building UI components → Use `shadcn-ui-builder`
+   - Creating files/templates → Use `file-creator`
+   - Git operations → Use `git-workflow`
+   - Running tests → Use `test-runner`
+   - Complex research → Use `general-purpose`
+3. **Launch multiple subagents concurrently** when tasks can be parallelized
+4. **Provide detailed task descriptions** to subagents for autonomous execution
+5. **Trust subagent outputs** and use their specialized expertise
+
+### When to Use Subagents
+- **Always preferred**: Use subagents for tasks matching their specialization
+- **Default approach**: When in doubt, use a subagent rather than manual work
+- **Efficiency focus**: Subagents are designed to be faster and more accurate than manual approaches
