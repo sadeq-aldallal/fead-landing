@@ -14,7 +14,7 @@ import { DocSection, DocContent } from '@/types/documentation';
 import { getDocumentationContent } from '../data/documentationData';
 
 interface EnhancedDocumentationPageProps {
-  onLoginClick?: () => void;
+  onGetStartedClick?: () => void;
   onSignupClick?: () => void;
   onDashboardClick?: () => void;
   onProfileClick?: () => void;
@@ -23,7 +23,7 @@ interface EnhancedDocumentationPageProps {
 }
 
 export const EnhancedDocumentationPage: React.FC<EnhancedDocumentationPageProps> = ({
-  onLoginClick,
+  onGetStartedClick,
   onSignupClick,
   onDashboardClick,
   onProfileClick,

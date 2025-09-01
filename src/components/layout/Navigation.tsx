@@ -15,7 +15,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface NavigationProps {
-  onLoginClick: () => void;
+  onGetStartedClick: () => void;
   onSignupClick: () => void;
   onDashboardClick?: () => void;
   onProfileClick?: () => void;
@@ -25,7 +25,7 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ 
-  onLoginClick, 
+  onGetStartedClick, 
   onSignupClick, 
   onDashboardClick, 
   onProfileClick, 
@@ -250,10 +250,10 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <>
                   <Button
                     variant="outline"
-                    onClick={onLoginClick}
+                    onClick={onGetStartedClick}
                     className={`${isRTL ? 'font-arabic' : ''}`}
                   >
-                    {t('nav.login')}
+                    Get Started
                   </Button>
                   <Button 
                     onClick={onSignupClick}
@@ -407,12 +407,12 @@ export const Navigation: React.FC<NavigationProps> = ({
                       <Button
                         variant="outline"
                         onClick={() => {
-                          onLoginClick();
+                          onGetStartedClick();
                           closeMobileMenu();
                         }}
                         className={`w-full ${isRTL ? 'font-arabic' : ''}`}
                       >
-                        {t('nav.login')}
+                        Get Started
                       </Button>
                       <Button 
                         onClick={() => {

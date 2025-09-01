@@ -12,7 +12,6 @@ import { AboutSection } from './components/sections/AboutSection';
 import { PainPointsSection } from './components/sections/PainPointsSection';
 import { SolutionSection } from './components/sections/SolutionSection';
 import { Footer } from './components/sections/Footer';
-import { AuthModal } from './components/auth/AuthModal';
 import { ContactModal } from './components/modals/ContactModal';
 import { DemoRequestModal } from './components/modals/DemoRequestModal';
 import { CookieConsentModal } from './components/modals/CookieConsentModal';
@@ -21,6 +20,7 @@ import { OrganizationView } from './components/dashboard/OrganizationView';
 import { BusinessView } from './components/dashboard/BusinessView';
 import { OrganizationModal } from './components/modals/OrganizationModal';
 import { UserProfile } from './components/auth/UserProfile';
+import { LoginWelcomePage } from './components/auth/LoginWelcomePage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { useDashboard } from './contexts/DashboardContext';
 import { PrivacyPolicy } from './components/legal/PrivacyPolicy';
@@ -42,8 +42,6 @@ const AppContent: React.FC = () => {
   
   const [currentPage, setCurrentPage] = useState<'home' | 'dashboard' | 'profile' | 'docs' | 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy'>(getInitialPage());
   const [dashboardView, setDashboardView] = useState<'organization' | 'business'>('organization');
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
   const [showContactModal, setShowContactModal] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showOrganizationModal, setShowOrganizationModal] = useState(false);
@@ -282,16 +280,15 @@ const AppContent: React.FC = () => {
       setShowCookieConsent(true);
     }
   }, []);
-  const handleLoginClick = () => {
-    setAuthModalMode('signin');
-    setShowAuthModal(true);
+  const handleGetStartedClick = () => {
+    setCurrentPage('dashboard');
+    // Update URL without page reload
+    window.history.pushState({}, '', '/dashboard');
   };
 
   const handleSignupClick = () => {
     // CHANGED: Open demo request instead of signup
     setShowDemoModal(true);
-    // setAuthModalMode('signup');
-    // setShowAuthModal(true);
   };
 
   const handleNavigateToLegalPage = (page: 'privacy-policy' | 'terms-and-conditions' | 'account-deletion-policy') => {
@@ -321,7 +318,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="landing-gradient-bg landing-page-container">
         <Navigation 
-          onLoginClick={handleLoginClick}
+          onGetStartedClick={handleGetStartedClick}
           onSignupClick={handleSignupClick}
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
@@ -330,7 +327,7 @@ const AppContent: React.FC = () => {
           currentPage={currentPage}
         />
         <EnhancedDocumentationPage 
-          onLoginClick={handleLoginClick}
+          onGetStartedClick={handleGetStartedClick}
           onSignupClick={handleSignupClick}
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
@@ -341,12 +338,6 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
-        />
-        
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-          defaultMode={authModalMode}
         />
         
         <CookieConsentModal
@@ -363,7 +354,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="landing-gradient-bg landing-page-container">
         <Navigation 
-          onLoginClick={handleLoginClick}
+          onGetStartedClick={handleGetStartedClick}
           onSignupClick={handleSignupClick}
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
@@ -376,12 +367,6 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
-        />
-        
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-          defaultMode={authModalMode}
         />
         
         <CookieConsentModal
@@ -397,7 +382,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="landing-gradient-bg landing-page-container">
         <Navigation 
-          onLoginClick={handleLoginClick}
+          onGetStartedClick={handleGetStartedClick}
           onSignupClick={handleSignupClick}
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
@@ -410,12 +395,6 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
-        />
-        
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-          defaultMode={authModalMode}
         />
         
         <CookieConsentModal
@@ -431,7 +410,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="landing-gradient-bg landing-page-container">
         <Navigation 
-          onLoginClick={handleLoginClick}
+          onGetStartedClick={handleGetStartedClick}
           onSignupClick={handleSignupClick}
           onDashboardClick={() => setCurrentPage('dashboard')}
           onProfileClick={() => setCurrentPage('profile')}
@@ -444,12 +423,6 @@ const AppContent: React.FC = () => {
         <DemoRequestModal 
           isOpen={showDemoModal} 
           onClose={() => setShowDemoModal(false)} 
-        />
-        
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-          defaultMode={authModalMode}
         />
         
         <CookieConsentModal
@@ -474,6 +447,18 @@ const AppContent: React.FC = () => {
           <UserProfile />
         </div>
       </ProtectedRoute>
+    );
+  }
+
+  // Show login/welcome page when accessing dashboard without authentication
+  if (currentPage === 'dashboard' && !user) {
+    return (
+      <LoginWelcomePage
+        onHomeClick={() => {
+          setCurrentPage('home');
+          window.history.pushState({}, '', '/');
+        }}
+      />
     );
   }
 
@@ -530,7 +515,7 @@ const AppContent: React.FC = () => {
   return (
     <div className="landing-gradient-bg min-h-screen landing-page-container">
       <Navigation 
-        onLoginClick={handleLoginClick}
+        onGetStartedClick={handleGetStartedClick}
         onSignupClick={handleSignupClick}
         onDashboardClick={() => setCurrentPage('dashboard')}
         onProfileClick={() => setCurrentPage('profile')}
@@ -559,13 +544,6 @@ const AppContent: React.FC = () => {
       <DemoRequestModal 
         isOpen={showDemoModal} 
         onClose={() => setShowDemoModal(false)} 
-      />
-      
-      {/* AuthModal only for login functionality */}
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-        defaultMode={authModalMode}
       />
       
       {/* Cookie Consent Modal */}
