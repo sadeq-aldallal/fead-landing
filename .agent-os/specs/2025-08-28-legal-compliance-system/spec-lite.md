@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Implement comprehensive legal compliance system to meet Meta/Instagram app approval requirements and international data protection regulations for fead.app's SaaS customer support AI platform. This includes GDPR-compliant privacy policy, Meta-compliant terms of service, enhanced automated data deletion workflows, cookie policy, data processing agreements, and AI agent disclosure framework with 24-hour human escalation windows. System ensures fead.app meets all requirements for Meta business app approval while maintaining international compliance for Netherlands-based company serving global customers.

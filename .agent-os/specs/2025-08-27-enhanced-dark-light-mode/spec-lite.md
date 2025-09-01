@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Implement comprehensive dark and light mode theming with enhanced glassmorphism effects integrated into the shadcn/ui design system. This feature addresses critical light mode display issues by replacing hardcoded colors with semantic design tokens and provides seamless theme switching for an improved user experience. All glassmorphism effects including navigation, modals, and form inputs will adapt automatically between themes with appropriate opacity and shadow adjustments.

@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Complete migration from custom CSS/components to pure shadcn/ui implementation with dashboard layout components, removing all conflicting CSS rules and unused code for consistent UI experience. This involves systematically replacing custom styling with shadcn/ui components and implementing proper dashboard layouts. The goal is to eliminate CSS conflicts and achieve a unified, maintainable component system across the application.
