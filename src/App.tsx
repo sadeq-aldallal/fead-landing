@@ -281,9 +281,9 @@ const AppContent: React.FC = () => {
     }
   }, []);
   const handleGetStartedClick = () => {
-    setCurrentPage('dashboard');
-    // Update URL without page reload
-    window.history.pushState({}, '', '/dashboard');
+    // Server-side routing to business dashboard
+    // This will be handled by CloudFront and route to the business S3 bucket
+    window.location.href = '/business/';
   };
 
   const handleSignupClick = () => {

@@ -1,0 +1,427 @@
+{
+  "timestamp": "2025-09-02T08:09:24.717Z",
+  "summary": {
+    "totalTests": 18,
+    "passed": 8,
+    "failed": 1,
+    "warnings": 3,
+    "info": 6
+  },
+  "testResults": [
+    {
+      "test": "Landing Page Load",
+      "status": "PASS",
+      "details": "Page loaded successfully",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "timestamp": "2025-09-02T08:09:05.573Z"
+    },
+    {
+      "test": "Landing Page Title",
+      "status": "INFO",
+      "details": "Title: \"fead.app\"",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:09.194Z"
+    },
+    {
+      "test": "Get Started Button",
+      "status": "PASS",
+      "details": "Found with selector: button:has-text(\"Get Started\")",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:09.203Z"
+    },
+    {
+      "test": "Get Started Visibility",
+      "status": "PASS",
+      "details": "Button is visible",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:09.215Z"
+    },
+    {
+      "test": "Business App Load",
+      "status": "PASS",
+      "details": "Business app loaded successfully",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/",
+      "timestamp": "2025-09-02T08:09:10.137Z"
+    },
+    {
+      "test": "Business App Title",
+      "status": "INFO",
+      "details": "Title: \"fead.app - Business Dashboard\"",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:13.205Z"
+    },
+    {
+      "test": "Business App URL",
+      "status": "PASS",
+      "details": "Correctly serving from /business/ path: https://d2jwts34z44xxd.cloudfront.net/business/",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:13.205Z"
+    },
+    {
+      "test": "Business Content",
+      "status": "PASS",
+      "details": "Found business indicator: text=Sign In",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:13.216Z"
+    },
+    {
+      "test": "Console Error",
+      "status": "WARNING",
+      "details": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+      "timestamp": "2025-09-02T08:09:16.545Z"
+    },
+    {
+      "test": "Navigation Flow",
+      "status": "FAIL",
+      "details": "Expected /business/ URL, got: https://d2jwts34z44xxd.cloudfront.net/dashboard",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:19.613Z"
+    },
+    {
+      "test": "Content Difference",
+      "status": "PASS",
+      "details": "Different content served - similarity: 18.6%",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.716Z"
+    },
+    {
+      "test": "Title Difference",
+      "status": "PASS",
+      "details": "Different titles: Landing=\"fead.app\" vs Business=\"fead.app - Business Dashboard\"",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "Network Analysis",
+      "status": "INFO",
+      "details": "Total requests: 19",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "Landing Requests",
+      "status": "INFO",
+      "details": "Landing page requests: 13",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "Business Requests",
+      "status": "INFO",
+      "details": "Business app requests: 6",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "Error Responses",
+      "status": "WARNING",
+      "details": "HTTP errors: 1",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "HTTP Error",
+      "status": "WARNING",
+      "details": "403 - https://d2jwts34z44xxd.cloudfront.net/dashboard",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    },
+    {
+      "test": "Asset Loading",
+      "status": "INFO",
+      "details": "JS files: 5, CSS files: 5",
+      "url": null,
+      "timestamp": "2025-09-02T08:09:24.717Z"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "01-landing-page",
+      "path": "/home/sadeq/fead-workspace/fead-landing/test-screenshots/01-landing-page.png",
+      "description": "Landing page initial load"
+    },
+    {
+      "name": "02-business-app",
+      "path": "/home/sadeq/fead-workspace/fead-landing/test-screenshots/02-business-app.png",
+      "description": "Business application initial load"
+    },
+    {
+      "name": "03-before-navigation",
+      "path": "/home/sadeq/fead-workspace/fead-landing/test-screenshots/03-before-navigation.png",
+      "description": "Before clicking Get Started"
+    },
+    {
+      "name": "04-after-navigation",
+      "path": "/home/sadeq/fead-workspace/fead-landing/test-screenshots/04-after-navigation.png",
+      "description": "After clicking Get Started"
+    }
+  ],
+  "networkLogs": [
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:04.449Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "status": 200,
+      "contentType": "text/html",
+      "timestamp": "2025-09-02T08:09:04.618Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": "2025-09-02T08:09:04.624Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "timestamp": "2025-09-02T08:09:04.624Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "status": 200,
+      "contentType": "text/css",
+      "timestamp": "2025-09-02T08:09:04.799Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "timestamp": "2025-09-02T08:09:04.905Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": "2025-09-02T08:09:04.946Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "status": 200,
+      "contentType": "image/png",
+      "timestamp": "2025-09-02T08:09:05.072Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:09.216Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/",
+      "status": 200,
+      "contentType": "text/html",
+      "timestamp": "2025-09-02T08:09:09.385Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-YqXFRSZL.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": "2025-09-02T08:09:09.391Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-BcAznoCJ.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "timestamp": "2025-09-02T08:09:09.391Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-BcAznoCJ.css",
+      "status": 200,
+      "contentType": "text/css",
+      "timestamp": "2025-09-02T08:09:09.526Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-YqXFRSZL.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "timestamp": "2025-09-02T08:09:09.637Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:13.220Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "status": 200,
+      "contentType": "text/html",
+      "timestamp": "2025-09-02T08:09:13.222Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": "2025-09-02T08:09:13.229Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "timestamp": "2025-09-02T08:09:13.229Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "timestamp": "2025-09-02T08:09:13.230Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "status": 200,
+      "contentType": "text/css",
+      "timestamp": "2025-09-02T08:09:13.230Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": "2025-09-02T08:09:13.242Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "status": 200,
+      "contentType": "image/png",
+      "timestamp": "2025-09-02T08:09:13.242Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/dashboard",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:16.419Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/dashboard",
+      "status": 403,
+      "contentType": "application/xml",
+      "timestamp": "2025-09-02T08:09:16.541Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:19.615Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/",
+      "status": 200,
+      "contentType": "text/html",
+      "timestamp": "2025-09-02T08:09:19.616Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": "2025-09-02T08:09:19.622Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-B15xUtUF.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "timestamp": "2025-09-02T08:09:19.622Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "timestamp": "2025-09-02T08:09:19.623Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/assets/index-C61RG8Vl.css",
+      "status": 200,
+      "contentType": "text/css",
+      "timestamp": "2025-09-02T08:09:19.623Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": "2025-09-02T08:09:19.633Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/fead.app_logo.png",
+      "status": 200,
+      "contentType": "image/png",
+      "timestamp": "2025-09-02T08:09:19.633Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": "2025-09-02T08:09:22.150Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/",
+      "status": 200,
+      "contentType": "text/html",
+      "timestamp": "2025-09-02T08:09:22.152Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-YqXFRSZL.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": "2025-09-02T08:09:22.157Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-YqXFRSZL.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "timestamp": "2025-09-02T08:09:22.157Z"
+    },
+    {
+      "type": "request",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-BcAznoCJ.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "timestamp": "2025-09-02T08:09:22.157Z"
+    },
+    {
+      "type": "response",
+      "url": "https://d2jwts34z44xxd.cloudfront.net/business/assets/index-BcAznoCJ.css",
+      "status": 200,
+      "contentType": "text/css",
+      "timestamp": "2025-09-02T08:09:22.157Z"
+    }
+  ]
+}
